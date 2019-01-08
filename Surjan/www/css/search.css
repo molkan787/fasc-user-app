@@ -1,0 +1,65 @@
+﻿
+
+#mc_search_con > div {
+    box-sizing: border-box;
+    width: 100%;
+    height: 30vw;
+    padding: 2vw;
+    border-bottom: 0.3vw solid #ddd;
+}
+#mc_search_con > div > img{
+    height: 100%;
+    float: left;
+    margin-right: 3vw;
+}
+#mc_search_con > div > h1{
+    height: 12vw;
+    margin: 0;
+    font-size: 4vw;
+    color: #333;
+}
+#mc_search_con > div > span{
+    font-size: 5vw;
+    color: #55dd1a;
+}
+#mc_search_con > div > span > span{
+    font-size: 4vw;
+}
+#mc_search_con > div > label{
+    font-size: 4vw;
+    color: #555;
+}
+#mc_search_con > div > label > span{
+    font-size: 2.5vw;
+}
+
+#mc_search_con > div > div{
+    float: right;
+}
+#mc_search_con > div > div{
+    width: 29vw;
+    text-align: right;
+}
+#mc_search_con > div > div > button{
+    padding: 1.5vw 4vw;
+    background-color: #ddd;
+    border: 1px solid #999;
+    border-radius: 4px;
+    color: #444;
+    font-size: 3.5vw;
+}
+#mc_search_con > div > div > div > button{
+    width: 8vw;
+    height: 8vw;
+    background-color: #ddd;
+    border: 1px solid #999;
+    border-radius: 50%;
+    color: #444;
+    font-family: Consolas;
+    font-size: 5vw;
+    margin: 0 5px;
+}
+#mc_search_con > div > div > div > span{
+    font-size: 6vw;
+    color: #55dd1a;
+}

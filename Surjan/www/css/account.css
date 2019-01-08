@@ -1,0 +1,154 @@
+﻿.mc_account {
+    background-color: #333;
+    min-height: 100%;
+}
+.mc_account_header {
+    width: 100%;
+    height: 20vw;
+    box-sizing: border-box;
+    padding-top: 6vw;
+    background-color: #424342;
+    text-align: center;
+}
+.mc_account_header > h1{
+    margin: 0;
+    color: #eee;
+    font-size: 6vw;
+}
+.mc_account_header > span{
+    color: #51B128;
+    font-size: 7vw;
+    font-weight: bold;
+}
+
+.mc_account_setting{
+    box-sizing: border-box;
+    padding: 20px;
+}
+.mc_account_setting > span{
+    font-size: 7vw;
+    color: #eee;
+}
+.mc_account_setting > div > div {
+    width: 100%;
+    height: 16vw;
+    box-sizing: border-box;
+    padding: 0;
+    padding: 4px 10vw 4px 8px;
+    font-size: 5vw;
+    color: #eee;
+    background-color: #222;
+    border-bottom: 1px solid #444;
+}
+.mc_account_setting > div > div > span {
+    float: left;
+}
+.mc_account_setting > div > div > img {
+    width: 8vw;
+    height: 8vw;
+    float: right;
+    margin-right: -10vw;
+    margin-top: -1vw;
+}
+
+.mc_account_add_addr {
+    width: 100%;
+    height: 10vw;
+    box-sizing: border-box;
+    padding: 2vw;
+    background-color: #222;
+    text-align: center;
+    font-size: 4vw;
+    color: #ddd;
+}
+
+#account_new_addr_input{
+    font-size: 4vw;
+    width: 100%;
+    margin-top: 3vw;
+    height: 22vw;
+    box-sizing: border-box;
+}
+#mc_account_phone{
+    font-size: 6vw;
+    color: #ddd;
+}
+.mc_account_setting > img{
+    width: 6vw;
+    height: 6vw;
+}
+.mc_account_phone_con {
+    width: 100%;
+    height: 11vw;
+    box-sizing: border-box;
+    padding: 0;
+    padding: 4px 10vw 4px 8px;
+    font-size: 5vw;
+    color: #eee;
+    background-color: #222;
+    border-bottom: 1px solid #444;
+}
+.mmc_account_phone_con > span {
+    float: left;
+}
+.mc_account_phone_con > img {
+    width: 6vw;
+    height: 6vw;
+    float: right;
+    margin-right: -8vw;
+    margin-top: 1vw;
+}
+
+.mc_sign_upin{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 14px;
+    color: #444;
+}
+.mc_sign_upin > input {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 17px;
+    border-radius: 17px;
+    border: 1px solid #d0d0d0;
+    color: #555;
+    outline: none;
+}
+.mc_sign_upin > input:focus {
+    border-color: #F36F24;
+    color: #333;
+}
+.mc_sign_upin > span{
+    margin-left: 7px;
+}
+.mc_sign_upin > select {
+    margin-top: 6px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px 6px;
+    font-size: 17px;
+    }
+.mc_sign_upin > button {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: #F36F24;
+    border: 1px solid #F36F24;
+    color: white;
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 21px;
+}
+
+#mc_signup_ihac, #mc_signup_iwtr {
+    margin-top: 10px;
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    color: #555;
+    font-size: 13px;
+}

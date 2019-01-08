@@ -1,0 +1,124 @@
+﻿.mc_cart_bfcs {
+    position: fixed;
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    margin-top: -40px;
+    background-color: #aaa;
+    box-shadow: 0 0 10px #000;
+}
+.mc_cart{
+    padding-bottom: 50px;
+}
+.mc_cart_bfcs > button{
+    width: 50%;
+    height: 100%;
+    border: none;
+    float: left;
+}
+#mc_cart_checkout {
+    background-color: #51B128;
+    color: #fff;
+}
+
+.mc_cart_recap{
+    box-sizing: border-box;
+    padding: 20px;
+    font-size: 5vw;
+    color: #333;
+}
+.mc_cart_recap > select{
+    width: 100%;
+    font-size: 4vw;
+    padding: 6px;
+    margin-top: 10px;
+}
+.mc_cart_recap > div > input, .mc_cart_recap > div > select{
+    box-sizing: border-box;
+    width: 50%;
+    height: 10vw;
+    margin: 10px 0 0 0;
+    float: left;
+    font-size: 4vw;
+    padding: 6px;
+}
+
+.mc_cart_invoice {
+    padding-top: 16vw;
+}
+.mc_cart_invoice > table{
+    width: 100%;
+    text-align: left;
+    font-size: 4vw;
+}
+.mc_cart_invoice > table > tr{
+    border: solid;
+    border-color: #ddd;
+    border-width: 1px 0;
+}
+.mc_cart_invoice > table > tbody > tr > td:first-child{
+    line-height: 8vw;
+    padding-left: 10px;
+}
+.mc_cart_invoice > table > tbody > tr:last-child{
+    font-weight: bold;
+}
+.mc_cart_invoice_tfr{
+    background-color: #bbb;
+}
+
+.mord_pan{
+    box-sizing: border-box;
+    width: 100%;
+    /*height: 26vw;*/
+    background-color: #eee;
+    border-bottom: 1px solid #ccc;
+    overflow: hidden;
+    padding: 10px;
+}
+.mord_pan > h1{
+    font-size: 5vw;
+    line-height: 0;
+}
+.mord_pan > span{
+    font-size: 5vw;
+}
+.mord_pan > img{
+    float: right;
+    width: 24px;
+    height: 24px;
+}
+.mord_pan_hgtd {
+    color: #51B128;
+}
+.mord_pan > div > table {
+    width: 100%;
+    font-size: 4vw;
+    border: 1px solid #ccc;
+    padding: 0;
+    margin-top: 10px;
+    border-collapse: collapse;
+}
+.mord_pan > div{
+    overflow: hidden;
+    height: 0;
+}
+.mord_pan_t_tr > td {
+    border-bottom: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    padding: 1vw;
+}
+.mord_pan_t_tr_hdr{
+    background-color: #ccc;
+}
+
+#mc_cart_add_addr {
+    width: 100%;
+    margin-bottom: 2vw;
+    margin-top: 1vw;
+    padding: 1.8vw;
+    border: 1px solid #bbb;
+    font-size: 4vw;
+}
