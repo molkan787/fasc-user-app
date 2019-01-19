@@ -4,8 +4,8 @@
         //ui_goback();
     }, 200);
 
-
-    ui_navigate("products", "kirana_goods");
-    hide_loadScreen();
+    cart_set_count(25, 3);
+    ui_navigate("checkout", "kirana_goods");
+    //hide_loadScreen();
    
 }

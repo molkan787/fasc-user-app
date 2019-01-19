@@ -231,7 +231,7 @@ function style(elt, styles) {
 }
 
 function val(elt, value) {
-    if (typeof elt == 'string') elt = crt_elt(elt);
+    if (typeof elt == 'string') elt = get(elt);
     var p = get_primary_val_property(elt);
 
     if (typeof value != 'undefined') {
@@ -284,6 +284,10 @@ function get_primary_val_property(elt) {
         return 'src';
     else
         return 'innerHTML';
+}
+
+function moveEltToEnd(elt) {
+    elt.parentNode.appendChild(elt.parentNode.removeChild(elt));
 }
 
 function setOptions(parent, options, incAll) {

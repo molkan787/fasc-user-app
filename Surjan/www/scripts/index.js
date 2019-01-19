@@ -30,6 +30,7 @@
         mc_init();
         leftmenu_init();
         ui_init();
+        applyTextsToElements();
         document.addEventListener("backbutton", ui_device_backBtn_click, false);
         testing_do();
     };

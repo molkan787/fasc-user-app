@@ -1,16 +1,16 @@
 ﻿.mc_products_header {
-    position: fixed;
-    top: 50px;
+    position: absolute;
+    top: 0;
     left: 0;
-    z-index: 100;
     width: 100%;
 }
 .mc_products_header > div {
-    position: unset;
+    position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: 40px;
     background-color: #eee;
-    border-bottom: 1px solid #aaa;
+    border-bottom: none;
     box-shadow: 0 0 1px #000;
     overflow-x: scroll;
 }
@@ -259,6 +259,11 @@
     color: red;
 }
 
+#mc_products_list{
+    height: 100%;
+    overflow-y: scroll;
+}
+
 #prt_popup {
     position: fixed;
     z-index: 1100;
@@ -275,7 +280,7 @@
     width: 90vw;
     height: 90vw;
     overflow: hidden;
-    background-color: #999;
+    background-color: white;
 }
 .prt_pp_topside > div.shdw {
     width: 100%;
@@ -323,4 +328,124 @@
     margin-left: 100%;
 }
 
-/*prt_pp_acb*/
+.prt_pp_acb {
+    float: right;
+    width: 30vw;
+    height: 10vw;
+    background-color: #F36F24;
+    border-radius: 5vw;
+    padding: 0;
+    text-align: center;
+    border: 1px solid #F36F24;
+    margin-top: 2vw;
+    margin-right: 2vw;
+    box-shadow: 1px 1px 7px #999;
+}
+
+.prt_pp_acb > button {
+    padding: 1.5vw 4vw;
+    background-color: #F36F24;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 6vw;
+    border-radius: 5vw;
+    width: 100%;
+}
+
+.prt_pp_acb > button > img {
+    height: 7vw;
+    float: left;
+    margin-right: 1vw;
+}
+
+.prt_pp_acb > div > button {
+    width: 10vw;
+    height: 10vw;
+    box-sizing: border-box;
+    background-color: #ff9255;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    font-family: Consolas;
+    font-size: 5vw;
+    margin: 0;
+}
+
+.prt_pp_acb > div > span {
+    font-size: 5vw;
+    line-height: 2;
+    color: white;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 8vw;
+}
+#mc_prodp_crt_minus{
+    float: left;
+}
+#mc_prodp_crt_plus{
+    float: right;
+}
+
+.prt_pp_price {
+    height: 22vw;
+}
+.prt_pp_price > a {
+    float: left;
+    position: relative;
+    top: -6vw;
+    left: 2vw;
+    display: inline-block;
+    width: 25vw;
+    height: 25vw;
+    font-size: 6vw;
+    font-weight: bold;
+    color: white;
+    padding-top: 8.5vw;
+    box-sizing: border-box;
+    text-align: center;
+    background-image: url('../images/icons/pstart_big.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    transform: rotate(-25deg);
+}
+
+.prt_pp_price > span {
+    float: left;
+    display: inline-block;
+    position: relative;
+    left: 5vw;
+    top: 3vw;
+    width: 25vw;
+    text-align: center;
+    font-size: 5vw;
+    color: #F36F24;
+    font-weight: bold;
+    line-height: 1;
+}
+.prt_pp_price > span > label.old_price{
+    font-size: 3.5vw;
+    color: #777;
+    text-decoration: line-through;
+}
+.prt_pp_desc {
+    float: left;
+    margin-top: -5vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+    overflow: scroll;
+    height: calc(90vh - 113vw);
+    width: 100%;
+    box-sizing: border-box;
+}
+.prt_pp_desc > h2 {
+    margin: 0;
+}
+
+.prt_pp_price_wd {
+    font-size: 20px !important;
+    padding-left: 44px !important;
+    white-space: nowrap !important;
+    line-height: 1.5 !important;
+}

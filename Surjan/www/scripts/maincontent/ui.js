@@ -1,8 +1,10 @@
 ﻿var ui_previous_pns = [];
 var ui_previous_panel;
 var ui_current_panel;
+var ui_currentPopup;
 var maincontent;
 var hb_text;
+var sb_higher2;
 
 var gl_msg;
 var gl_msg_text_sp;
@@ -33,7 +35,8 @@ var ANIM_HIDE_PREVIUS = 1002;
 var pages = {};
 
 function ui_init() {
-
+    fasc_init();
+    sb_higher2 = get('sb_higher2');
     order_chat = get("order_chat");
     order_phone = get("order_phone");
     mc_items_group = get("mc_items_group");
@@ -75,6 +78,8 @@ function ui_init() {
     hb_btn_bell.onclick = (function () {
         ui_navigate("notification");
     });
+
+    sb_higher2.onclick = ui_goback;
 }
 
 function hb_btn_cart_con_click() {
@@ -82,12 +87,14 @@ function hb_btn_cart_con_click() {
 }
 
 
-function registerPage(slug, elt, title, updater) {
+function registerPage(slug, elt, title, updater, hider) {
     var _page = {
         slug: slug,
         elt: elt,
         title: title,
-        updater: updater
+        updater: updater,
+        hider: hider,
+        isPopup: (typeof elt == 'boolean' && elt)
     };
 
     pages[slug] = _page;
@@ -95,6 +102,14 @@ function registerPage(slug, elt, title, updater) {
 }
 
 function ui_navigate(pagename, param, isback) {
+    if (ui_animating_page) return;
+
+    var _page = pages[pagename];
+    if (_page && _page.isPopup) {
+        ui_currentPopup = _page;
+        _page.updater(param);
+        return;
+    }
 
     if (ui_previous_pns.length > 0 && ui_previous_pns[ui_previous_pns.length - 1].pname == pagename) return;
 
@@ -135,6 +150,12 @@ function ui_navigate(pagename, param, isback) {
 }
 
 function ui_goback() {
+    if (ui_animating_page) return;
+    if (ui_currentPopup) {
+        if (ui_currentPopup.hider) ui_currentPopup.hider();
+        ui_currentPopup = null;
+        return;
+    }
     ui_previous_pns.pop();
     var prev = ui_previous_pns.pop();
     if (prev) {
@@ -163,9 +184,7 @@ function ui_update_headbar(pname, param) {
         }
     }
 
-    if (pname == "cart" || pname == "cart_recap") {
-        hb_text.innerText = "Cart";
-    } else if (pname == "help") {
+    if (pname == "help") {
         hb_text.innerText = "Contact us";
     } else if (pname == "account") {
         hb_text.innerText = "My account";
@@ -199,8 +218,6 @@ function ui_getElement(name) {
 
     if (name == "home") {
         return mc_home;
-    } else if (name == "cart" || name == "cart_recap") {
-        return mc_cart;
     } else if (name == "account") {
         return mc_account;
     } else if (name == "help") {
@@ -232,19 +249,7 @@ function ui_update_pan_content(pagename, param) {
         return;
     }
 
-    if (pagename == "cart") {
-        mc_cart_load();
-        mc_cart_checkout.innerText = "Next";
-        mc_cart_conshop.innerText = "Continue Shopping";
-        mc_cart_recap.style.display = "none";
-        mc_cart_list.style.display = "block";
-    } else if (pagename == "cart_recap") {
-        mc_cart_load_recap();
-        mc_cart_checkout.innerText = "Checkout";
-        mc_cart_conshop.innerText = "Go back";
-        mc_cart_list.style.display = "none";
-        mc_cart_recap.style.display = "block";
-    } else if (pagename == "home") {
+    if (pagename == "home") {
         mc_home_startSlider();
     } else if (pagename == "account") {
         account_load();
@@ -269,17 +274,21 @@ function ui_update_pan_content(pagename, param) {
     }
 }
 
+var ui_animating_page = false;
 function ui_open_page(anim) {
+    ui_animating_page = true;
     if (anim == ANIM_SLIDE_NEW) {
 
+        if (ui_previous_panel) ui_previous_panel.style.zIndex = 1;
         if (ui_current_panel) {
+            ui_current_panel.style.zIndex = 2;
             ui_current_panel.style.opacity = 0;
-            ui_current_panel.style.marginLeft = "100%";
+            ui_current_panel.style.left = "100%";
             ui_current_panel.style.display = "block";
             anime({
                 targets: "#" + ui_current_panel.id,
                 opacity: 1,
-                marginLeft: "0",
+                left: "0",
                 duration: 500,
                 easing: 'easeOutExpo',
                 complete: function () {
@@ -289,19 +298,21 @@ function ui_open_page(anim) {
         }
 
     } else if (anim == ANIM_HIDE_PREVIUS) {
-            ui_current_panel.style.opacity = 1;
-            ui_current_panel.style.marginLeft = "0";
-            ui_current_panel.style.display = "block";
-            anime({
-                targets: "#" + ui_previous_panel.id,
-                opacity: 0,
-                marginTop: "30%",
-                duration: 700,
-                easing: 'easeOutExpo',
-                complete: function () {
-                    ui_reset_previous_pan();
-                }
-            });
+        ui_current_panel.style.zIndex = 1;
+        ui_previous_panel.style.zIndex = 2;
+        ui_current_panel.style.opacity = 1;
+        ui_current_panel.style.left = "0";
+        ui_current_panel.style.display = "block";
+        anime({
+            targets: "#" + ui_previous_panel.id,
+            opacity: 0,
+            top: "30%",
+            duration: 700,
+            easing: 'easeOutExpo',
+            complete: function () {
+                ui_reset_previous_pan();
+            }
+        });
     }
 }
 
@@ -318,8 +329,10 @@ function ui_reset_previous_pan() {
 
     if (ui_previous_panel) {
         ui_previous_panel.style.display = "none";
-        ui_previous_panel.style.marginTop = "0";
+        ui_previous_panel.style.top = "0";
     }
+
+    ui_animating_page = false;
 }
 
 
@@ -541,4 +554,12 @@ function hb_btn_search_click() {
     ui_navigate("search");
 
     setTimeout(function () { mc_search_tb.focus(); Keyboard.show(); }, 300);
+}
+
+function hide_sb_higher2() {
+    sb_higher2.style.display = 'none';
+}
+function show_sb_higher2() {
+    sb_higher2.style.opacity = 0.3;
+    sb_higher2.style.display = 'block';
 }

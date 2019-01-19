@@ -1,6 +1,7 @@
 ﻿var actions;
 var fetchAction;
 var actionsChain;
+var action_debug = false;
 
 function actions_init() {
 
@@ -56,15 +57,16 @@ function _fetch_action_create(req, callback) {
         callback: callback,
         data: null,
 
-        do: function (params) {
+        do: function (params, req) {
             if (this.isBusy) return false;
+            if (typeof req == 'string') this.req = req;
             this.isBusy = true;
             var isPostReq = (typeof params == 'string');
             this.params = params;
             var _this = this;
             var url;
             url = dm._getApiUrl(this.req, isPostReq ? null : params);
-
+            if (action_debug) log(url);
             if (isPostReq) {
                 httpPostText(url, params, function (resp) {
                     _this.__cb(resp);
@@ -90,7 +92,7 @@ function _fetch_action_create(req, callback) {
         },
 
         __cb: function (resp) {
-            //log(resp);
+            if (action_debug) log(resp);
             try {
                 resp = JSON.parse(resp);
             } catch (ex) {

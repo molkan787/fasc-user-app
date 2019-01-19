@@ -1,17 +1,30 @@
-﻿.mc_home_banners{
+﻿#mc_home {
+    padding-top: 40vw;
+}
+.mc_home_banners {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 40vw;
-    overflow-x: hidden;
-    overflow-y: hidden;
+    overflow: hidden;
+    box-shadow: 0 0 3px #333;
 }
-.mc_home_banners > div{
+#mc_home_banners_dots_con{
+    top: 40vw;
+}
+.mc_home_banners > div {
+    position: absolute;
     height: 100%;
+    width: 100%;
     white-space: nowrap;
 }
 .mc_home_banners > div > img {
+    position: absolute;
+    top: 0; left: 0;
+    display: none;
     width: 100%;
     height: 100%;
-    display: inline-block;
     list-style-type: none;
     opacity: 0;
 }
@@ -37,12 +50,15 @@
     background-color: rgba(255, 255, 255, 0.5);
 }
 
-.mc_home_categories_con{
+.mc_home_categories_con {
     width: 100%;
+    height: 100%;
 }
 .mc_home_categories {
     padding-top: 1%;
     text-align: center;
+    height: 100%;
+    overflow-y: scroll;
 }
 .mc_home_categories > div {
     overflow: hidden;
@@ -52,7 +68,6 @@
     padding-bottom: 10%;
     box-sizing: border-box;
     border-top: 0.6vw solid #fff;
-    border-bottom: 0.6vw solid #fff;
     border-left: 1vw solid #fff;
     border-right: 1vw solid #fff;
     background-color: #ddd;

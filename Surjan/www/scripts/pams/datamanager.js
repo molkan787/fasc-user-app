@@ -117,7 +117,7 @@ function dm_init() {
         storage.setItem("version", cav);
     }
 
-    //dm_load();
+    dm_load();
     
 }
 var raw_prt_list;
@@ -289,10 +289,16 @@ function new_ver_msg_answer(buttonIndex) {
     }
 }
 
+var first_banner = true;
 function dm_add_banners(banners) {
     var mc_home_banners_con = get("mc_home_banners_con");
     for (var i = 0; i < banners.length; i++) {
         var banner = crt_elt("img");
+        if (first_banner) {
+            first_banner = false;
+            banner.style.display = 'unset';
+            banner.style.opacity = 1;
+        }
         banner.src = banners[i].base64_data;
         banner.setAttribute("items", banners[i].items_group);
         mc_home_banners_con.appendChild(banner);

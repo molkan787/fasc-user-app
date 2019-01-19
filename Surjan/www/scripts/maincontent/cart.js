@@ -18,11 +18,15 @@ function mc_cart_init() {
     mc_cart_checkout.addEventListener("click", mc_cart_checkout_click);
     mc_cart_conshop.addEventListener("click", mc_cart_conshop_click);
     get("mc_cart_add_addr").onclick = function () { ui_navigate("add_addr") };
+    get('mc_checkout_back').onclick = ui_goback;
+
+    registerPage('cart', get('mc_cart'), 'Cart', mc_cart_load);
+    registerPage('checkout', mc_cart_recap, 'Checkout', mc_cart_load_recap);
 } 
 
 function mc_cart_checkout_click() {
     if (this.innerText == "Next") {
-        ui_navigate("cart_recap");
+        ui_navigate("checkout");
     } else {
         if (mc_total < 299) {
             alert("Minimum order value must be 299 ₹ to place an order.");
@@ -58,7 +62,10 @@ function mc_cart_load() {
         mc_cart_list.appendChild(product_panel);
         product_panel.addEventListener("click", mc_prt_product_click);
     }
-    
+
+    var spacer = crt_elt('div', mc_cart_list);
+    spacer.style.height = '70px';
+
     if (products.length == 0) {
         mc_cart_list.appendChild(mc_utils_getHelt("Nothing to show here,\n Start by adding some products."));
     } else {
@@ -112,8 +119,9 @@ function mc_cart_load_recap() {
     lastSavedAmount = saved;
 
     mc_cart_table_addrow("", "", "", "", false);
-    mc_cart_table_addrow("Delivery fees", "", "", dm_del_cost.toFixed(2), false);
-    mc_cart_table_addrow("Total", "", "", total.toFixed(2), false);
+    //mc_cart_table_addrow("Delivery fees", "", "", dm_del_cost.toFixed(2), false);
+    mc_cart_table_addrow(txt('del_fees'), "", "", 0, false);
+    mc_cart_table_addrow(txt('total'), "", "", total.toFixed(2), false);
 
     for (var i = 0; i < user.addresses.length; i++) {
         var addr = user.addresses[i];

@@ -1,10 +1,12 @@
 ﻿var mc_home_banners;
+var mc_home_banners_con;
 var mc_home_categories;
 var mc_home;
 var mc_home_banners_dots_con;
 function mc_home_init() {
     mc_home = get("mc_home");
     mc_home_banners = get("mc_home_banners");
+    mc_home_banners_con = get('mc_home_banners_con');
     mc_home_categories = get("mc_home_categories");
     mc_home_banners_dots_con = get("mc_home_banners_dots_con");
     //mc_home_banners.addEventListener("touchstart", mc_home_banner_mousedown);
@@ -14,6 +16,7 @@ function mc_home_init() {
     $$("#mc_home_banners").swipeRight(mc_home_banner_swipeRight);
     $$("#mc_home_banners").swipeLeft(mc_home_banner_swipeLeft);
 
+    mc_home_prt_load_categories();
     mc_home_prt_load_categories();
     mc_home_startSlider();
 }
@@ -58,6 +61,10 @@ function mc_home_slide(cb) {
 
     mc_home_banners_dots_con.children[oi].style.backgroundColor = "";
     mc_home_banners_dots_con.children[mc_home_cbanner].style.backgroundColor = "aliceblue";
+
+    var nextSlide = mc_home_banners_con.children[1];
+    nextSlide.style.display = 'unset';
+    nextSlide.style.left = (100 * cb) + '%';
     
     //anime({
     //    targets: "#mc_home_banners_con > img:nth-child(" + (oi+1) + ")",
@@ -65,14 +72,23 @@ function mc_home_slide(cb) {
     //    duration: 500,
     //    easing: 'easeOutExpo'
     //});
-    anime({
-        targets: "#mc_home_banners_con > img:nth-child(" + (mc_home_cbanner + 1) + ")",
-        marginLeft: "-100%",
-        opacity: 1,
-        duration: 800,
-        easing: 'easeOutExpo'
-    });
+    anime(sliding_anim);
 }
+
+function sliding_completed() {
+    var prevSlide = mc_home_banners_con.children[0];
+    prevSlide.style.display = 'none';
+    prevSlide.style.opacity = 0;
+    moveEltToEnd(prevSlide);
+}
+var sliding_anim = {
+    targets: "#mc_home_banners_con > img:nth-child(2)",
+    left: 0,
+    opacity: 1,
+    duration: 800,
+    easing: 'easeOutExpo',
+    complete: sliding_completed
+};
 
 var mc_home_slider_timer;
 var mc_home_allow_slide = true;
