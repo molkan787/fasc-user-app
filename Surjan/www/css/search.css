@@ -1,4 +1,7 @@
-﻿
+﻿#mc_search_list {
+    height: 100%;
+    overflow-y: scroll;
+}
 
 #mc_search_con > div {
     box-sizing: border-box;

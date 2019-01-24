@@ -17,6 +17,13 @@ var addr_pin;
 var mc_addr_btn;
 
 var new_phonenum;
+var client_logged = false;
+
+var registerAction;
+var loginAction;
+var authAction;
+
+var accountData;
 
 function account_init() {
     mc_account = get("mc_account");
@@ -49,29 +56,84 @@ function account_init() {
     get("mc_account_add_addr").addEventListener("click", account_addNewAddrClick);
     get("mc_account_phone_edit").addEventListener("click", mc_account_phone_edit_click);
 
-    registerPage('supin_up', mc_supin_up, 'Register', function () {
+    registerPage('supin_up', mc_supin_up, txt('register'), function () {
         get('su_first_name').value = '';
         get('su_last_name').value = '';
         get('su_num').value = '';
         get('su_email').value = '';
     });
-    registerPage('supin_in', mc_supin_in, 'Login', function () {
+    registerPage('supin_in', mc_supin_in, txt('login'), function () {
         get("si_num").value = client_num;
     });
-    registerPage('supin_auth', mc_supin_auth, 'Verify', function () {
+    registerPage('supin_auth', mc_supin_auth, txt('verify'), function () {
         get('auth_code').value = '';
     });
+
+    registerAction = fetchAction.create('csc/register', registerActionCallback);
+    loginAction = fetchAction.create('csc/login', loginActionCallback);
+    authAction = fetchAction.create('csc/verify', authActionCallback);
+}
+
+function setAccountData(data) {
+    accountData = data;
+    if (accountData && accountData.id) {
+        client_logged = true;
+    }
+    window.localStorage.setItem('account_data', JSON.stringify(data));
+}
+
+var reg_token;
+var reg_phone;
+function registerActionCallback(action) {
+    if (action.status == 'OK') {
+        goToAuthPage(action.data);
+    } else if (action.error_code = 'phone_exist') {
+        msg(txt('phone_already_registrated'), null, 1);
+    } else {
+        msg(txt('registration_error'), null, 1);
+    }
+    gl_hide_wbp();
+}
+
+function loginActionCallback(action) {
+    if (action.status == 'OK') {
+        goToAuthPage(action.data);
+    } else if (action.error_code = 'customer_not_found') {
+        msg(txt('not_registrated'), null, 1);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
+}
+
+function authActionCallback(action) {
+    if (action.status == 'OK') {
+        setAccountData(action.data.data);
+        msg(txt('login_success'), null, 1);
+        ui_navigate('home');
+    } else if (action.error_code == 'invalid_code') {
+        msg(txt('wrong_auth_code'), null, 1);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
+}
+
+function goToAuthPage(data) {
+    reg_token = data.token;
+    reg_phone = data.telephone;
+    ui_navigate('supin_auth');
 }
 
 function account_load() {
     account_load_addresses();
-    get("mc_account_name").innerText = client_first_name + " " + client_last_name;
+    get("mc_account_name").innerText = accountData.firstname + " " + accountData.lastname;
     get("mc_account_phone").innerText = client_num;
 }
 
 function account_load_addresses() {
     var mc_account_addresses = get("mc_account_addresses");
-    mc_account_addresses.innerHTML = "";
+    setDimmer(mc_account_addresses, true, true);
     for (var i = 0; i < user.addresses.length; i++) {
         var addr = user.addresses[i];
         mc_account_addresses.appendChild(account_createAddrPanel(addr));
@@ -81,7 +143,8 @@ function account_load_addresses() {
 function account_addrs_del_click() {
     var addr_id = this.getAttribute("addr_id");
     var addr = user_get_addr(addr_id);
-    msg("Are you sure you want to delete this address '" + addr.addr + "'", function () {
+    
+    msg(txt('confirm_addr_delete', addr.addr), function () {
         account_delete_addr(addr_id);
     });
 }
@@ -107,7 +170,7 @@ function mc_account_phone_edit_click() {
     popup(account_edit_phonenumber, function () {
         var phoneNumber = get("account_edit_phonenumber_input").value;
         if (isNaN(phoneNumber) || phoneNumber.length != 10) {
-            alert("Invalid phone number.");
+            msg(txt('invalid_phone_number'), null, 1);
             return;
         } else if (phoneNumber == client_num) {
             return;
@@ -123,21 +186,16 @@ function mc_signup_btn_click() {
     var su_num = get("su_num").value;
     var su_email = get("su_email").value;
     if (!(/^\d+$/.test(su_num) && su_num.length == 10)) {
-        alert("Please enter valid phone number in this format: 7004003000");
+        msg(txt('invalid_phone_number'), null, 1);
         return;
     }
     acc_set_num(su_num);
-    var post_url = get_signup_api_url(su_num, su_first_name, su_last_name, su_email);
-    gl_show_wbp("Registrating...");
-    httpGetAsync(post_url, function (response) {
-        if (response == "OK") {
-            ui_navigate("sign_upin", "auth");
-        } else if (response == "ERROR_NUM_REGISTERED"){
-            alert("This phone number is already registered, Please login instead.");
-        } else {
-            alert("We could not register you.");
-        }
-        gl_hide_wbp();
+    gl_show_wbp();
+    registerAction.do({
+        firstname: su_first_name,
+        lastname: su_last_name,
+        telephone: su_num,
+        email: su_email
     });
 
 }
@@ -145,53 +203,29 @@ function mc_signup_btn_click() {
 function mc_signin_btn_click() {
     var si_num = get("si_num").value;
     if (!(/^\d+$/.test(si_num) && si_num.length == 10)) {
-        alert("Please enter valid phone number in this format: 7004003000");
+        msg(txt('invalid_phone_number'), null, 1);
         return;
     }
     var post_url = get_login_api_url(si_num);
-    gl_show_wbp("Logging in...");
-    httpGetAsync(post_url, function (response) {
-        if (response == "OK") {
-            acc_set_num(si_num);
-            ui_navigate("sign_upin", "auth");
-        } else if (response == "NO_CLIENT"){
-            alert("You are not registered yet, please register first to login.");
-        } else {
-            alert("We could not request code for you.");
-        }
-        gl_hide_wbp();
+    gl_show_wbp();
+    acc_set_num(si_num);
+    loginAction.do({
+        telephone: si_num
     });
 }
 var mc_signinup_rtcaf = false;
 function mc_signauth_btn_click() {
     var auth_code = get("auth_code").value;
     if (!(/^\d+$/.test(auth_code) && auth_code.length == 6)) {
-        alert("Please enter valid 6 digits code.");
+        msg(txt('enter_valid_code'), null, 1);
         return;
     }
-    var post_url = get_auth_api_url(new_phonenum || client_num, auth_code);
-    gl_show_wbp("Verifying...");
-    httpGetAsync(post_url, function (response) {
-        console.log(response);
-        if (response.substr(0, 5) != "ERROR") {
-            var resp = JSON.parse(response);
-            var newnum = resp["newnum"];
-            acc_set_token(resp["token"], resp["client"]);
 
-            if (newnum) {
-                acc_set_num(newnum);
-                get("mc_account_phone").innerText = newnum;
-                alert("Your phone number was successfully changed!");
-            } else {
-                alert("You have been logged in successfully!");
-            }
-            new_phonenum = null;
-            if (mc_signinup_rtcaf) ui_navigate("cart_recap");
-            else ui_goback();
-        } else {
-            alert("Incorrect Code!");
-        }
-        gl_hide_wbp();
+    gl_show_wbp();
+    authAction.do({
+        telephone: reg_phone,
+        token: reg_token,
+        code: auth_code
     });
 }
 
@@ -203,7 +237,7 @@ function mc_signup_iwtr_click() {
 }
 
 function mc_redtosuia() {
-    if (!client_token) {
+    if (!client_logged) {
         if (client_num) {
             return "supin_in"
         } else {

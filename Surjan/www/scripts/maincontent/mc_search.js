@@ -3,6 +3,8 @@ var mc_search_list;
 var mc_search_tb;
 var mc_search_sb;
 
+var searchAction;
+
 var gl_rec_ava = false;
 
 function mc_search_init() {
@@ -22,21 +24,14 @@ function mc_search_init() {
             }, function () { gl_rec_ava = false; });
     }
     //gl_rec_ava = true;
+
+    registerPage('search', mc_search, txt('search'), function () {
+        showSearchBar();
+    });
+
+    get('hb_search_back').onclick = ui_goback;
     
-
-}
-
-function mc_search_load() {
-    mc_cart_list.innerHTML = "";
-    var products = mc_cart_get_products();
-    for (var i = 0; i < products.length; i++) {
-        var product_panel = mc_prt_ui_createProductPanel(products[i]);
-        mc_cart_list.appendChild(product_panel);
-        product_panel.addEventListener("click", mc_prt_product_click);
-    }
-    if (products.length == 0) {
-        mc_cart_list.appendChild(mc_utils_getHelt("Nothing to show here,\n Start by adding some products."));
-    }
+    searchAction = fetchAction.create('product/list&side=client', searchActionCallback);
 }
 
 var mcs_wvs_timeout;
@@ -49,26 +44,38 @@ function mc_search_tb_change() {
     }
 }
 
+function searchActionCallback(action) {
+    if (action.status == 'OK' && action.params.sid == last_search_id) {
+        var products = action.data.items;
+        pm_cache(products);
+        mc_search_list.innerHTML = "";
+        for (var i = 0; i < products.length; i++) {
+            var product_panel = mc_prt_ui_createProductPanel(products[i]);
+            mc_search_list.appendChild(product_panel);
+            product_panel.addEventListener("click", mc_prt_product_click);
+        }
+
+        if (products.length == 0) {
+            setPlaceHolderIcon('search', txt('nothing_found'), mc_search_list);
+        }
+    }
+}
+var search_id_ptr = 1;
+var last_search_id = 0;
 function mc_search_s() {
+    search_id_ptr++;
+    last_search_id = search_id_ptr;
+    setDimmer(mc_search_list, true);
+    searchAction.do({ name: mc_search_tb.value, start: 0, limit: 20, sid: search_id_ptr});
 
-    var products = pm_search(mc_search_tb.value);
-
-    mc_search_list.innerHTML = "";
-    for (var i = 0; i < products.length; i++) {
-        var product_panel = mc_prt_ui_createProductPanel(products[i]);
-        mc_search_list.appendChild(product_panel);
-        product_panel.addEventListener("click", mc_prt_product_click);
-    }
-    prt_load_mins();
-    if (products.length == 0) {
-        mc_search_list.appendChild(mc_utils_getHelt("Nothing found!"));
-    }
-
-    //mc_search_sb.src = "images/toolbar_find.png";
 }
 
 function mc_search_tb_focusout() {
-    Keyboard.hide();
+    try {
+        Keyboard.hide();
+    } catch (ex) {
+
+    }
 }
 var rec_pped = false;
 function mc_search_sb_click() {
@@ -78,8 +85,8 @@ function mc_search_sb_click() {
     var options = {
         language: "en-US",
         matches: 1,
-        prompt: "",      // Android only
-        showPopup: true,  // Android only
+        prompt: "",
+        showPopup: true,
         showPartial: true
     }
 
@@ -94,4 +101,27 @@ function mc_search_sb_click() {
             mc_search_sb.src = "images/microphone.png";
             rec_pped = false;
         }, options);
+}
+
+var searchbar_anim = {
+    targets: '#hb_search',
+    top: 0,
+    opacity: 1,
+    easing: 'easeOutExpo',
+    duration: 300
+};
+
+function showSearchBar() {
+    searchbar_anim.top = 0;
+    searchbar_anim.opacity = 1;
+    searchbar_anim.duration = 300;
+    anime(searchbar_anim);
+}
+
+function hideSearchBar() {
+    mc_search_tb.value = '';
+    searchbar_anim.top = '-50px';
+    searchbar_anim.opacity = 0;
+    searchbar_anim.duration = 700;
+    anime(searchbar_anim);
 }

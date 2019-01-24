@@ -12,12 +12,17 @@
     <link rel="stylesheet" type="text/css" href="css/mc_products.css">
     <link rel="stylesheet" type="text/css" href="css/cart.css">
     <link rel="stylesheet" type="text/css" href="css/account.css">
+    <link rel="stylesheet" type="text/css" href="css/search.css">
     <title>WalkOnRetail</title>
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="anime.min.js"></script>
     <script type="text/javascript" src="quo.js"></script>
+
+    <script type="text/javascript" src="scripts/sl/dds/oca.js"></script>
+    <script type="text/javascript" src="scripts/sl/datamanager.js"></script>
+    <script type="text/javascript" src="scripts/sl/actions.js"></script>
 
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/maincontent/fasc.js"></script>
@@ -44,6 +49,7 @@
     <script type="text/javascript" src="scripts/pams/cart.js"></script>
     <script type="text/javascript" src="scripts/pams/usermanager.js"></script>
     <script type="text/javascript" src="scripts/pams/account.js"></script>
+    <script type="text/javascript" src="scripts/pams/gls.js"></script>
     <script type="text/javascript" src="scripts/storage.js"></script>
     <!--<script type="text/javascript" src="scripts/html2pdf.bundle.min.js"></script>-->
 
@@ -69,6 +75,11 @@
                 <div style="opacity: 0">0</div>
             </div>
         </div>
+        <div id="hb_search" class="t_bg">
+            <img id="hb_search_back" src="images/left_arrow.png" />
+            <input id="mc_search_tb" type="text" class="t_input" p-txt="search_box_ph" />
+            <img src="images/toolbar_find.png" id="mc_search_sb" />
+        </div>
     </div>
 
     <div id="sb_lower" class="srnb srnb-lower"></div>
@@ -77,7 +88,7 @@
     <div id="sb_wait" class="srnb" style="background-color: rgba(0, 0, 0, 0.5);">
         <div style="height: 44%;"></div>
         <div class="sb_wait_block">
-            <img src="images/Rolling-1s-54px.gif" />
+            <img src="images/loading.gif" />
             <span id="sb_wait_txt"></span>
         </div>
     </div>
@@ -86,14 +97,14 @@
         <div id="gl_msg_text">
             <span id="gl_msg_text_sp"></span>
         </div>
-        <button id="gl_msg_no">No</button>
-        <button id="gl_msg_yes">Yes</button>
+        <button id="gl_msg_no" txt="no"></button>
+        <button id="gl_msg_yes" txt="yes"></button>
     </div>
 
     <div id="gl_popup" class="gl_popup" style="display: none; opacity: 0;">
         <div id="gl_popup_elt"></div>
-        <button id="gl_popup_no">Cancel</button>
-        <button id="gl_popup_yes" style="border: none">Ok</button>
+        <button id="gl_popup_no" txt="cancel"></button>
+        <button id="gl_popup_yes" style="border: none" txt="ok"></button>
     </div>
 
     <div id="leftmenu" class="leftmenu">
@@ -102,16 +113,17 @@
             <img src="images/slogo.png" />
         </div>
         <div id="lm_subcon">
-            <div id="nav_item_mycart" class="lm_nav_item lm_nav_item_active" name="home"><img src="images/icons/home.png" />Home</div>
-            <div class="lm_nav_item" name="cart"><img src="images/icons/cart.png" />My Cart</div>
-            <div class="lm_nav_item" name="account"><img src="images/icons/user.png" />My Account</div>
-            <div class="lm_nav_item" name="orders"><img src="images/icons/package.png" />My Orders</div>
-            <div class="lm_nav_item" name="notification"><img src="images/icons/bell.png" />Notifications</div>
+            <div id="nav_item_mycart" class="lm_nav_item lm_nav_item_active" name="home"><img src="images/icons/home.png" /><span txt="home"></span></div>
+            <div class="lm_nav_item" name="cart"><img src="images/icons/cart.png" /><span txt="my_cart"></span></div>
+            <div class="lm_nav_item" name="account"><img src="images/icons/user.png" /><span txt="my_account"></span></div>
+            <div class="lm_nav_item" name="orders"><img src="images/icons/package.png" /><span txt="my_orders"></span></div>
+            <div class="lm_nav_item" name="notification"><img src="images/icons/bell.png" /><span txt="notifications"></span></div>
+            <div class="lm_nav_item" name="order_phone"><img src="images/icons/phone.png" /><span txt="order_phone"></span></div>
             <div class="lm_nav_sep"></div>
-            <div class="lm_nav_item" name="help"><img src="images/icons/mail.png" />Contact Us</div>
-            <div class="lm_nav_item" name="company_info"><img src="images/icons/info.png" />Company Info</div>
-            <div class="lm_nav_item" name="share"><img src="images/icons/share.png" />Share the App</div>
-            <div class="lm_ver_txt">App Version: 0.9.2</div>
+            <div class="lm_nav_item" name="help"><img src="images/icons/mail.png" /><span txt="contact_us"></span></div>
+            <div class="lm_nav_item" name="company_info"><img src="images/icons/info.png" /><span txt="company_info"></span></div>
+            <div class="lm_nav_item" name="share"><img src="images/icons/share.png" /><span txt="share_the_app"></span></div>
+            <div class="lm_ver_txt"><span txt="app_version"></span>: 0.9.2</div>
         </div>
     </div>
 
@@ -216,7 +228,7 @@
                 <select id="mc_cart_paymethod" class="t_input">
                     <option name="cod" txt="cod"></option>
                 </select>
-                <div class="mc_cart_invoice" style="margin-top: -60px">
+                <div class="mc_cart_invoice">
                     <table id="mc_cart_invoice_table" border=1 frame=void rules=rows>
                         <colgroup>
                             <col width="50%" />
@@ -241,10 +253,6 @@
         </div>
 
         <div id="mc_search">
-            <div id="mc_search_con">
-                <input type="text" id="mc_search_tb" p-txt="search_box_ph" />
-                <img src="images/toolbar_find.png" id="mc_search_sb" />
-            </div>
             <div id="mc_search_list" class="mc_products_list">
 
             </div>
@@ -255,21 +263,19 @@
                 <h1 id="mc_account_name"></h1>
             </div>
             <div class="mc_account_setting">
-                <span txt="addresses"></span>
-                <br /><br />
-                <div id="mc_account_addresses"></div>
 
-                <div txt="add_new_address" id="mc_account_add_addr" class="mc_account_add_addr">
-                    
-                </div>
-
-                <br /><br />
                 <span txt="phone_number"></span>
                 <br /><br />
                 <div class="mc_account_phone_con">
                     <span id="mc_account_phone"></span>
                     <img id="mc_account_phone_edit" src="images/pencil.png" />
                 </div>
+                <br /><br />
+                <span txt="addresses"></span>
+                <br /><br />
+                <div txt="add_new_address" id="mc_account_add_addr" class="mc_account_add_addr"></div>
+                <div id="mc_account_addresses"></div>
+
             </div>
         </div>
 
@@ -277,11 +283,11 @@
 
             <div class="mc_sign_upin">
                 <span txt="first_name"></span> <br />
-                <input type="text" id="su_first_name" placeholder="First name" />
+                <input type="text" id="su_first_name" p-txt="first_name" />
                 <span txt="last_name"></span> <br />
-                <input type="text" id="su_last_name" placeholder="Last name" />
+                <input type="text" id="su_last_name" p-txt="last_name" />
                 <span txt="phone_number"></span> <br />
-                <input type="text" id="su_num" placeholder="Ex: 7001100222" />
+                <input type="text" id="su_num" placeholder="Ex: 7007007000" />
                 <span txt="email"></span> <br />
                 <input type="text" id="su_email" placeholder="user@mail.com" />
                 <br /> <br />
@@ -294,11 +300,11 @@
         <div id="mc_supin_in">
 
             <div class="mc_sign_upin">
-                <span>Phone Number</span> <br />
+                <span txt="phone_number"></span> <br />
                 <input type="text" id="si_num" placeholder="Ex: 7001100222" />
                 <br />
-                <button id="mc_signin_btn">Login</button>
-                <button id="mc_signup_iwtr">I want to register</button>
+                <button id="mc_signin_btn" txt="login"></button>
+                <button id="mc_signup_iwtr" txt="want_to_register"></button>
             </div>
 
         </div>
@@ -306,26 +312,26 @@
         <div id="mc_supin_auth">
 
             <div class="mc_sign_upin">
-                <span style="font-size: 16px;">We have sent you an SMS with verification code.</span> <br /> <br />
-                Please enter code below <br />
+                <span style="font-size: 16px;" txt="otp_sent"></span> <br /> <br />
+                <span txt="enter_code_below"></span> <br />
                 <input type="text" id="auth_code" placeholder="Ex: 123456" />
                 <br />
-                <button id="mc_signauth_btn">Verify</button>
+                <button id="mc_signauth_btn" txt="verify"></button>
             </div>
 
         </div>
 
         <div id="mc_add_addr" class="mc_sign_upin">
-            Address 1 <br />
-            <input type="text" id="addr_a1" placeholder="Address 1" />
-            Address 2 <br />
-            <input type="text" id="addr_a2" placeholder="Address 2" />
-            City <br />
-            <select id="addr_city"><option>Pipariya</option></select>
-            Pin Code <br />
+            <span txt="address_1"></span> <br />
+            <input type="text" id="addr_a1" p-txt="address_1" />
+            <span txt="address_2"></span> <br />
+            <input type="text" id="addr_a2" p-txt="address_2" />
+            <span txt="city"></span> <br />
+            <select id="addr_city" disabled><option id="addr_city_opt">Pipariya</option></select>
+            <span txt="pin_code"></span> <br />
             <input type="text" id="addr_pin" placeholder="Pin Code" />
             <br /> <br />
-            <button id="mc_addr_btn">Save</button>
+            <button id="mc_addr_btn" txt="save"></button>
         </div>
 
         <div id="mc_pages">
@@ -350,11 +356,11 @@
         </div>
 
         <div id="order_phone" class="order_oways_page">
-            <br>You can order products by calling to this number<br><br>
-            <a href="tel:8566856611" style="font-weight: bold;font-size: 24px;">
+            <br><span txt="order_on_phone_msg"></span><br><br>
+            <a id="order_phone_link" style="font-weight: bold;font-size: 24px;">
                 <img src="images/phone_alt.png" />
                 <br />
-                Call
+                <span txt="call"></span>
             </a>
         </div>
 
@@ -363,12 +369,16 @@
         </div>
 
         <div id="mc_help">
-            You can contact us by calling to<br /><br />
-            <a href='tel:8566856644'>General Enquiry<br />8566856644</a><br />
-            <a href='tel:8566856699'>Complaint<br />8566856699</a>
+            <div style="margin-top: 20px;margin-bottom: 25px;padding-bottom: 25px;border-bottom: 1px solid #bbb">
+                <img style="width: 20%" src="images/icons/location.png" /> <br />
+                <span id="contact_store"></span> <br />
+                <span id="contact_addr"></span>
+            </div>
+            <span txt="contact_ways_msg"></span><br /><br />
+            <a id="contact_phone"></a><br />
+            <a id="contact_email"></a>
         </div>
 
-        <!--<div class="hspacer" style="display: block"></div>-->
 
     </div>
 
@@ -392,14 +402,14 @@
             <div class="prt_pp_acb">
                 <button id="mc_prodp_crt_add">
                     <img src="images/icons/cart_white.png" />
-                    <span class="txt add">Add</span>
+                    <span class="txt add" txt="add"></span>
                 </button>
                 <div id="mc_prodp_crt_con" style="display: none">
                     <button id="mc_prodp_crt_minus">-</button>
                     <span id="mc_prodp_crt_count">1</span>
                     <button id="mc_prodp_crt_plus">+</button>
                 </div>
-                <label id="mc_prodp_crt_ofs" class="atc_ofs_lbl">Out of stock</label>
+                <label id="mc_prodp_crt_ofs" class="atc_ofs_lbl" txt="out_of_stock"></label>
             </div>
         </div>
 
@@ -422,22 +432,33 @@
     <div id="loading_screen" class="loading_screen">
         <img class="ls_logo_img" src="images/slogo.png" />
         <img id="ls_loading_img" class="ls_loading_img" src="images/loading.gif" />
+        <div id="ls_select_city">
+            <h3 txt="select_city"></h3>
+            <select class="t_input" id="ls_cities">
+            </select>
+            <div id="ls_select_region">
+                <h4 txt="select_region"></h4>
+                <select class="t_input" id="ls_regions">
+                </select>
+            </div>
+            <button class="t_btn" id="ls_city_btn" txt="ok"></button>
+        </div>
         <div id="ls_fail_msg" style="display: none; opacity: 0">
-            We couldn't connect to our server,<br>
-            Tap to retry, or<br>
+            <span txt="could_not_connect_error"></span>
+            <br>
             <a href="tel:8566856611">
-                <button> <img src="images/phone_alt.png" /> Order on phone</button>
+                <button> <img src="images/icons/phone.png" /> <span txt="order_on_phone"></span> </button>
             </a>
         </div>
     </div>
 
     <div id="elts_holder" style="display: none">
         <div id="account_new_addr">
-            Add new address <br />
+            <span txt="add_new_address"></span> <br />
             <textarea id="account_new_addr_input"></textarea>
         </div>
         <div id="account_edit_phonenumber">
-            Change phone number <br /> <br />
+            <span txt="change_phone_number"></span> <br /> <br />
             <input class="gl_popup_input" id="account_edit_phonenumber_input" placeholder="Ex: 7008003000" />
         </div>
 
@@ -449,15 +470,15 @@
                 }
             </style>
             <div style="text-align: center;margin-bottom: 30px">
-                Surjan Kirana <br />
-                (A Devgaon Foods Pvt Ltd Division) <br /> <br />
-                <span style="font-weight: bold">INVOICE</span>
+                <span txt="app_name"></span> <br />
+                (<span txt="company_ltd"></span>) <br /> <br />
+                <span style="font-weight: bold" txt="invoice_upper"></span>
             </div>
-            Client Name: <span id="inv_client"></span> <br />
-            Phone No: <span id="inv_phone"></span> <br />
-            Address: <span id="inv_addr"></span> <br />
+            <span txt="customer_name"></span>: <span id="inv_client"></span> <br />
+            <span tx="phone_no"></span>: <span id="inv_phone"></span> <br />
+            <span txt="address"></span>: <span id="inv_addr"></span> <br />
             --------------------------------------------------------------------------------------------------------------------------- <br />
-            Order No-<span id="inv_oid"></span>	&nbsp;	&nbsp;	&nbsp;<span id="inv_orderdate"></span> <br />
+            <span txt="order_no"></span>-<span id="inv_oid"></span>	&nbsp;	&nbsp;	&nbsp;<span id="inv_orderdate"></span> <br />
             --------------------------------------------------------------------------------------------------------------------------- <br />
             <table id="inv_dw_table" style="width: 100%;border-collapse: collapse;">
                 <colgroup>
@@ -468,10 +489,10 @@
                 </colgroup>
                 <thead>
                     <tr style="background: #eee;">
-                        <td>Product</td>
-                        <td style="text-align: center;">Q</td>
-                        <td style="text-align: right; padding-right: 5px">Price</td>
-                        <td style="text-align: right; padding-right: 5px">Total</td>
+                        <td txt="product"></td>
+                        <td style="text-align: center;" txt="q"></td>
+                        <td style="text-align: right; padding-right: 5px" txt="price"></td>
+                        <td style="text-align: right; padding-right: 5px" txt="total"></td>
                     </tr>
                 </thead>
 
@@ -479,15 +500,15 @@
 
             </table>
             --------------------------------------------------------------------------------------------------------------------------- <br />
-            Order Total <span id="inv_total"></span> &#8377 <br />
+            <span txt="order_total"></span> <span id="inv_total"></span> &#8377 <br />
             --------------------------------------------------------------------------------------------------------------------------- <br />
             <span style="font-weight: bold;">
-                Saved amount <span id="inv_saved"></span> &#8377
+                <span txt="saved_amount"></span> <span id="inv_saved"></span> &#8377
             </span> <br /> <br />
 
-            Delivery Timings:  <span id="inv_del_time"></span> <br />
-            Thank you for shopping <br /> <br />
-            * For return, please visit our store <br /> <br />
+            <span txt="del_timings"></span>:  <span id="inv_del_time"></span> <br />
+            <span txt="thanks_for_shopping"></span> <br /> <br />
+            * <span txt="for_return_visit_store"></span> <br /> <br />
             Surjan Kirana Store <br />
             Mangalwara Bazar <br />
             Pipariya- 461775 <br />
@@ -495,7 +516,7 @@
             <a href="mailto:support@surjankirana.com">✉  support@surjankirana.com</a> <br />
 
         </div>
-        <a id="dwnldLnk">Download pdf</a>
+        <a id="dwnldLnk"></a>
     </div>
 
 </body>

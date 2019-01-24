@@ -61,6 +61,46 @@ body {
     border: 1px solid white;
 }
 
+#hb_search {
+    position: fixed;
+    z-index: 1001;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    box-sizing: border-box;
+    padding: 5px 10px 5px 50px;
+    opacity: 0;
+}
+#hb_search > img{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    height: 40px;
+}
+#hb_search > input {
+    left: 50px;
+    top: 5px;
+    box-sizing: border-box;
+    height: 40px;
+    width: 100%;
+    border-color: #F36F24;
+    background-color: #f78747;
+    font-family: 'Nunito', sans-serif;
+    font-size: 17px;
+    padding-left: 16px;
+    transition: background-color 0.2s;
+}
+#hb_search > input:focus{
+    background-color: white;
+}
+#mc_search_sb {
+    box-sizing: border-box;
+    padding: 5px;
+    left: 100% !important;
+    margin-left: -56px;
+}
+
 .mmb {
     float: left;
     height: 100%;
@@ -96,18 +136,20 @@ body {
     font-size: 22px;
 }
 .sb_wait_block {
+    width: 100%;
     background-color: #eee;
     color: #222;
-    margin: 50px;
+    margin: 0;
     margin-top: 0;
-    padding: 30px;
-    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    box-sizing: border-box;
+    box-shadow: 0 0 80px #555;
 }
-.sb_wait_block>img{
-    width: 24px;
-    height: 24px;
-    margin-bottom: -4px;
-    margin-right: 10px;
+.sb_wait_block > img {
+    width: 40px;
+    height: 40px;
+    margin-bottom: -13px;
 }
 .leftmenu {
     position: fixed;
@@ -305,9 +347,10 @@ body {
 .loading_screen > div{
     font-size: 5vw;
     color: #d77;
+    margin-top: 60px;
 }
 .loading_screen > img{
-    margin: 140px 0 0 0;
+    margin: 120px 0 60px 0;
 }
 
 .ls_logo_img {
@@ -320,11 +363,13 @@ body {
 #ls_fail_msg > a > button {
     margin-top: 10px;
     font-size: 5vw;
-    padding: 3vw 6vw;
     border: 1px solid #ddd;
     background-color: #fff;
     line-height: 1.8;
     height: 15vw;
+    font-family: 'Nunito', sans-serif;
+    border-radius: 100px;
+    padding: 0 45px;
 }
 #ls_fail_msg > a > button > img{
     height: 8vw;
@@ -408,11 +453,11 @@ body {
     margin-right: 3px;
 }
 
-.mc_not_row{
+.mc_not_row {
     box-sizing: border-box;
     padding: 12px;
     width: 100%;
-    background-color: #eee;
+    background-color: #fbfbfb;
     border-bottom: 1px solid #bbb;
 }
 .mc_not_row>span{
@@ -465,10 +510,89 @@ body {
     border-color: #F36F24;
 }
 
+.t_btn {
+    background-color: #F36F24;
+    border: none;
+    border-radius: 100px;
+    padding: 10px 20px;
+    color: white;
+    text-align: center;
+}
 .t_bg {
     background-color: #F36F24;
     color: white;
 }
 .t_color {
     color: #F36F24;
+}
+.t_dimmer{
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    top: 30%;
+    left: 50%;
+    margin-left: -25px;
+}
+.t_dimmer_l {
+    display: block;
+    width: 50px;
+    height: 50px;
+    padding-top: 50px;
+    margin: auto;
+}
+.ph_icon {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    top: 50%;
+    left: 50%;
+    margin-left: -60px;
+    margin-top: -140px;
+    opacity: 0.2;
+}
+.ph_text {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    margin-top: 0;
+    color: #bbb;
+    text-align: center;
+}
+#ls_select_city{
+    margin-top: 0 !important;
+    opacity: 0;
+    display: none;
+}
+#ls_select_city > h3 {
+    margin: 0 0 10px 0;
+    color: #444;
+}
+#ls_select_city > select{
+    font-size: 5vw;
+    padding: 10px 20px;
+    width: 100%;
+}
+#ls_select_city > button {
+    font-size: 5vw;
+    position: absolute;
+    top: 100%;
+    left: 10%;
+    width: 80%;
+    margin-top: -20%;
+    opacity: 0;
+}
+
+#ls_select_region {
+    margin-top: 20px !important;
+    opacity: 0;
+}
+#ls_select_region > h4 {
+    margin: 0 0 10px 0;
+    color: #444;
+}
+
+#ls_select_region > select {
+    font-size: 5vw;
+    padding: 10px 20px;
+    width: 100%;
 }

@@ -9,52 +9,59 @@ function mxui_init() {
 
 // Loading screen
 
-var mxui_loading_failed = true;
+var mxui_loading_failed = false;
 
 function loading_screen_click(e) {
     if (e && e.srcElement && e.srcElement.tagName == "BUTTON") return;
     if (mxui_loading_failed) {
         mxui_loading_failed = false;
-        anime({
-            targets: "#ls_fail_msg",
-            opacity: 0,
-            easing: 'easeOutExpo',
-            duration: 300,
-            complete: function () {
-                ls_fail_msg.style.display = "none";
-                ls_loading_img.style.display = "inline-block";
-                anime({
-                    targets: "#ls_loading_img",
-                    opacity: 1,
-                    easing: 'easeOutExpo',
-                    duration: 300
-                });
-            }
-        });
-        dm_load();
+        switchElements('ls_fail_msg', 'ls_loading_img');
+        setTimeout(dm_load, 500);
     }
 }
 
 function ls_loading_failed() {
+    mxui_loading_failed = true;
+    switchElements('ls_loading_img', 'ls_fail_msg');
+}
+
+function switchElements(fromElt, toElt) {
     anime({
-        targets: "#ls_loading_img",
+        targets: "#" + fromElt,
         opacity: 0,
         easing: 'easeOutExpo',
         duration: 300,
         complete: function () {
-            ls_loading_img.style.display = "none";
-            ls_fail_msg.style.display = "block";
+            get(fromElt).style.display = "none";
+            var elt = get(toElt);
+            elt.style.display = (elt.tagName == 'IMG') ? 'inline-block' : 'block';
             anime({
-                targets: "#ls_fail_msg",
+                targets: "#" + toElt,
                 opacity: 1,
                 easing: 'easeOutExpo',
-                duration: 300,
-                complete: function () {
-                    mxui_loading_failed = true;
-                }
+                duration: 300
             });
         }
     });
 }
 
 // ===================================
+
+function setDimmer(parent, clearContent, lp) {
+    parent = get(parent);
+    if (clearContent) parent.innerHTML = '';
+    var img = crt_elt('img', parent);
+    img.src = 'images/loading.gif';
+    img.className = lp ? 't_dimmer_l' : 't_dimmer';
+}
+
+function setPlaceHolderIcon(icon, text, parent, clearContent) {
+    parent = get(parent);
+    if (clearContent) parent.innerHTML = '';
+    var img = crt_elt('img', parent);
+    var h3 = crt_elt('h3', parent);
+    img.src = 'images/icons/' + icon + '_outline.png';
+    img.className = 'ph_icon';
+    val(h3, text);
+    h3.className = 'ph_text';
+}

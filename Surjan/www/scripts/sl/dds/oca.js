@@ -2,12 +2,13 @@
 function dm_oca_init() {
     dm = {
         // Properties
-        apiBaseURL: 'http://fasc.local/index.php?store_id={%1}&api_token={%2}&route=api/',
-        //apiBaseURL: 'http://192.168.1.5/fasc/index.php?api_token=key&route=api/',
+        apiBaseURL: 'http://fasc.local/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
+        //apiBaseURL: 'https://www.walkonretail.com/index.php?lang={%3}store_id={%1}&api_token={%2}&route=api/',
 
         // Methods
         _getApiUrl: function (req, params) {
             var url = this.apiBaseURL.replace('{%1}', this.storeId).replace('{%2}', this.apiToken);
+            url = url.replace('{%3}', this.lang).replace('{%4}', dm.sessionId);
             url += req;
 
             if (params && typeof params == 'object') {
@@ -50,23 +51,5 @@ function dm_oca_init() {
             });
         },
 
-        getProducts: function (filters, action) {
-            var url = this._getApiUrl('product/list', filters);
-            this._callApi(url, action, 'items');
-        },
-
-        getProduct: function (id, action) {
-            var url = this._getApiUrl('product/info', { product_id: id });
-            //log(url);
-            //return;
-            this._callApi(url, action);
-        },
-
-        saveProduct: function (data, action) {
-            var url = this._getApiUrl('product/save', data);
-            //log(url);
-            //return;
-            this._callApi(url, action);
-        }
     };
 }

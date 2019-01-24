@@ -8,15 +8,13 @@ var mbbm = "menu";
 var srnb_lower;
 var srnb_higher;
 
-var share_msg = "Shop thousands of product like Kirana Goods, Dairy, Personal Care, Household, Accessories and more on Surjan Kirana Android App. Download now https://goo.gl/S6w9rf";
-
 function lm_nav_item_click(event) {
     lm_hide();
     var nav_name = this.getAttribute("name");
     if (nav_name == "company_info") {
         ui_navigate("pages", "company_info");
-    } else if (nav_name == "share"){
-        navigator.share(share_msg, "Share Surjan Kirana", "text/plain")
+    } else if (nav_name == "share") {
+        navigator.share(gls.share_app_text[lang], "Share Surjan Kirana", "text/plain")
     } else {
         ui_navigate(this.getAttribute("name"));
     }

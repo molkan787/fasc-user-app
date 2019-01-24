@@ -19,6 +19,9 @@ var mc_prodp_crt_ofs;
 
 var mc_prt_current_cat;
 
+var prtsLoadAction;
+var prtLoadAction;
+
 function mc_products_init() {
     mc_prt_hdr_scat = get("mc_prt_hdr_scat");
     mc_prt_hdr_sscat = get("mc_prt_hdr_sscat");
@@ -46,8 +49,10 @@ function mc_products_init() {
 
     mc_products_list.addEventListener("scroll", mc_prts_scroll);
 
+    get('mc_product_img').onload = revealMe;
+
     registerPage('products', mc_products, function (param) {
-        var pcat_tl = dm_get_catByName(param).display_name.replace("\n", " ");
+        var pcat_tl = dm_cats[param].name.replace("\n", " ").replace('&amp;', '&');
         if (pcat_tl.length > 16) pcat_tl = pcat_tl.substr(0, 15) + "...";
         return pcat_tl;
     }, mc_prt_load);
@@ -55,8 +60,9 @@ function mc_products_init() {
     registerPage('product', true, null, function (param) {
         mc_prt_show_product_page(param);
     }, mc_prt_hide_product_page);
-
-
+    
+    prtsLoadAction = fetchAction.create('product/list&side=client', prtsLoadActionCallback);
+    prtLoadAction = fetchAction.create('product/info', prtLoadActionCallback);
 }
 
 function mc_prt_scat_addEventHandlers() {
@@ -97,8 +103,8 @@ function mc_prt_load(cat) {
 function mc_prts_scroll() {
     if (ui_current_panel.id != "mc_products") return;
     if (prt_gui_lc.getBoundingClientRect().top < window.innerHeight) {
-        mc_prt_load_products(prt_ccat, prt_cscat, prt_cpam, 5);
-        prt_cpam += 5;
+        mc_prt_load_products(prt_ccat, prt_cscat, prt_cpam, 10);
+        prt_cpam += 10;
     }
 }
 
@@ -123,14 +129,14 @@ function mc_prt_hide_product_page() {
 
 function mc_prt_load_sub_cats(cat) {
     mc_prt_hdr_scat.innerHTML = "";
-    var subcats = dm_prt_subcategories[cat];
+    var subcats = dm_cats[cat].subs;
     if (!subcats) return;
-    subcats.unshift({name: "all", display_name: "All"});
+    subcats.unshift({category_id: "all", name: "All"});
     for (var i = 0; i < subcats.length; i++) {
         var scatdata = subcats[i];
         var scatspan = crt_elt("span");
-        scatspan.innerText = scatdata.display_name;
-        scatspan.setAttribute("subcat", scatdata.name);
+        scatspan.innerText = scatdata.name;
+        scatspan.setAttribute("subcat", scatdata.category_id);
         mc_prt_hdr_scat.appendChild(scatspan);
         if (i == 0) {
             scatspan.className = "mc_prt_hdr_scassc_activecat";
@@ -141,26 +147,35 @@ function mc_prt_load_sub_cats(cat) {
     mc_prt_scat_addEventHandlers();
 }
 
-var pids = "";
-function mc_prt_load_products(cat, subcat, offset, count) {
-    if (offset == 0) mc_products_list.innerHTML = "";
-    var products = pm_get_products(cat, subcat, offset, count);
-    for (var i = 0; i < products.length; i++) {
-        var product_panel = mc_prt_ui_createProductPanel(products[i]);
-        mc_products_list.appendChild(product_panel);
-        product_panel.addEventListener("click", mc_prt_product_click);
+function prtsLoadActionCallback(action) {
+    if (action.status == 'OK') {
+        if (action.params.start == 0) mc_products_list.innerHTML = "";
+        var products = action.data.items;
+        pm_cache(products);
+        for (var i = 0; i < products.length; i++) {
+            var product_panel = mc_prt_ui_createProductPanel(products[i]);
+            mc_products_list.appendChild(product_panel);
+            product_panel.addEventListener("click", mc_prt_product_click);
+        }
+        if (products.length == 0 && action.params.start == 0) {
+            setPlaceHolderIcon('box', txt('nothing_to_show'), mc_products_list);
+        }
+        prt_gui_lc = mc_products_list.children[mc_products_list.children.length - 1];
+    } else {
+
     }
-    prt_load_mins();
-    prt_gui_lc = mc_products_list.children[mc_products_list.children.length - 1];
 }
 
-function prt_load_mins() {
-    if (pids != "") httpGetAsync(get_mins_api_url(pids), mc_prts_mins_loaded);
-    pids = "";
-}
-function prt_queue_min(pid) {
-    if (pids != "") pids += ",";
-    pids += pid;
+var pids = "";
+function mc_prt_load_products(cat, subcat, offset, count) {
+    if (offset == 0) setDimmer(mc_products_list, true);
+    var params = {
+        cat: cat,
+        start: offset,
+        limit: count
+    };
+    if (subcat != 'all') params.subcat = subcat;
+    prtsLoadAction.do(params);
 }
 
 function mc_prt_ui_createProductPanel(product_data) {
@@ -171,7 +186,6 @@ function mc_prt_ui_createProductPanel(product_data) {
     var _break = crt_elt("br", _mcon);
     var _prize = crt_elt("span", _mcon);
     var _spf_unit = crt_elt("span");
-    var _prize_unit = crt_elt("span");
     var _atc = crt_elt("div", _mcon);
     var _atc_btn = crt_elt("button");
     var _atc_btn_icon = crt_elt('img', _atc_btn);
@@ -181,43 +195,38 @@ function mc_prt_ui_createProductPanel(product_data) {
     var _atc_pc = crt_elt("span");
     var _atc_pm = crt_elt("button");
     var _atc_ofs = crt_elt("label");
-    
+
     var _disc_buble = crt_elt("a");
     _disc_buble.className = "prt_panel_disc_b";
     _mcon.appendChild(_disc_buble);
 
-    var discount = product_data.discount;
+    var discount = product_data.discount_amt;
     if (discount > 0) {
-        var iscd = discount > 1000;
-        if (iscd) discount -= 1000;
+        var iscd = (product_data.discount_amt != 1);
         _disc_buble.innerHTML = "-" + discount + (iscd ? "&#x20b9;" : "%");
     } else _disc_buble.style.display = "none";
 
-    _mcon.setAttribute("pid", product_data.id);
-    _mcon.id = "ppan_" + product_data.id;
+    _mcon.setAttribute("pid", product_data.product_id);
+    _mcon.id = "ppan_" + product_data.product_id;
     _mcon.className = 'prts_item';
 
-    var img_src = pm_get_product_min(product_data.id);
-    _pimg.src = img_src;
-    if (img_src != "images/document_image_cancel_32.png") _pimg.style.opacity = 1;
-    else prt_queue_min(product_data.id);
-    _pimg.setAttribute("id", "prt_min_"+product_data.id);
-    _title.innerText = product_data.display_name;
+    _pimg.src = product_data.image;
+    _pimg.onload = revealMe;
+    _pimg.setAttribute("id", "prt_min_" + product_data.product_id);
+    _title.innerText = product_data.title;
     _spf.innerText = product_data.spf;
     _spf_unit.innerText = " " + product_data.spf_unit;
     _spf.appendChild(_spf_unit);
 
     var prize_html;
     if (discount > 0) {
-        var pad = iscd ? product_data.prize - discount : (product_data.prize * (100 - discount) / 100).toFixed(2);
-        prize_html = '<span class="prt_prize_old">' + product_data.prize + '</span> ' + parseFloat(pad).toFixed(2);
+        var pad = iscd ? product_data.price - discount : (product_data.price * (100 - discount) / 100);
+        prize_html = '<span class="prt_prize_old">' + fasc.formatPrice(product_data.price) + '</span> <br />' + fasc.formatPrice(pad);
     } else {
-        prize_html = product_data.prize;
+        prize_html = '<br />' + fasc.formatPrice(product_data.price);
     }
 
     _prize.innerHTML = prize_html;
-    _prize_unit.innerHTML = " &#x20b9;";
-    _prize.appendChild(_prize_unit);
 
     val(_atc_btn_icon, 'images/icons/cart_white.png');
     val(_atc_btn_span, txt('add'));
@@ -233,18 +242,18 @@ function mc_prt_ui_createProductPanel(product_data) {
 
     _atc_ofs.innerHTML = "Out of stock";
     _atc_ofs.className = "atc_ofs_lbl";
-    _atc_ofs.id = "patc_ofs_" + product_data.id;
+    _atc_ofs.id = "patc_ofs_" + product_data.product_id;
 
-    if (product_data.stock > 0) _atc_ofs.style.display = "none";
+    if (product_data.quantity > 0) _atc_ofs.style.display = "none";
     else _atc_btn.style.display = "none";
 
-    _atc_btn.id = "patc_add_" + product_data.id;
-    _atc_pc.id = "patc_count_" + product_data.id;
-    _atc_con.id = "patc_con_" + product_data.id;
+    _atc_btn.id = "patc_add_" + product_data.product_id;
+    _atc_pc.id = "patc_count_" + product_data.product_id;
+    _atc_con.id = "patc_con_" + product_data.product_id;
 
-    _atc_btn.setAttribute("pid", product_data.id);
-    _atc_pm.setAttribute("pid", product_data.id);
-    _atc_pp.setAttribute("pid", product_data.id);
+    _atc_btn.setAttribute("pid", product_data.product_id);
+    _atc_pm.setAttribute("pid", product_data.product_id);
+    _atc_pp.setAttribute("pid", product_data.product_id);
 
     _atc_btn.addEventListener("click", mc_prt_cart_add);
     _atc_pp.addEventListener("click", mc_prt_cart_plus);
@@ -255,7 +264,7 @@ function mc_prt_ui_createProductPanel(product_data) {
     _atc_pp.innerText = "+";
 
 
-    var tpcount = cart_get_count(product_data.id);
+    var tpcount = cart_get_count(product_data.product_id);
     if (tpcount == 0) {
         _atc_con.style.display = "none";
     } else {
@@ -321,18 +330,17 @@ function mc_prt_load_product(pid) {
     var product = pm_get_product(pid);
     var count = cart_get_count(pid);
     var mc_prodp_discount = get('mc_prodp_discount');
-    
+
     mc_product_img.src = "images/loading.gif";
     mc_product_img.style.width = "20%";
     mc_product_img.style.height = "20%";
     mc_product_img.style.padding = "40%";
-    
-    var discount = parseInt(product.discount);
+
+    var discount = parseInt(product.discount_amt);
     if (discount > 0) {
         mc_prodp_discount.style.display = 'inline-block';
-        var iscd = discount > 1000;
-        if (iscd) discount -= 1000;
-        var pad = iscd ? (product.prize - discount).toFixed(2) : (product.prize * (100 - discount) / 100).toFixed(2);
+        var iscd = (product.discount_type != 1);
+        var pad = iscd ? fasc.formatPrice(product.price - discount) : fasc.formatPrice(product.price * (100 - discount) / 100);
         val(mc_prodp_discount, '-' + discount + (iscd ? '&#x20b9;' : '%'));
         mc_prodp_prize.className = '';
     } else {
@@ -340,20 +348,18 @@ function mc_prt_load_product(pid) {
         mc_prodp_prize.className = 'prt_pp_price_wd';
     }
 
-    mc_prodp_name.innerText = product.display_name;
-    mc_prodp_prize.innerHTML = fasc.ui.formatPrice(pad ? pad : product.prize);
-    val('mc_prodp_oldp', pad ? fasc.ui.formatPrice(product.prize) : '');
+    mc_prodp_name.innerText = product.title;
+    mc_prodp_prize.innerHTML = fasc.formatPrice(pad ? pad : product.price);
+    val('mc_prodp_oldp', pad ? fasc.formatPrice(product.price) : '');
     mc_prodp_spf.innerText = product.spf;
     mc_prodp_spf_unit.innerText = product.spf_unit;
     mc_prodp_description.innerHTML = '<div style="text-align:center;"><img class="ls_loading_img" src="images/loading.gif" /></div>';
 
-    if (product.stock == 0) {
+    if (product.quantity == 0) {
         mc_prodp_crt_ofs.style.display = 'unset';
         mc_prodp_crt_add.style.display = "none";
         mc_prodp_crt_con.style.display = "none";
-    } else {
-
-    } if (count > 0) {
+    } else if (count > 0) {
         mc_prodp_crt_ofs.style.display = 'none';
         mc_prodp_crt_add.style.display = "none";
         mc_prodp_crt_con.style.display = "block";
@@ -364,27 +370,27 @@ function mc_prt_load_product(pid) {
         mc_prodp_crt_add.style.display = "inline-block";
         mc_prodp_crt_con.style.display = "none";
     }
-    
-    dm_load_image(pid, mc_prt_load_img_callback);
+
+    prtLoadAction.do({ product_id: pid});
 }
 
-function mc_prt_load_img_callback(base64_data, description) {
+function prtLoadActionCallback(action) {
+    if (action.status == 'OK') {
+        set_prt_data(action.data);
+    }
+}
+
+function set_prt_data(data) {
     anime({
         targets: "#mc_product_img",
         opacity: 0,
         duration: 200,
         easing: 'easeOutExpo',
         complete: function () {
-            mc_product_img.src = base64_data;
+            mc_product_img.src = data.image;
             mc_product_img.style.width = "100%";
             mc_product_img.style.height = "100%";
             mc_product_img.style.padding = "0";
-            anime({
-                targets: "#mc_product_img",
-                opacity: 1,
-                duration: 400,
-                easing: 'easeOutExpo'
-            });
         }
     });
     anime({
@@ -393,7 +399,7 @@ function mc_prt_load_img_callback(base64_data, description) {
         duration: 200,
         easing: 'easeOutExpo',
         complete: function () {
-            mc_prodp_description.innerHTML = description;
+            mc_prodp_description.innerHTML = data.d[fasc.lang].description;
             anime({
                 targets: "#mc_prodp_description",
                 opacity: 1,
@@ -402,22 +408,4 @@ function mc_prt_load_img_callback(base64_data, description) {
             });
         }
     });
-}
-
-function mc_prts_mins_loaded(response) {
-    var resp = response.split("//%//");
-    var indices = resp[0].split(",");
-    for (var i = 1; i < resp.length; i++) {
-        //dm_save("min_" + indices[i - 1], resp[i]);
-        cache_set("min_" + indices[i - 1], resp[i]);
-        var pimg = get("prt_min_" + indices[i - 1]);
-        if (pimg) {
-            pimg.src = resp[i];
-            anime({
-                targets: "#prt_min_" + indices[i - 1],
-                opacity: 1,
-                duration: 1000
-            });
-        }
-    }
 }

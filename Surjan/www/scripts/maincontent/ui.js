@@ -143,7 +143,12 @@ function ui_navigate(pagename, param, isback) {
 
     //maincontent.scrollTop = 0;
 
-
+    for (var i = 0; i < ui_previous_pns.length; i++) {
+        if (ui_previous_pns[i].pname == pagename) {
+            ui_previous_pns.splice(i, 1);
+            break;
+        }
+    }
     ui_previous_pns.push({ pname: pagename, param: param });
     ui_update_headbar(pagename, param);
     
@@ -156,13 +161,16 @@ function ui_goback() {
         ui_currentPopup = null;
         return;
     }
-    ui_previous_pns.pop();
+    var cur = ui_previous_pns.pop();
+    if (cur.pname == 'search') {
+        hideSearchBar();
+    }
     var prev = ui_previous_pns.pop();
     if (prev) {
         ui_navigate(prev.pname, prev.param, true);
     } else {
         if (ui_current_panel.id == "mc_home") {
-            msg("Do you want to exit the app?", function () {
+            msg(txt('confirm_app_exit'), function () {
                 navigator.app.exitApp();
             });
         } else {
@@ -185,25 +193,23 @@ function ui_update_headbar(pname, param) {
     }
 
     if (pname == "help") {
-        hb_text.innerText = "Contact us";
+        hb_text.innerText = txt('contact_us');
     } else if (pname == "account") {
-        hb_text.innerText = "My account";
-    } else if (pname == "search") {
-        hb_text.innerText = "Search";
+        hb_text.innerText = txt('my_account');
     } else if (pname == "add_addr") {
-        hb_text.innerText = "Add address";
+        hb_text.innerText = txt('add_address');
     } else if (pname == "pages") {
-        hb_text.innerText = "Info";
+        hb_text.innerText = txt('company_info');
     } else if (pname == "notification") {
-        hb_text.innerText = "Notification";
+        hb_text.innerText = txt('notification');
     } else if (pname == "items_group") {
-        hb_text.innerText = "Promotions";
+        hb_text.innerText = txt('promotions');
     } else if (pname == "order_chat") {
-        hb_text.innerText = "WhatsApp";
+        hb_text.innerText = txt('whatsapp');
     } else if (pname == "order_phone") {
-        hb_text.innerText = "Order on Phone";
+        hb_text.innerText = txt('order_on_phone');
     } else if (pname == "orders") {
-        hb_text.innerText = "My Orders";
+        hb_text.innerText = txt('my_orders');
     } else {
         hb_text.innerText = AppName;
     }
@@ -222,8 +228,6 @@ function ui_getElement(name) {
         return mc_account;
     } else if (name == "help") {
         return mc_help;
-    } else if (name == "search") {
-        return mc_search;
     } else if (name == "add_addr") {
         return mc_add_addr;
     } else if (name == "pages"){
@@ -253,12 +257,11 @@ function ui_update_pan_content(pagename, param) {
         mc_home_startSlider();
     } else if (pagename == "account") {
         account_load();
-    } else if (pagename == "search") {
-        mc_search_tb.value = "";
     } else if (pagename == "add_addr") {
         addr_a1.value = "";
         addr_a2.value = "";
         addr_pin.value = "";
+        val('addr_city_opt', dm.city_names[lang]);
     } else if (pagename == "pages") {
         mc_pages_set_content(param);
     } else if (pagename == "notification") {
@@ -271,6 +274,10 @@ function ui_update_pan_content(pagename, param) {
         setTimeout(function () { mc_search_tb.focus(); }, 400);
     } else if (pagename == "orders") {
         mc_orders_load(param);
+    } else if (pagename == 'help') {
+        update_contact_page();
+    } else if (pagename == 'order_phone') {
+        attr('order_phone_link', 'href', 'tel:' + gls.orderPhone);
     }
 }
 
@@ -504,9 +511,9 @@ function gl_popup_hide() {
     });
 }
 
-function gl_show_wbp(txt) {
-    txt = txt || "Please wait...";
-    get("sb_wait_txt").innerText = txt;
+function gl_show_wbp(text) {
+    text = text || txt('please_wait');
+    get("sb_wait_txt").innerText = text;
     get("sb_wait").style.display = "block";
     anime({
         targets: "#sb_wait",
@@ -539,15 +546,18 @@ function gl_popup_no_click() {
 
 
 function hide_loadScreen() {
-    anime({
-        targets: "#loading_screen",
-        opacity: 0,
-        duration: 600,
-        easing: 'easeOutExpo',
-        complete: function () {
-            get("loading_screen").style.display = "none";
-        }
-    });
+    setTimeout(function () {
+        anime({
+            targets: "#loading_screen",
+            opacity: 0,
+            duration: 600,
+            easing: 'easeOutExpo',
+            complete: function () {
+                get("loading_screen").style.display = "none";
+            }
+        });
+    }, 0);
+    log('TODO: Delay loading screen hiding!');
 }
 
 function hb_btn_search_click() {

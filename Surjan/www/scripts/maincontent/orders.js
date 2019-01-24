@@ -7,7 +7,7 @@ function mc_orders_init() {
 
 function mc_orders_load(openfirst) {
     mc_orders.innerHTML = "";
-    var orders = dm_crt_elt("ord_list");
+    var orders = '';
     var alado = false;
     if (orders) {
         orders = orders.split(",");
@@ -19,7 +19,7 @@ function mc_orders_load(openfirst) {
             mc_orders.appendChild(pan);
         }
     }
-    if (!alado) mc_orders.appendChild(mc_utils_getHelt("You don't have any orders"));
+    if (!alado) setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
     else if (openfirst) mc_orders.children[0].click();
 }
 

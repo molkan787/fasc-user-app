@@ -28,7 +28,7 @@ function mc_notification_load() {
         }
     }
     if (not_list.length == 0) {
-        mc_notification.appendChild(mc_utils_getHelt("There are no new notification.."));
+        setPlaceHolderIcon('bell', txt('no_notification'), mc_notification);
     }
 }
 
@@ -61,7 +61,7 @@ function mc_not_del_not() {
     if (not_id == "null") return;
     this.setAttribute("not_id", "null");
     not_count--;
-    delete not_list[not_id];
+    not_list.splice(not_id, 1);
     glui_update_not_count();
     anime({
         targets: "#not_con_" + not_id, easing: 'easeOutExpo', padding: 0, height: 0, opacity: 0, duration: 500, complete: function () {

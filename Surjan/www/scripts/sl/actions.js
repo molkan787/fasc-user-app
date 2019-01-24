@@ -1,7 +1,7 @@
 ﻿var actions;
 var fetchAction;
 var actionsChain;
-var action_debug = false;
+var action_debug = true;
 
 function actions_init() {
 

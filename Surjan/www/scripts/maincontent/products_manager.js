@@ -1,4 +1,19 @@
-﻿function pm_get_products(cat, subcat, offset, count) {
+﻿
+var products = {};
+
+function pm_cache(items) {
+    for (var i = 0; i < items.length; i++) {
+        products[items[i].product_id] = items[i];
+    }
+}
+
+function pm_get_product(pid) {
+    return products[pid];
+}
+
+// ====================================;
+
+function pm_get_products(cat, subcat, offset, count) {
 	var foundcount = 0;
 	var result_list = [];
 
@@ -16,10 +31,6 @@
     }
 
 	return result_list;
-}
-
-function pm_get_product(pid) {
-    return dm_prt_products[pid];
 }
 
 function pm_get_product_prize(pid) {

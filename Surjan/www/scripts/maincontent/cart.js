@@ -19,25 +19,26 @@ function mc_cart_init() {
     mc_cart_conshop.addEventListener("click", mc_cart_conshop_click);
     get("mc_cart_add_addr").onclick = function () { ui_navigate("add_addr") };
     get('mc_checkout_back').onclick = ui_goback;
+    get('mc_checkout_checkout').onclick = mc_cart_checkout_click;
 
     registerPage('cart', get('mc_cart'), 'Cart', mc_cart_load);
     registerPage('checkout', mc_cart_recap, 'Checkout', mc_cart_load_recap);
 } 
 
 function mc_cart_checkout_click() {
-    if (this.innerText == "Next") {
+    if (this.innerText == txt('next')) {
         ui_navigate("checkout");
     } else {
         if (mc_total < 299) {
-            alert("Minimum order value must be 299 ₹ to place an order.");
+            alert(txt('min_order_value', 599));
             return;
         }
         if (!mc_cart_daddr.value) {
-            msg("There is no address added yet, Do you want to add it now?", function () { ui_navigate("add_addr") });
+            msg(txt('do_you_want_add_address'), function () { ui_navigate("add_addr") });
             return;
         } else {
             if (!mc_cart_ddate.value || !mc_cart_dhour.value) {
-                alert("Please select delivery date & hours");
+                alert(txt('select_del_date_hour'));
                 return;
             }
             var mc_red = mc_redtosuia();
@@ -67,19 +68,18 @@ function mc_cart_load() {
     spacer.style.height = '70px';
 
     if (products.length == 0) {
-        mc_cart_list.appendChild(mc_utils_getHelt("Nothing to show here,\n Start by adding some products."));
-    } else {
-        prt_load_mins();
+        setPlaceHolderIcon('cart', txt('cart_is_empty'), mc_cart_list);
     }
 }
 
 function mc_cart_get_products() {
     var result_list = [];
-    for (var pid in dm_prt_products) {
-        if (dm_prt_products.hasOwnProperty(pid)) {
-            if (mc_cart_isOnCart(pid)) {
-                result_list.push(dm_prt_products[pid]);
-            }
+    for (var i = 0; i < cart_items.length; i++) {
+        result_list.push(pm_get_product(cart_items[i]));
+    }
+    for (var pid in cart_items) {
+        if (cart_items.hasOwnProperty(pid)) {
+            result_list.push(pm_get_product(pid));
         }
     }
     return result_list;
@@ -91,25 +91,24 @@ function mc_cart_isOnCart(pid) {
 
 function mc_cart_load_recap() {
     mc_cart_cleanup();
-    mc_cart_table_addrow("Item", "Prize", "Q", "Total", true);
+    mc_cart_table_addrow(txt('item'), txt('price'), txt('q'), txt('total'), true);
 
     var total = dm_del_cost;
     var saved = 0;
     var cproducts = mc_cart_get_products()  ;
     for (var i = 0; i < cproducts.length; i++) {
         var cprt = cproducts[i];
-        var count = cart_items[cprt.id].count;
-        var discount = parseInt(cprt.discount);
-        var iscd = discount > 1000;
-        if (iscd) discount -= 1000;
-        var aprize = parseFloat(cprt.prize);
+        var count = cart_items[cprt.product_id].count;
+        var discount = parseInt(cprt.discount_amt);
+        var iscd = (cprt.discount_type != 1);
+        var aprize = parseFloat(cprt.price);
         if (discount) {
             aprize = iscd ? aprize - discount : (aprize * (100 - discount) / 100);
         }
         var ltotal = aprize * count;
-        var lsaved = (parseFloat(cprt.prize) - aprize) * count;
+        var lsaved = (parseFloat(cprt.price) - aprize) * count;
 
-        mc_cart_table_addrow(cprt.display_name, aprize.toFixed(2), count, ltotal.toFixed(2), false);
+        mc_cart_table_addrow(cprt.title, aprize.toFixed(2), count, ltotal.toFixed(2), false);
 
         total += ltotal;
         saved += lsaved;

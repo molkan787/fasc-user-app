@@ -16,8 +16,6 @@ function mc_home_init() {
     $$("#mc_home_banners").swipeRight(mc_home_banner_swipeRight);
     $$("#mc_home_banners").swipeLeft(mc_home_banner_swipeLeft);
 
-    mc_home_prt_load_categories();
-    mc_home_prt_load_categories();
     mc_home_startSlider();
 }
 
@@ -26,21 +24,27 @@ function mc_home_ui_update() {
     //mc_home_banners.style.height = (realwidth * 0.4).toString() + "px";
 }
 function mc_home_prt_load_categories() {
-    for (var i = 0; i < dm_prt_categories.length; i++) {
-        var prt_category = dm_prt_categories[i];
+    var added = false;
+    for (var cat_id in dm_cats) {
+        added = true;
+        if (!dm_cats.hasOwnProperty(cat_id)) continue;
+        var prt_category = dm_cats[cat_id];
         var prt_cat_con = crt_elt("div");
         var prt_cat_img = crt_elt("img", prt_cat_con);
         var prt_cat_break = crt_elt("br", prt_cat_con);
         var prt_cat_name = crt_elt("div", prt_cat_con);
-        
-        prt_cat_con.setAttribute("pid", prt_category.name);
-        prt_cat_img.src = "images/icons/" + prt_category.icon_img;
-        prt_cat_name.innerText = prt_category.display_name;
+
+        prt_cat_con.setAttribute("pid", cat_id);
+        prt_cat_img.src = prt_category.image;
+        prt_cat_name.innerText = prt_category.name.replace('&amp;', '&');
 
         prt_cat_con.addEventListener("click", prt_cat_click);
 
         mc_home_categories.appendChild(prt_cat_con);
 
+    }
+    if (!added) {
+        setPlaceHolderIcon('box', txt('nothing_to_show'), mc_home_categories);
     }
 }
 
@@ -116,4 +120,27 @@ function mc_home_banner_swipeLeft() {
 function mc_banner_reset_timer() {
     mc_home_stopSlider();
     mc_home_startSlider();
+}
+
+var first_banner = true;
+function dm_add_banners(banners) {
+    var mc_home_banners_con = get("mc_home_banners_con");
+    for (var i = 0; i < banners.length; i++) {
+        var banner = crt_elt("img");
+        if (first_banner) {
+            first_banner = false;
+            banner.style.display = 'unset';
+            banner.style.opacity = 1;
+        }
+        banner.src = banners[i].image;
+        banner.setAttribute("items", banners[i].link);
+        mc_home_banners_con.appendChild(banner);
+        var ditspan = crt_elt("span");
+        if (mc_home_banners_con.children.length == 1) ditspan.style.backgroundColor = "aliceblue";
+        ditspan.style.marginRight = "2px";
+        mc_home_banners_dots_con.appendChild(ditspan);
+        banner.addEventListener("click", function () {
+            ui_navigate("items_group", this.getAttribute("items"));
+        });
+    }
 }
