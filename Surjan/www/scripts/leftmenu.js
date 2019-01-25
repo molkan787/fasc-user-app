@@ -15,6 +15,10 @@ function lm_nav_item_click(event) {
         ui_navigate("pages", "company_info");
     } else if (nav_name == "share") {
         navigator.share(gls.share_app_text[lang], "Share Surjan Kirana", "text/plain")
+    } else if (nav_name == "change_city") {
+        reSelectCity();
+    } else if (nav_name == "logout") {
+        setTimeout(confirmLogout, 1000);
     } else {
         ui_navigate(this.getAttribute("name"));
     }

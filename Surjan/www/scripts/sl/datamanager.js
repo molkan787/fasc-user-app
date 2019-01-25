@@ -4,7 +4,7 @@ function dm_init_v2() {
     dm_oca_init();
     dm.storeId = window.localStorage.getItem('storeId');
     dm.sessionId = window.localStorage.getItem('session_id') || '';
-    dm.lang = 2;
+    dm.lang = 1;
     dm.apiToken = 'key';
     dm.callbacks = [];
     dm.bsd = {

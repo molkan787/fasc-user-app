@@ -104,11 +104,11 @@
     share_the_app: 'Share the App',
     app_version: 'App Version',
     please_wait: 'Please wait...',
-
     login: 'Login',
     verify: 'Verify',
     register: 'Register',
-
+    change_city: 'Change city',
+    logout: 'Logout',
     confirm_addr_delete: 'Are you sure you want to delete this address "{%1}" ?',
     invalid_phone_number: 'Please enter valid phone number in this format: 7007007000',
     phone_already_registrated: 'This phone number is already registered, Please login instead.',
@@ -117,9 +117,10 @@
     not_registrated: 'You are not registered yet, Please register first.',
     enter_valid_code: 'Please enter a valid 6 digits code.',
     wrong_auth_code: 'Verification code is incorrect.',
-    login_success: 'You have been successfully logged in!',
+    login_success: 'You have been successfully logged in! The app will reload now.',
     load_addrs_fail: 'We could not load list of your addresses',
-    order_success: 'Your order was successfully placed!'
+    order_success: 'Your order was successfully placed!',
+    confirm_logout: 'Are you sure you want to logout?'
 
 };
 

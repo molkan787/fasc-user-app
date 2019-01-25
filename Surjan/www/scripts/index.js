@@ -23,6 +23,7 @@
 
     window.AppName = "WalkOnRetail";
 
+
     window.onload = function () {
         // App Systems Initialization
 
@@ -34,8 +35,10 @@
         leftmenu_init();
         ui_init();
         applyTextsToElements();
-        document.addEventListener("backbutton", ui_device_backBtn_click, false);
+        dm_load();
         testing_do();
+
+        document.addEventListener("backbutton", ui_device_backBtn_click, false);
     };
 
 

@@ -44,7 +44,7 @@ function mc_not_createNotPanel(not, i) {
     not_con.appendChild(not_br);
     not_con.appendChild(not_lbl);
 
-    not_img.src = "images/gtk_close_g.png";
+    not_img.src = "images/icons/close.png";
     not_img.setAttribute("not_id", i);
     not_img.addEventListener("click", mc_not_del_not);
 

@@ -1,6 +1,9 @@
 ﻿#mc_orders {
     padding: 10px;
     background-color: #f5f5f5;
+    overflow-y: scroll;
+    box-sizing: border-box;
+    padding-bottom: 60px;
 }
 #mc_order {
     overflow-y: scroll;

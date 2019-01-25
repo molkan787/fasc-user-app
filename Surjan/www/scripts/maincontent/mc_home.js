@@ -25,6 +25,7 @@ function mc_home_ui_update() {
 }
 function mc_home_prt_load_categories() {
     var added = false;
+    mc_home_categories.innerHTML = '';
     for (var cat_id in dm_cats) {
         added = true;
         if (!dm_cats.hasOwnProperty(cat_id)) continue;
@@ -69,18 +70,13 @@ function mc_home_slide(cb) {
     var nextSlide = mc_home_banners_con.children[1];
     nextSlide.style.display = 'unset';
     nextSlide.style.left = (100 * cb) + '%';
-    
-    //anime({
-    //    targets: "#mc_home_banners_con > img:nth-child(" + (oi+1) + ")",
-    //    marginLeft: '0',
-    //    duration: 500,
-    //    easing: 'easeOutExpo'
-    //});
+   
     anime(sliding_anim);
 }
 
 function sliding_completed() {
     var prevSlide = mc_home_banners_con.children[0];
+    if (!prevSlide) return;
     prevSlide.style.display = 'none';
     prevSlide.style.opacity = 0;
     moveEltToEnd(prevSlide);
@@ -123,6 +119,11 @@ function mc_banner_reset_timer() {
 }
 
 var first_banner = true;
+function reset_banners() {
+    val("mc_home_banners_con", '');
+    val(mc_home_banners_dots_con, '');
+    first_banner = true;
+}
 function dm_add_banners(banners) {
     var mc_home_banners_con = get("mc_home_banners_con");
     for (var i = 0; i < banners.length; i++) {

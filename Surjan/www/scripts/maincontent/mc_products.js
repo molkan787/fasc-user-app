@@ -18,6 +18,7 @@ var mc_prodp_crt_plus;
 var mc_prodp_crt_ofs;
 
 var mc_prt_current_cat;
+var cprt_images;
 
 var prtsLoadAction;
 var prtLoadAction;
@@ -48,6 +49,9 @@ function mc_products_init() {
     mc_prodp_crt_minus.addEventListener("click", _mc_prt_cart_minus);
 
     mc_products_list.addEventListener("scroll", mc_prts_scroll);
+
+    get('prt_pp_btnl').onclick = prt_slide_image;
+    get('prt_pp_btnr').onclick = prt_slide_image;
 
     get('mc_product_img').onload = revealMe;
 
@@ -123,9 +127,22 @@ function mc_prt_hide_product_page() {
     mc_product.style.display = 'none';
 }
 
-
 // UI part
 // =========================================
+
+var prt_cimg_i = 0;
+function prt_slide_image() {
+    var dir = parseInt(attr(this, 'sdir'));
+    if (cprt_images.length < 2) return;
+    prt_cimg_i += dir;
+    if (prt_cimg_i < 0) prt_cimg_i = cprt_images.length - 1; // Wraping around
+    else if (prt_cimg_i >= cprt_images.length) prt_cimg_i = 0; // Wraping around
+
+    var imgSrc = cprt_images[prt_cimg_i];
+    val('mc_product_img', imgSrc);
+}
+
+// --------------------
 
 function mc_prt_load_sub_cats(cat) {
     mc_prt_hdr_scat.innerHTML = "";
@@ -244,7 +261,7 @@ function mc_prt_ui_createProductPanel(product_data) {
     _atc_ofs.className = "atc_ofs_lbl";
     _atc_ofs.id = "patc_ofs_" + product_data.product_id;
 
-    if (product_data.quantity > 0) _atc_ofs.style.display = "none";
+    if (parseInt(product_data.quantity) > 0) _atc_ofs.style.display = "none";
     else _atc_btn.style.display = "none";
 
     _atc_btn.id = "patc_add_" + product_data.product_id;
@@ -354,7 +371,7 @@ function mc_prt_load_product(pid) {
     mc_prodp_spf.innerText = product.spf;
     mc_prodp_spf_unit.innerText = product.spf_unit;
     mc_prodp_description.innerHTML = '<div style="text-align:center;"><img class="ls_loading_img" src="images/loading.gif" /></div>';
-    log(product);
+    
     if (parseInt(product.quantity) <= 0) {
         mc_prodp_crt_ofs.style.display = 'unset';
         mc_prodp_crt_add.style.display = "none";
@@ -381,6 +398,11 @@ function prtLoadActionCallback(action) {
 }
 
 function set_prt_data(data) {
+    cprt_images = [];
+    cprt_images.push(data.image);
+    for (var i = 0; i < data.images.length; i++) {
+        cprt_images.push(data.images[i].image);
+    }
     anime({
         targets: "#mc_product_img",
         opacity: 0,

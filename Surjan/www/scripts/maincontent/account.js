@@ -88,6 +88,8 @@ function setAccountData(data, addresses) {
     accountData = data;
     if (accountData && accountData.id) {
         client_logged = true;
+    } else {
+        client_logged = false;
     }
     window.localStorage.setItem('account_data', JSON.stringify(data));
 }
@@ -138,8 +140,10 @@ function loginActionCallback(action) {
 function authActionCallback(action) {
     if (action.status == 'OK') {
         setAccountData(action.data.data, action.data.addresses);
-        msg(txt('login_success'), null, 1);
-        ui_navigate('home');
+        msg(txt('login_success'), function () {
+            reAsd();
+        }, 1);
+        
     } else if (action.error_code == 'invalid_code') {
         msg(txt('wrong_auth_code'), null, 1);
     } else {
@@ -152,6 +156,16 @@ function goToAuthPage(data) {
     reg_token = data.token;
     reg_phone = data.telephone;
     ui_navigate('supin_auth');
+}
+
+function confirmLogout() {
+    msg(txt('confirm_logout'), account_logout);
+}
+
+function account_logout() {
+    setAccountData(null, null);
+    dm.setSessionId('');
+    reAsd();
 }
 
 function account_load() {

@@ -10,12 +10,12 @@ function mc_orders_init() {
 }
 
 function listOrdersActionCallback(action) {
+    mc_orders.innerHTML = '';
     if (action.status == 'OK') {
         var orders = action.data.items;
         if (orders.length == 0) {
             setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
         } else {
-            mc_orders.innerHTML = '';
             for (var i = 0; i < orders.length; i++) {
                 var pan = mc_orders_createOrderPanel(orders[i]);
                 mc_orders.appendChild(pan);

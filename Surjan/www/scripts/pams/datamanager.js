@@ -12,7 +12,7 @@ var checkTime = 0;
 var dm_cache = {};
 var storage;
 
-var cav = "1.0.0";
+var forceCitySet = false;
 
 var asdLoadAction;
 var citiesLoadAction;
@@ -25,7 +25,6 @@ function dm_init() {
 
     asdLoadAction = fetchAction.create('asd', asdLoadActionCallback);
     citiesLoadAction = fetchAction.create('asd/sas', citiesLoadActionCallback);
-    dm_load();
     
 }
 
@@ -45,19 +44,26 @@ function asdLoadActionCallback(action) {
         dm.setStoreId(action.data.store_id);
         dm.setSessionId(action.data.session_id);
         dm_cats = action.data.cats;
+        if (action.params && action.params.ssi == 'true') reset_banners();
         dm_add_banners(action.data.banners);
         gls.setData(action.data.gls);
         gls.setContactInfo(action.data.contact_info)
         mc_home_prt_load_categories();
         hide_loadScreen();
+        if (action.data.new_update) {
+            fascUpdate();
+        }
     } else {
         ls_loading_failed();
     }
 }
 
-function dm_load() {
-    if (dm.getStoreId()) {
-        asdLoadAction.do();
+function dm_load(forceCityReload) {
+    if (forceCityReload) forceCitySet = true;
+    if (dm.getStoreId() && !forceCityReload) {
+        if (forceCitySet) asdLoadAction.do({ ls: fasc.lastUpdate, ssi: 'true' });
+        else asdLoadAction.do({ ls: fasc.lastUpdate });
+        forceCitySet = false;
     } else {
         citiesLoadAction.do();
     }

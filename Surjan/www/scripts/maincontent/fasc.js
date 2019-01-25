@@ -3,18 +3,50 @@ function fasc_init() {
     fasc = {
         lang: 1,
         storeId: 0,
+
+        lastUpdate: parseInt(window.localStorage.getItem('lastUpdate') || '0'),
         // Properties
         currencySymbol: '&#8377;',
+
+        updateAction: null,
 
         // Methods
         formatPrice: function (price, without_sign) {
             return parseFloat(price).toFixed(2) + (without_sign ? '' : ' ' + this.currencySymbol);
+        },
+
+        setUpdateTime: function (time) {
+            this.lastUpdate = time;
+            window.localStorage.setItem('lastUpdate', time);
+        },
+
+        setLogo: function (data) {
+            window.localStorage.setItem('logo_data', data);
+        },
+
+        update: function () {
+            log('Fasc: Updating');
+            this.updateAction.do();
         }
     };
+
+    fasc.updateAction = fetchAction.create('asd/getlogo', updateActionCallback);
 
     get('ls_cities').onchange = select_city_changed;
     get('ls_regions').onchange = select_region_changed;
     get('ls_city_btn').onclick = city_btn_click;
+}
+
+function updateActionCallback(action) {
+    if (action.status == 'OK') {
+        fasc.setUpdateTime(action.data.time);
+        fasc.setLogo(action.data.base64);
+        log('Fasc: updated');
+    } else {
+        setTimeout(function () {
+            fasc.update();
+        }, 60000 * 5); // 5 Minutes
+    }
 }
 
 function sasLoaded(data) {
@@ -61,4 +93,15 @@ function city_btn_click() {
         switchElements('ls_select_city', 'ls_loading_img');
         dm_load();
     }
+}
+
+function reset_city_select() {
+    hideElt('ls_city_btn');
+    hideElt('ls_select_region');
+}
+
+function fascUpdate() {
+    setTimeout(function () {
+        fasc.update();
+    }, 6000); // 5 Minutes
 }

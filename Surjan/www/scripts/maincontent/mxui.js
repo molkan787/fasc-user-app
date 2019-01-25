@@ -7,12 +7,24 @@ function mxui_init() {
 }
 
 
+function reSelectCity() {
+    reset_city_select();
+    show_loadScreen();
+    dm_load(true);
+}
+
+function reAsd() {
+    ui_navigate('home');
+    show_loadScreen();
+    dm_load();
+}
+
 // Loading screen
 
 var mxui_loading_failed = false;
 
 function loading_screen_click(e) {
-    if (e && e.srcElement && e.srcElement.tagName == "BUTTON") return;
+    if (e && e.srcElement && attr(e.srcElement, 'cancelclick') == '1') return;
     if (mxui_loading_failed) {
         mxui_loading_failed = false;
         switchElements('ls_fail_msg', 'ls_loading_img');

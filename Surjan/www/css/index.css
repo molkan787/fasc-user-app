@@ -72,11 +72,11 @@ body {
     padding: 5px 10px 5px 50px;
     opacity: 0;
 }
-#hb_search > img{
+#hb_search > img {
     position: absolute;
     left: 5px;
-    top: 5px;
-    height: 40px;
+    top: 9px;
+    height: 32px;
 }
 #hb_search > input {
     left: 50px;
@@ -461,16 +461,16 @@ body {
     border-bottom: 1px solid #bbb;
 }
 .mc_not_row>span{
-    font-size: 20px;
+    font-size: 17px;
     font-weight: bold;
 }
 .mc_not_row > label{
-    font-size: 17px;
+    font-size: 13px;
 }
-.mc_not_row > img{
+.mc_not_row > img {
     float: right;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     margin: -8px;
 }
 #order_chat>iframe{

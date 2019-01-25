@@ -36,12 +36,23 @@
 .mc_prt_hdr_scassc_activecat {
     color: #F36F24;
 }
-.prts_item {
+/*.prts_item { Version 1
     box-sizing: border-box;
     width: 100%;
     height: 30vw;
     padding: 2vw;
     border-bottom: 0.3vw solid #ddd;
+}*/
+.prts_item { /*Version 2*/
+    margin: auto;
+    box-sizing: border-box;
+    width: 98%;
+    height: 30vw;
+    padding: 2vw;
+    margin-top: 4px;
+    box-shadow: 0px 1px 4px #aaa;
+    border-radius: 5px;
+    background-color: white;
 }
 .prts_item > img{
     height: 100%;
@@ -441,7 +452,7 @@
     padding-left: 5vw;
     padding-right: 5vw;
     overflow: scroll;
-    height: calc(90vh - 113vw);
+    /*height: calc(90vh - 113vw);*/
     width: 100%;
     box-sizing: border-box;
 }

@@ -59,26 +59,26 @@
     text-align: center;
     height: 100%;
     overflow-y: scroll;
+    background-color: #f7f7f7;
 }
 .mc_home_categories > div {
     overflow: hidden;
     display: inline-block;
-    width: 33%;
+    width: 32%;
     padding: 5%;
     padding-bottom: 10%;
-    box-sizing: border-box;
-    border-top: 0.6vw solid #fff;
-    border-left: 1vw solid #fff;
-    border-right: 1vw solid #fff;
-    background-color: #ddd;
-    box-sizing: border-box;
-    border-radius: 5px;
+    box-sizing: border-box !important;
+    margin: 2px;
+    background-color: white;
+    border-radius: 3px;
     font-size: 3vw;
     font-weight: bold;
     color: #222;
+    box-shadow: 0px 1px 5px #aaa;
 }
-.mc_home_categories > div > img{
-    width: 70%;
+.mc_home_categories > div > img {
+    width: 15vw;
+    height: 15vw;
 }
 .mc_home_categories > div > div{
     height: 0;
