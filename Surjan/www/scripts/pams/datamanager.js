@@ -39,8 +39,9 @@ function citiesLoadActionCallback(action) {
 
 function asdLoadActionCallback(action) {
     if (action.status == 'OK') {
+        dm.bsd = action.data.bsd;
         dm.city_names = action.data.city_names;
-        setAccountData(action.data.customer);
+        setAccountData(action.data.customer, action.data.addresses);
         dm.setStoreId(action.data.store_id);
         dm.setSessionId(action.data.session_id);
         dm_cats = action.data.cats;

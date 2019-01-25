@@ -78,6 +78,7 @@
     empty_cart_msg: 'Nothing to show here,\n Start by adding some products.',
     confirm_app_exit: 'Do you want to exit the app?',
 
+    order: 'Order',
     contact_us: 'Contact us',
     my_account: 'My account',
     search: 'Search',
@@ -108,6 +109,8 @@
     enter_valid_code: 'Please enter a valid 6 digits code.',
     wrong_auth_code: 'Verification code is incorrect.',
     login_success: 'You have been successfully logged in!',
+    load_addrs_fail: 'We could not load list of your addresses',
+    order_success: 'Your order was successfully placed!'
 
 };
 

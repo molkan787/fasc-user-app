@@ -8,6 +8,8 @@ var mc_cart_checkout;
 
 var lastSavedAmount;
 
+var orderAction;
+
 function mc_cart_init() {
     mc_cart_list = get("mc_cart_list");
     mc_cart_recap = get("mc_cart_recap");
@@ -23,14 +25,22 @@ function mc_cart_init() {
 
     registerPage('cart', get('mc_cart'), 'Cart', mc_cart_load);
     registerPage('checkout', mc_cart_recap, 'Checkout', mc_cart_load_recap);
+
+    orderAction = fetchAction.create('pos/addOrderCS', orderActionCallback);
 } 
 
 function mc_cart_checkout_click() {
     if (this.innerText == txt('next')) {
         ui_navigate("checkout");
     } else {
-        if (mc_total < 299) {
-            alert(txt('min_order_value', 599));
+        var mc_red = mc_redtosuia();
+        if (mc_red) {
+            mc_signinup_rtcaf = true;
+            ui_navigate("sign_upin", mc_red);
+        }
+        var min_total = parseInt(dm.bsd.min_total);
+        if (mc_total < min_total) {
+            alert(txt('min_order_value', min_total));
             return;
         }
         if (!mc_cart_daddr.value) {
@@ -41,13 +51,7 @@ function mc_cart_checkout_click() {
                 alert(txt('select_del_date_hour'));
                 return;
             }
-            var mc_red = mc_redtosuia();
-            if (mc_red) {
-                mc_signinup_rtcaf = true;
-                ui_navigate("sign_upin", mc_red);
-            } else {
-                cart_place_order();
-            }
+            cart_place_order();
         }
     }
 }
@@ -93,7 +97,12 @@ function mc_cart_load_recap() {
     mc_cart_cleanup();
     mc_cart_table_addrow(txt('item'), txt('price'), txt('q'), txt('total'), true);
 
-    var total = dm_del_cost;
+    var del_timing = dm.bsd.timing_from + ' to ' + dm.bsd.timing_to;
+    var mc_cart_dhour_fi = get('mc_cart_dhour_fi');
+    val(mc_cart_dhour_fi, del_timing);
+    mc_cart_dhour_fi.value = del_timing;
+
+    var total = 0;//dm_del_cost;
     var saved = 0;
     var cproducts = mc_cart_get_products()  ;
     for (var i = 0; i < cproducts.length; i++) {
@@ -118,15 +127,15 @@ function mc_cart_load_recap() {
     lastSavedAmount = saved;
 
     mc_cart_table_addrow("", "", "", "", false);
-    //mc_cart_table_addrow("Delivery fees", "", "", dm_del_cost.toFixed(2), false);
     mc_cart_table_addrow(txt('del_fees'), "", "", 0, false);
     mc_cart_table_addrow(txt('total'), "", "", total.toFixed(2), false);
 
-    for (var i = 0; i < user.addresses.length; i++) {
-        var addr = user.addresses[i];
+    for (var i = 0; i < account.addresses.length; i++) {
+        var addr = account.addresses[i];
+        if (addr.city != dm.city_names[1] && addr.city != dm.city_names[2]) continue;
         var option = crt_elt("option");
-        option.innerText = addr.addr;
-        option.setAttribute("name", addr.id);
+        option.innerText = addr.address_1 + (addr.address_2 == '' ? '' : ', ' + addr.address_2) + ', ' + addr.city;
+        option.setAttribute("value", addr.address_id);
         mc_cart_daddr.appendChild(option);
     }
 

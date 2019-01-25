@@ -7,6 +7,11 @@ function dm_init_v2() {
     dm.lang = 2;
     dm.apiToken = 'key';
     dm.callbacks = [];
+    dm.bsd = {
+        timing_from: "",
+        timing_to: "",
+        min_total: ""
+    };
 
     dm.setSessionId = function(session_id) {
         this.sessionId = session_id;

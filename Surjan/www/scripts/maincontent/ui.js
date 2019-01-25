@@ -418,7 +418,7 @@ function gl_msg_show(is_ok_btn) {
     sb_higher.style.display = "block";
     anime({
         targets: "#gl_msg",
-        top: "50%",
+        marginTop: "-25vw",
         opacity: "1",
         duration: 500,
         easing: 'easeOutExpo'
@@ -433,9 +433,8 @@ function gl_msg_show(is_ok_btn) {
 function gl_msg_hide() {
     anime({
         targets: "#gl_msg",
-        top: "30%",
-        opacity: "0",
-        duration: 500,
+        opacity: 0,
+        duration: 450,
         easing: 'easeOutExpo',
         complete: function () {
             gl_msg.style.display = "none";
@@ -494,7 +493,6 @@ function gl_popup_show() {
 function gl_popup_hide() {
     anime({
         targets: "#gl_popup",
-        top: "30%",
         opacity: "0",
         duration: 500,
         easing: 'easeOutExpo',

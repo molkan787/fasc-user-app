@@ -44,51 +44,35 @@ function cart_get_count(pid) {
 }
 
 function cart_place_order() {
+    var addr_id = mc_cart_daddr.value;
+    var addr = user_get_addr(addr_id);
     var udp = {};
-    udp.items = cart_items;
-    udp.client = client_id;
-    udp.usertoken = client_token;
+    var items = {};
+    for (var item in cart_items) {
+        items[item] = cart_items[item].count;
+    }
 
-    udp.addr = get("mc_cart_daddr").value;
-    udp.date = get("mc_cart_ddate").value;
-    udp.hours = get("mc_cart_dhour").value;
+    udp.del_date = get("mc_cart_ddate").value;
+    udp.del_timing = val("mc_cart_dhour_fi");
+    udp.products = JSON.stringify({ items: items });
+    udp.address_1 = addr.address_1;
+    udp.address_2 = addr.address_2;
+    udp.city = addr.city;
     udp.pay_method = "cod";
-    cart_send_por(udp);
+
+    gl_show_wbp();
+    orderAction.do(udp);
 }
 
-function cart_send_por(udp) {
-    gl_show_wbp();
-    httpPostAsync(get_po_api_url(), JSON.stringify(udp), function (response) {
-        //var resp = split(response, /:/g, 2);
-        var resp = response.split(":");
-        if (resp[0] == "OK") {
-            udp.oid = resp[1];
-            udp.total = resp[2];
-            udp.order_time = new Date().getTime();
-            udp.saved = lastSavedAmount;
-            for (var pid in udp.items) {
-                if (udp.items.hasOwnProperty(pid)) {
-                    udp.items[pid].prize = pm_get_product_prize(pid);
-                }
-            }
-            dm_save("order_" + resp[1], JSON.stringify(udp));
-            dm_append("ord_list", resp[1] + ",");
-
-            cart_empty();
-            alert("Your order was successfully placed!");
-            not_push("Order #" + resp[1], "Your order was successfully placed!");
-            gl_hide_wbp();
-            ui_navigate("orders", true);
-        } else if (response == "TO_FAR") {
-            alert("You are to far, We cant delivery to this address.");
-        } else if (response == "OUT_OF_STOCK") {
-            dm_update_rtd();
-            alert("We could not place your order cause one or more of items are out of stock, Review your cart to check what was removed!");
-            ui_navigate("cart");
-        } else {
-            //alert(response);
-            alert("We could not place your order.");
-        }
+function orderActionCallback(action) {
+    if (action.status == 'OK') {
+        cart_empty();
+        msg(txt('order_success'), null, 1);
+        not_push(txt('order') + '#' + action.data.order_id, txt('order_success'));
         gl_hide_wbp();
-    });
+        ui_navigate("orders", true);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
 }

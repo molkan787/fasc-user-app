@@ -3,35 +3,31 @@ function user_init() {
     user = {};
     var raw_addresses = storage.getItem("addresses");
     if (raw_addresses) {
-        user.addresses = JSON.parse(raw_addresses);
+        account.addresses = JSON.parse(raw_addresses);
     } else {
-        user.addresses = [];
+        account.addresses = [];
     }
 }
 
 function user_get_addr(addr_id) {
-    for (var i = 0; i < user.addresses.length; i++) {
-        var addr = user.addresses[i];
-        if (addr.id == addr_id) {
+    for (var i = 0; i < account.addresses.length; i++) {
+        var addr = account.addresses[i];
+        if (addr.address_id == addr_id) {
             return addr;
         }
     }
 }
 
 function user_del_addr(addr_id) {
-    for (var i = 0; i < user.addresses.length; i++) {
-        if (user.addresses[i].id == addr_id) {
-            user.addresses.splice(i, 1);
+    for (var i = 0; i < account.addresses.length; i++) {
+        if (account.addresses[i].id == addr_id) {
+            account.addresses.splice(i, 1);
             save_addresses();
         }
     }
 }
 
 function user_add_addr(addr) {
-    var addr = {
-        id: genId(8),
-        addr: addr
-    };
     user.addresses.push(addr);
     save_addresses();
     return addr;

@@ -15,6 +15,9 @@ var addr_a2;
 var addr_city;
 var addr_pin;
 var mc_addr_btn;
+var account = {
+    addresses: []
+};
 
 var new_phonenum;
 var client_logged = false;
@@ -22,6 +25,9 @@ var client_logged = false;
 var registerAction;
 var loginAction;
 var authAction;
+
+var addAddrAction;
+var delAddrAction;
 
 var accountData;
 
@@ -72,14 +78,37 @@ function account_init() {
     registerAction = fetchAction.create('csc/register', registerActionCallback);
     loginAction = fetchAction.create('csc/login', loginActionCallback);
     authAction = fetchAction.create('csc/verify', authActionCallback);
+
+    addAddrAction = fetchAction.create('address/add', addAddrActionCallback);
+    delAddrAction = fetchAction.create('address/delete', delAddrActionCallback);
 }
 
-function setAccountData(data) {
+function setAccountData(data, addresses) {
+    account.addresses = addresses;
     accountData = data;
     if (accountData && accountData.id) {
         client_logged = true;
     }
     window.localStorage.setItem('account_data', JSON.stringify(data));
+}
+
+function addAddrActionCallback(action) {
+    if (action.status == 'OK') {
+        ui_goback();
+        account_addNewAddr(action.data);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
+}
+
+function delAddrActionCallback(action) {
+    if (action.status == 'OK') {
+        account_delete_addr(action.params.addr_id);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
 }
 
 var reg_token;
@@ -108,7 +137,7 @@ function loginActionCallback(action) {
 
 function authActionCallback(action) {
     if (action.status == 'OK') {
-        setAccountData(action.data.data);
+        setAccountData(action.data.data, action.data.addresses);
         msg(txt('login_success'), null, 1);
         ui_navigate('home');
     } else if (action.error_code == 'invalid_code') {
@@ -133,9 +162,9 @@ function account_load() {
 
 function account_load_addresses() {
     var mc_account_addresses = get("mc_account_addresses");
-    setDimmer(mc_account_addresses, true, true);
-    for (var i = 0; i < user.addresses.length; i++) {
-        var addr = user.addresses[i];
+    mc_account_addresses.innerHTML = '';
+    for (var i = 0; i < account.addresses.length; i++) {
+        var addr = account.addresses[i];
         mc_account_addresses.appendChild(account_createAddrPanel(addr));
     }
 }
@@ -143,9 +172,12 @@ function account_load_addresses() {
 function account_addrs_del_click() {
     var addr_id = this.getAttribute("addr_id");
     var addr = user_get_addr(addr_id);
-    
-    msg(txt('confirm_addr_delete', addr.addr), function () {
-        account_delete_addr(addr_id);
+    var addr_txt = addr.address_1 + ', ' + addr.address_2 + ' ' + addr.city;
+    msg(txt('confirm_addr_delete', addr_txt), function () {
+        setTimeout(function () {
+            gl_show_wbp();
+            delAddrAction.do({ addr_id: addr_id });
+        }, 500);
     });
 }
 
@@ -253,14 +285,20 @@ function mc_addr_btn_click() {
     var aadr_a2 = addr_a2.value;
     var aadr_city = addr_city.value;
     var aadr_pin = addr_pin.value;
-    if (aadr_a1.length < 3 || aadr_pin.length < 3) {
+    if (aadr_a1.length < 3) {
         alert("Please enter valid address.");
         return;
     }
-    var addr = aadr_a1 + ", " + aadr_a2 + " " + aadr_pin + " - " + aadr_city;
+    var data = {
+        address_1: aadr_a1,
+        address_2: aadr_a2,
+        city: aadr_city,
+        postcode: aadr_pin
+    };
 
-    account_addNewAddr(addr);
-    ui_goback();
+    gl_show_wbp();
+    addAddrAction.do(data);
+    
 }
 
 // UI
@@ -270,11 +308,13 @@ function account_createAddrPanel(addr) {
     var text = crt_elt("span");
     var img = crt_elt("img");
 
-    con.setAttribute("id", "acc_addr_" + addr.id);
+    con.setAttribute("id", "acc_addr_" + addr.address_id);
 
-    text.innerText = addr.addr;
+    addr_html = addr.address_1 + ', ' + addr.address_2 + '<br />';
+    addr_html += addr.city;
+    text.innerHTML = addr_html;
     img.src = "images/gtk_close.png";
-    img.setAttribute("addr_id", addr.id);
+    img.setAttribute("addr_id", addr.address_id);
     img.addEventListener("click", account_addrs_del_click);
 
     con.appendChild(text);
