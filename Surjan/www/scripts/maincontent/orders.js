@@ -1,137 +1,85 @@
 ﻿var mc_orders;
 var inv_elt;
+
+var listOrdersAction;
 function mc_orders_init() {
     mc_orders = get("mc_orders");
     inv_elt = get("invoice");
+
+    listOrdersAction = fetchAction.create('orderadm/listCS', listOrdersActionCallback);
 }
 
-function mc_orders_load(openfirst) {
-    mc_orders.innerHTML = "";
-    var orders = '';
-    var alado = false;
-    if (orders) {
-        orders = orders.split(",");
-        for (var i = orders.length-1; i >= 0; i--) {
-            var order = dm_crt_elt("order_" + orders[i]);
-            if (!order) continue;
-            alado = true;
-            var pan = mc_orders_createOrderPanel(order);
-            mc_orders.appendChild(pan);
+function listOrdersActionCallback(action) {
+    if (action.status == 'OK') {
+        var orders = action.data.items;
+        if (orders.length == 0) {
+            setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
+        } else {
+            mc_orders.innerHTML = '';
+            for (var i = 0; i < orders.length; i++) {
+                var pan = mc_orders_createOrderPanel(orders[i]);
+                mc_orders.appendChild(pan);
+            }
         }
-    }
-    if (!alado) setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
-    else if (openfirst) mc_orders.children[0].click();
-}
 
-function mc_orders_createOrderPanel(raw_order) {
-    var order = JSON.parse(raw_order);
-    var is_canceled = order.is_canceled;
-    var can_cancel = order.order_time + 7100000 > new Date().getTime();
-
-    var _con = crt_elt("div");
-    var _img = crt_elt("img");
-    var _h1 = crt_elt("h1");
-    var _span1 = crt_elt("span");
-    var _span2 = crt_elt("span");
-
-    var _btn_dwinv = crt_elt("button");
-    var _btn_cancel = crt_elt("button");
-
-    var _table_holder = crt_elt("div");
-    var _table = crt_elt("table");
-
-    _btn_dwinv.innerText = "Download invoice";
-    _btn_cancel.innerText = "Cancel order";
-
-    _btn_dwinv.addEventListener("click", mc_ord_download_invoice);
-    _btn_cancel.addEventListener("click", mc_ord_cancel_order);
-
-    _btn_dwinv.className = "mord_pan_btn";
-    _btn_cancel.className = "mord_pan_btn";
-
-    if (!can_cancel) _btn_dwinv.style.width = "100%";
-
-    _btn_dwinv.setAttribute("oid", order.oid);
-    _btn_cancel.setAttribute("oid", order.oid);
-
-    _btn_dwinv.id = "ord_db_" + order.oid;
-    _btn_cancel.id = "ord_cb_" + order.oid;
-
-    _h1.innerText = "Order #" + order.oid;
-    if (is_canceled) _h1.innerHTML = ' <span style="color: red;font-weight: normal;">' + _h1.innerText + ' Canceled</span>';
-    _span1.innerHTML = "Total: <span class='mord_pan_hgtd'>" + parseFloat(order.total).toFixed(2) + "&#x20b9;</span>";
-    _span2.innerText = "Delivery date: " + order.date;
-    _img.src = "images/down_arrow.png";
-    _img.id = "ord_tgli_" + order.oid;
-
-    _table_holder.id = "ord_th_" + order.oid;
-    _table_holder.setAttribute("oid", order.oid);
-    _con.setAttribute("oid", order.oid);
-    _con.id = "ordp_" + order.oid;
-    _con.addEventListener("click", mc_orders_ord_th_click);
-
-    _con.className = "mord_pan";
-    _con.appendChild(_img);
-    _con.appendChild(_h1);
-    _con.appendChild(_span1);
-    _con.appendChild(crt_elt("br"));
-    _con.appendChild(_span2);
-    _con.appendChild(_table_holder);
-    _table_holder.appendChild(_table);
-    if (!is_canceled) _table_holder.appendChild(_btn_dwinv);
-    if (can_cancel && !is_canceled) _table_holder.appendChild(_btn_cancel);
-
-    _table.appendChild(mc_ord_createTableRow("Item", "Q", "Prize", true));
-
-    for (var key in order.items) {
-        if (order.items.hasOwnProperty(key)) {
-            var prt = pm_get_product(key);
-            if (!prt) continue;
-            _table.appendChild(mc_ord_createTableRow(prt.display_name, order.items[key].count, order.items[key].prize || "-"));
-        }
-    }
-    
-
-    return _con;
-}
-
-function mc_orders_cancelOrderPanel(oid) {
-    var pan = get("ordp_" + oid);
-    var h1 = pan.getElementsByTagName("h1")[0];
-    h1.innerHTML = ' <span style="color: red;font-weight: normal;">' + h1.innerText + ' Canceled</span>';
-    var btns = pan.getElementsByTagName("button");
-    for (var i = 0; i < btns.length; i++){
-        btns[i].style.display = "none"; 
-    }
-    var ord_data = dm_crt_elt("order_" + oid);
-    if (ord_data) ord_data = JSON.parse(ord_data);
-    if (ord_data) {
-        ord_data.is_canceled = true;
-        dm_save("order_" + oid, JSON.stringify(ord_data));
-    }
-}
-
-var ord_lastTh;
-function mc_orders_ord_th_click(e) {
-    if (e.srcElement.tagName == "BUTTON") return;
-    var oid = this.getAttribute("oid");
-    var ord_th = get("ord_th_" + oid);
-    if (ord_lastTh == ord_th) {
-        if (ord_th.style.height == "inherit") mc_ord_setStat(oid, false);
-        else mc_ord_setStat(oid, true);
     } else {
-        if (ord_lastTh) mc_ord_setStat(ord_lastTh.getAttribute("oid"), false);
-        mc_ord_setStat(oid, true);
+        setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
     }
-    ord_lastTh = ord_th;
 }
 
-function mc_ord_setStat(oid, stat) {
-    var ord_th = get("ord_th_" + oid);
-    var ord_ti = get("ord_tgli_" + oid);
-    if (!ord_th) return;
-    ord_th.style.height = stat ? "inherit" : "0";
-    ord_ti.src = stat ? "images/up_arrow.png" : "images/down_arrow.png";
+function mc_orders_load() {
+    setDimmer(mc_orders, true);
+    listOrdersAction.do();
+}
+
+function mc_orders_createOrderPanel(data) {
+    var div = crt_elt('div');
+    var h4 = crt_elt('h4', div);
+    var t_h4 = crt_elt('h4', div);
+    var s_h4 = crt_elt('h4', div);
+    var s_img = crt_elt('img', s_h4);
+
+    div.className = 'order_item';
+    val(h4, txt('order_date') + ': ' + data.date_added);
+    var od_span = crt_elt('span', h4);
+    val(od_span, txt('order') + ' #' + data.order_id);
+    s_img.src = getOrderStatusIcon(data.order_status_id);
+    s_h4.append(txt('status_' + data.order_status_id));
+    s_h4.style.color = getOrderStatusColor(data.order_status_id);
+    val(t_h4, txt('order_total') + ': ' + fasc.formatPrice(data.total));
+
+    attr(div, 'order_id', data.order_id);
+    div.onclick = orderPanelClick;
+
+    return div;
+}
+
+function getOrderStatusIcon(status_id) {
+    if (status_id == 1) {
+        return 'images/icons/clock.png';
+    } else if (status_id == 5) {
+        return 'images/icons/checked.png';
+    } else if (status_id == 7) {
+        return 'images/icons/close_red.png';
+    }else{
+        return '';
+    }
+}
+
+function getOrderStatusColor(status_id) {
+    if (status_id == 1) {
+        return '#F36F24';
+    } else if (status_id == 5) {
+        return '#49B747';
+    } else if (status_id == 7) {
+        return '#F44336';
+    } else {
+        return '';
+    }
+}
+
+function orderPanelClick() {
+    ui_navigate('order', attr(this, 'order_id'));
 }
 
 function mc_ord_createTableRow(td1, td2, td3, isheader) {

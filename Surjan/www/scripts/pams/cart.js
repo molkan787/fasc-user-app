@@ -70,7 +70,7 @@ function orderActionCallback(action) {
         msg(txt('order_success'), null, 1);
         not_push(txt('order') + '#' + action.data.order_id, txt('order_success'));
         gl_hide_wbp();
-        ui_navigate("orders", true);
+        ui_navigate("order", action.data.order_id);
     } else {
         msg(txt('error_msg'), null, 1);
     }

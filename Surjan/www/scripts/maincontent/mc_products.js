@@ -354,8 +354,8 @@ function mc_prt_load_product(pid) {
     mc_prodp_spf.innerText = product.spf;
     mc_prodp_spf_unit.innerText = product.spf_unit;
     mc_prodp_description.innerHTML = '<div style="text-align:center;"><img class="ls_loading_img" src="images/loading.gif" /></div>';
-
-    if (product.quantity == 0) {
+    log(product);
+    if (parseInt(product.quantity) <= 0) {
         mc_prodp_crt_ofs.style.display = 'unset';
         mc_prodp_crt_add.style.display = "none";
         mc_prodp_crt_con.style.display = "none";

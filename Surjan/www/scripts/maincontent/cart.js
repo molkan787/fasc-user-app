@@ -48,7 +48,7 @@ function mc_cart_checkout_click() {
             return;
         } else {
             if (!mc_cart_ddate.value || !mc_cart_dhour.value) {
-                alert(txt('select_del_date_hour'));
+                msg(txt('select_del_date_hour'), null, 1);
                 return;
             }
             cart_place_order();
@@ -144,8 +144,9 @@ function mc_cart_load_recap() {
 
 }
 
-function mc_cart_table_addrow(t1, t2, t3, t4, isfirst) {
-    var tr = mc_cart_invoice_table.insertRow(mc_cart_invoice_table.rows.length);
+function mc_cart_table_addrow(t1, t2, t3, t4, isfirst, parent) {
+    var elt = parent ? parent : mc_cart_invoice_table;
+    var tr = elt.insertRow(elt.rows.length);
     var td1 = crt_elt("td");
     var td2 = crt_elt("td");
     var td3 = crt_elt("td");

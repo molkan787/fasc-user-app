@@ -36,6 +36,7 @@ var pages = {};
 
 function ui_init() {
     fasc_init();
+    mc_order_init();
     sb_higher2 = get('sb_higher2');
     order_chat = get("order_chat");
     order_phone = get("order_phone");
@@ -132,8 +133,11 @@ function ui_navigate(pagename, param, isback) {
     ui_previous_panel = ui_current_panel;
     ui_current_panel = nelt;
 
-    
-    ui_update_pan_content(pagename, param);
+    if (pagename == 'orders' && isback) {
+        
+    } else {
+        ui_update_pan_content(pagename, param);
+    }
 
     if (isback) {
         ui_open_page(ANIM_HIDE_PREVIUS);
@@ -154,7 +158,7 @@ function ui_navigate(pagename, param, isback) {
     
 }
 
-function ui_goback() {
+function ui_goback(forceUpdate) {
     if (ui_animating_page) return;
     if (ui_currentPopup) {
         if (ui_currentPopup.hider) ui_currentPopup.hider();
@@ -167,7 +171,7 @@ function ui_goback() {
     }
     var prev = ui_previous_pns.pop();
     if (prev) {
-        ui_navigate(prev.pname, prev.param, true);
+        ui_navigate(prev.pname, prev.param, forceUpdate ? false : true);
     } else {
         if (ui_current_panel.id == "mc_home") {
             msg(txt('confirm_app_exit'), function () {

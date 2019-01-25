@@ -13,6 +13,7 @@
     <link rel="stylesheet" type="text/css" href="css/cart.css">
     <link rel="stylesheet" type="text/css" href="css/account.css">
     <link rel="stylesheet" type="text/css" href="css/search.css">
+    <link rel="stylesheet" type="text/css" href="css/orders.css">
     <title>WalkOnRetail</title>
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
@@ -40,6 +41,7 @@
     <script type="text/javascript" src="scripts/maincontent/mc_notification.js"></script>
     <script type="text/javascript" src="scripts/maincontent/banners.js"></script>
     <script type="text/javascript" src="scripts/maincontent/orders.js"></script>
+    <script type="text/javascript" src="scripts/maincontent/order.js"></script>
     <script type="text/javascript" src="scripts/maincontent/mxui.js"></script>
 
     <script type="text/javascript" src="scripts/pams/txt.js"></script>
@@ -237,7 +239,7 @@
                             <col width="20%" />
                         </colgroup>
                         <tr class="mc_cart_invoice_tfr">
-                            <th txt="item">&nbsp;&nbsp;Item</th>
+                            <th txt="item"></th>
                             <th txt="price"></th>
                             <th txt="q"></th>
                             <th txt="total"></th>
@@ -342,6 +344,37 @@
 
         </div>
 
+        <div id="mc_order">
+            <div id="ord_data_con" class="order_item mc_order_adj" order_id="46">
+                <h4>
+                    <label id="ord_order_date"></label>
+                    <span id="ord_order_id"></span>
+                </h4>
+                <h4 id="ord_total"></h4>
+                <h4 id="ord_status_con" style="color: rgb(243, 111, 36);">
+                    <img id="ord_status_icon" src="images/icons/clock.png">
+                    <label id="ord_status_text"></label>
+                </h4>
+                <div class="ord_hr"></div>
+                <h4 id="ord_del_date"></h4>
+                <h4 id="ord_del_timing"></h4>
+                <h4 id="ord_del_addr"></h4>
+                <div class="ord_hr"></div>
+                <h4 txt="order_items"></h4>
+                <div class="mc_cart_invoice">
+                    <table id="ord_items" border=1 frame=void rules=rows>
+                        <colgroup>
+                            <col width="50%" />
+                            <col width="20%" />
+                            <col width="10%" />
+                            <col width="20%" />
+                        </colgroup>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
         <div id="mc_notification">
 
         </div>
@@ -409,7 +442,7 @@
                     <span id="mc_prodp_crt_count">1</span>
                     <button id="mc_prodp_crt_plus">+</button>
                 </div>
-                <label id="mc_prodp_crt_ofs" class="atc_ofs_lbl" txt="out_of_stock"></label>
+                <label id="mc_prodp_crt_ofs" class="atc_ofs_lbl" txt="out_of_stock" style="font-size: 4vw;"></label>
             </div>
         </div>
 

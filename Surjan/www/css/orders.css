@@ -1,0 +1,45 @@
+﻿#mc_orders {
+    padding: 10px;
+    background-color: #f5f5f5;
+}
+#mc_order {
+    overflow-y: scroll;
+}
+
+.order_item {
+    box-sizing: border-box;
+    width: 100%;
+    height: 88px;
+    padding: 10px;
+    margin-bottom: 4px;
+    border-radius: 5px;
+    background-color: white;
+    color: #444;
+    box-shadow: 0 1px 4px #aaa;
+}
+.order_item > h4{
+    margin: 0 0 10px 0;
+}
+.order_item > h4 > span{
+    display: inline-block;
+    float: right;
+}
+.order_item > h4 > img {
+    height: 16px;
+    float: left;
+    margin-right: 5px;
+}
+
+.mc_order_adj {
+    height: unset !important;
+    font-size: 13px !important;
+    padding-top: 15px !important;
+    box-shadow: none !important;
+}
+
+.ord_hr {
+    width: 100%;
+    height: 1px;
+    background-color: #bbb;
+    margin-bottom: 10px;
+}
