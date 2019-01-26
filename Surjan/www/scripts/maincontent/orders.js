@@ -38,13 +38,14 @@ function mc_orders_createOrderPanel(data) {
     var t_h4 = crt_elt('h4', div);
     var s_h4 = crt_elt('h4', div);
     var s_img = crt_elt('img', s_h4);
+    var s_label = crt_elt('label', s_h4);
 
     div.className = 'order_item';
     val(h4, txt('order_date') + ': ' + data.date_added);
     var od_span = crt_elt('span', h4);
     val(od_span, txt('order') + ' #' + data.order_id);
     s_img.src = getOrderStatusIcon(data.order_status_id);
-    s_h4.append(txt('status_' + data.order_status_id));
+    val(s_label, txt('status_' + data.order_status_id));
     s_h4.style.color = getOrderStatusColor(data.order_status_id);
     val(t_h4, txt('order_total') + ': ' + fasc.formatPrice(data.total));
 

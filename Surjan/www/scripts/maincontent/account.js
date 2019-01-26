@@ -143,6 +143,7 @@ function authActionCallback(action) {
         setAccountData(action.data.data, action.data.addresses);
         msg(txt('login_success'), function () {
             reAsd();
+            ui_navigate('home');
         }, 1);
         
     } else if (action.error_code == 'invalid_code') {
@@ -193,7 +194,7 @@ function account_addrs_del_click() {
             gl_show_wbp();
             delAddrAction.do({ addr_id: addr_id });
         }, 500);
-    });
+    }, function () { });
 }
 
 function account_delete_addr(addr_id) {
