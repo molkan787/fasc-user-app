@@ -14,7 +14,7 @@ function reSelectCity() {
 }
 
 function reAsd() {
-    ui_navigate('home');
+    //setTimeout(function () { ui_navigate('home'); }, 300);
     show_loadScreen();
     dm_load();
 }

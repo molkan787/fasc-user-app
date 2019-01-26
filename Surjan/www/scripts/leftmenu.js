@@ -131,3 +131,8 @@ function hb_mmb_click() {
     if (mbbm == "menu") lm_show();
     else ui_goback();
 }
+
+
+function lm_setLogoutOption(isLogged) {
+    get('lm_logout_item').style.display = isLogged ? 'block' : 'none';
+}

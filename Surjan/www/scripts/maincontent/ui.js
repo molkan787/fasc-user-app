@@ -85,6 +85,9 @@ function ui_init() {
     updateUiSizes();
     window.onresize = updateUiSizes;
 
+    var order_phone = window.localStorage.getItem('order_phone') || '';
+    attr('ls_fm_order_phone', 'href', 'tel:' + order_phone);
+
     ui_set_logo();
 }
 

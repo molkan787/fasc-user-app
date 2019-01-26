@@ -120,6 +120,7 @@ function mc_banner_reset_timer() {
 
 var first_banner = true;
 function reset_banners() {
+    mc_banner_reset_timer();
     val("mc_home_banners_con", '');
     val(mc_home_banners_dots_con, '');
     first_banner = true;

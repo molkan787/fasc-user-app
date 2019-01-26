@@ -13,6 +13,7 @@ var gls = {
         this.contactPhone = data.phone;
         this.contactEmail = data.email;
         this.orderPhone = data.order_phone;
+        window.localStorage.setItem('order_phone', this.orderPhone);
     },
 
     setData: function (data) {

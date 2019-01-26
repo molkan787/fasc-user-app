@@ -44,7 +44,7 @@ function asdLoadActionCallback(action) {
         dm.setStoreId(action.data.store_id);
         dm.setSessionId(action.data.session_id);
         dm_cats = action.data.cats;
-        if (action.params && action.params.ssi == 'true') reset_banners();
+        reset_banners();
         dm_add_banners(action.data.banners);
         gls.setData(action.data.gls);
         gls.setContactInfo(action.data.contact_info)

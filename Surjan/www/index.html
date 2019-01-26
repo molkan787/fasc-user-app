@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/orders.css">
     <title>WalkOnRetail</title>
 
-    <script type="text/javascript" src="cordova.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="anime.min.js"></script>
     <script type="text/javascript" src="quo.js"></script>
@@ -127,7 +127,7 @@
             <div class="lm_nav_item" name="share"><img src="images/icons/share.png" /><span txt="share_the_app"></span></div>
             <div class="lm_nav_sep"></div>
             <div class="lm_nav_item" name="change_city"><img src="images/icons/location.png" /><span txt="change_city"></span></div>
-            <div class="lm_nav_item" name="logout"><img src="images/icons/exit.png" style="height: 20px;padding: 3px;" /><span txt="logout"></span></div>
+            <div class="lm_nav_item" name="logout" id="lm_logout_item" style="display: none"><img src="images/icons/exit.png" style="height: 20px;padding: 3px;" /><span txt="logout"></span></div>
             <div class="lm_ver_txt"><span txt="app_version"></span>: 0.9.2</div>
         </div>
     </div>
@@ -482,7 +482,7 @@
         <div id="ls_fail_msg" style="display: none; opacity: 0">
             <span txt="could_not_connect_error"></span>
             <br>
-            <a href="tel:8566856611" cancelclick="1">
+            <a id="ls_fm_order_phone" href="" cancelclick="1">
                 <button cancelclick="1">
                     <img src="images/icons/phone.png" cancelclick="1"/>
                     <span txt="order_on_phone" cancelclick="1"></span>

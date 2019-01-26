@@ -91,6 +91,7 @@ function setAccountData(data, addresses) {
     } else {
         client_logged = false;
     }
+    lm_setLogoutOption(client_logged);
     window.localStorage.setItem('account_data', JSON.stringify(data));
 }
 
