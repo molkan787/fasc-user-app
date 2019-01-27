@@ -5,6 +5,7 @@ var mc_total;
 
 var mc_cart_conshop;
 var mc_cart_checkout;
+var mc_cart_dhour;
 
 var lastSavedAmount;
 
@@ -16,12 +17,14 @@ function mc_cart_init() {
     mc_cart_invoice_table = get("mc_cart_invoice_table");
     mc_cart_conshop = get("mc_cart_conshop");
     mc_cart_checkout = get("mc_cart_checkout");
+    mc_cart_dhour = get('mc_cart_dhour');
 
     mc_cart_checkout.addEventListener("click", mc_cart_checkout_click);
     mc_cart_conshop.addEventListener("click", mc_cart_conshop_click);
     get("mc_cart_add_addr").onclick = function () { ui_navigate("add_addr") };
     get('mc_checkout_back').onclick = ui_goback;
     get('mc_checkout_checkout').onclick = mc_cart_checkout_click;
+    mc_cart_dhour.onchange = del_timing_changed;
 
     registerPage('cart', get('mc_cart'), 'Cart', mc_cart_load);
     registerPage('checkout', mc_cart_recap, 'Checkout', mc_cart_load_recap);
@@ -56,7 +59,8 @@ function mc_cart_checkout_click() {
     }
 }
 function mc_cart_conshop_click() {
-    ui_goback();
+    //ui_goback();
+    ui_navigate('home');
 }
 
 function mc_cart_load() {
@@ -93,17 +97,29 @@ function mc_cart_isOnCart(pid) {
     return (cart_items[pid]);
 }
 
+var mc_ctrow_fees;
+var mc_ctrow_total;
 function mc_cart_load_recap() {
     mc_cart_cleanup();
-    mc_cart_table_addrow(txt('item'), txt('price'), txt('q'), txt('total'), true);
 
     var del_timing = dm.bsd.timing_from + ' to ' + dm.bsd.timing_to;
+    var fast_del = txt('fast_del_phrase', dm.bsd.timing_slot);
     var mc_cart_dhour_fi = get('mc_cart_dhour_fi');
-    val(mc_cart_dhour_fi, del_timing);
+    var mc_cart_dhour_si = get('mc_cart_dhour_si');
+    val(mc_cart_dhour_fi, del_timing + ' -- ' + txt('free'));
     mc_cart_dhour_fi.value = del_timing;
+    val(mc_cart_dhour_si, fast_del + ' -- ' + fasc.formatPrice(dm.bsd.fast_del_cost));
+    mc_cart_dhour_si.value = fast_del;
+
+    mc_cart_dhour.selectedIndex = 0;
+
+    mc_cart_ddate.setAttribute("min", getDateStr());
+    mc_cart_ddate.setAttribute("value", getDateStr());
+
+
+    mc_cart_table_addrow(txt('item'), txt('price'), txt('q'), txt('total'), true);
 
     var total = 0;//dm_del_cost;
-    var saved = 0;
     var cproducts = mc_cart_get_products()  ;
     for (var i = 0; i < cproducts.length; i++) {
         var cprt = cproducts[i];
@@ -115,20 +131,16 @@ function mc_cart_load_recap() {
             aprize = iscd ? aprize - discount : (aprize * (100 - discount) / 100);
         }
         var ltotal = aprize * count;
-        var lsaved = (parseFloat(cprt.price) - aprize) * count;
 
         mc_cart_table_addrow(cprt.title, aprize.toFixed(2), count, ltotal.toFixed(2), false);
 
         total += ltotal;
-        saved += lsaved;
     }
     mc_total = total;
 
-    lastSavedAmount = saved;
-
     mc_cart_table_addrow("", "", "", "", false);
-    mc_cart_table_addrow(txt('del_fees'), "", "", 0, false);
-    mc_cart_table_addrow(txt('total'), "", "", total.toFixed(2), false);
+    mc_ctrow_fees = mc_cart_table_addrow(txt('del_fees'), "", "", '0.00', false);
+    mc_ctrow_total = mc_cart_table_addrow(txt('total'), "", "", total.toFixed(2), false);
 
     for (var i = 0; i < account.addresses.length; i++) {
         var addr = account.addresses[i];
@@ -138,9 +150,6 @@ function mc_cart_load_recap() {
         option.setAttribute("value", addr.address_id);
         mc_cart_daddr.appendChild(option);
     }
-
-    
-    mc_cart_ddate.setAttribute("min", getDateStr());
 
 }
 
@@ -160,6 +169,7 @@ function mc_cart_table_addrow(t1, t2, t3, t4, isfirst, parent) {
     tr.appendChild(td2);
     tr.appendChild(td3);
     tr.appendChild(td4);
+    return td4;
 }
 
 function mc_cart_cleanup() {
@@ -168,5 +178,16 @@ function mc_cart_cleanup() {
     }
     while (mc_cart_daddr.children.length) {
         mc_cart_daddr.removeChild(mc_cart_daddr.children[0]);
+    }
+}
+
+function del_timing_changed() {
+    var del_fee = parseInt(dm.bsd.fast_del_cost);
+    if (mc_cart_dhour.selectedIndex == 1) {
+        val(mc_ctrow_fees, fasc.formatPrice(del_fee, true));
+        val(mc_ctrow_total, fasc.formatPrice(mc_total + del_fee, true));
+    } else {
+        val(mc_ctrow_fees, '0.00');
+        val(mc_ctrow_total, fasc.formatPrice(mc_total, true));
     }
 }

@@ -1,8 +1,13 @@
 ﻿function testing_do() {
     setTimeout(function () {
         //lm_show();
-        //ui_navigate("orders");
-    }, 100);
+        ui_navigate("products", 66);
+        setTimeout(function () {
+            //lm_show();
+            cart_set_count(61, 3);
+            ui_navigate("checkout");
+        }, 500);
+    }, 700);
 
     //cart_set_count(25, 3);
     //ui_navigate("checkout", "kirana_goods");

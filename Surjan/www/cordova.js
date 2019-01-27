@@ -937,7 +937,7 @@ function androidExec(success, fail, service, action, args) {
         cordova.callbacks[callbackId] = {success:success, fail:fail};
     }
 
-    var msgs = nativeApiProvider.crt_elt().exec(bridgeSecret, service, action, callbackId, argsJson);
+    var msgs = nativeApiProvider.get().exec(bridgeSecret, service, action, callbackId, argsJson);
     // If argsJson was received by Java as null, try again with the PROMPT bridge mode.
     // This happens in rare circumstances, such as when certain Unicode characters are passed over the bridge on a Galaxy S2.  See CB-2666.
     if (jsToNativeBridgeMode == jsToNativeModes.JS_OBJECT && msgs === "@Null arguments.") {
@@ -966,7 +966,7 @@ function pollOnce(opt_fromOnlineEvent) {
         // We know there's nothing to retrieve, so no need to poll.
         return;
     }
-    var msgs = nativeApiProvider.crt_elt().retrieveJsMessages(bridgeSecret, !!opt_fromOnlineEvent);
+    var msgs = nativeApiProvider.get().retrieveJsMessages(bridgeSecret, !!opt_fromOnlineEvent);
     if (msgs) {
         messagesFromNative.push(msgs);
         // Process sync since we know we're already top-of-stack.
@@ -1022,7 +1022,7 @@ androidExec.setNativeToJsBridgeMode = function(mode) {
     // Tell the native side to switch modes.
     // Otherwise, it will be set by androidExec.init()
     if (bridgeSecret >= 0) {
-        nativeApiProvider.crt_elt().setNativeToJsBridgeMode(bridgeSecret, mode);
+        nativeApiProvider.get().setNativeToJsBridgeMode(bridgeSecret, mode);
     }
 
     if (mode == nativeToJsModes.POLLING) {
@@ -1823,7 +1823,7 @@ var urlutil = require('cordova/urlutil');
 // Helper function to inject a <script> tag.
 // Exported for testing.
 exports.injectScript = function(url, onload, onerror) {
-    var script = crt_elt("script");
+    var script = document.createElement("script");
     // onload fires even when script fails loads with an error.
     script.onload = onload;
     // onerror fires for malformed URLs.
@@ -1983,7 +1983,7 @@ define("cordova/urlutil", function(require, exports, module) {
  * For relative URLs, converts them to absolute ones.
  */
 exports.makeAbsolute = function makeAbsolute(url) {
-    var anchorEl = crt_elt('a');
+    var anchorEl = document.createElement('a');
     anchorEl.href = url;
     return anchorEl.href;
 };

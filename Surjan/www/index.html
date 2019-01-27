@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/orders.css">
     <title>WalkOnRetail</title>
 
-    <script type="text/javascript" src="cordova.js"></script>
+    <!--<script type="text/javascript" src="cordova.js"></script>-->
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="anime.min.js"></script>
     <script type="text/javascript" src="quo.js"></script>
@@ -207,7 +207,7 @@
             </div>
 
             <div class="mc_cart_bfcs">
-                <button class="first" id="mc_cart_conshop" txt="back"></button>
+                <button class="first" id="mc_cart_conshop" txt="continue_shopping"></button>
                 <button class="second" id="mc_cart_checkout" disabled="disabled" txt="next"></button>
             </div>
         </div>
@@ -218,14 +218,16 @@
                 
                 <div class="mc_cart_addr">
                     <select class="t_input" id="mc_cart_daddr"></select>
-                    <button class="t_input t_bg" id="mc_cart_add_addr">+</button>
+                    <button class="t_input t_bg" id="mc_cart_add_addr" txt="add_new_address">+</button>
                 </div>
                 
-                <span txt="del_time"></span><br />
+                <span txt="delivery_date"></span><br />
                 <div class="mc_cart_timing">
                     <input type="date" id="mc_cart_ddate" class="t_input" />
+                    <span txt="del_time"></span>
                     <select id="mc_cart_dhour" class="t_input">
                         <option id="mc_cart_dhour_fi"></option>
+                        <option id="mc_cart_dhour_si"></option>
                     </select>
                 </div>
 

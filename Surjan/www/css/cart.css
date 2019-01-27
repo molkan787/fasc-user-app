@@ -1,4 +1,7 @@
-﻿.mc_cart_bfcs {
+﻿#mc_cart_recap {
+    padding-bottom: 100px;
+}
+.mc_cart_bfcs {
     position: absolute;
     top: 100%;
     left: 2%;
@@ -14,7 +17,7 @@
     color: white;
     background-color: #333;
     font-family: 'Nunito', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
 }
 .mc_cart_bfcs > button.second {
     border-top-right-radius: 50px;
@@ -22,7 +25,7 @@
     background-color: #F36F24;
     color: #fff;
     font-family: 'Nunito', sans-serif;
-    font-size: 18px;
+    font-size: 17px;
 }
 .mc_cart {
     padding-bottom: 50px;
@@ -49,7 +52,7 @@
     width: 100%;
     font-size: 4vw;
     padding: 6px;
-    margin-top: 10px;
+    margin-top: 4px;
     margin-bottom: 4vw;
 }
 
@@ -127,27 +130,21 @@
 }
 .mc_cart_addr{
     width: 100%;
-    height: 16vw;
+    height: 25vw;
     padding-top: 1vw;
 }
 .mc_cart_addr > select {
-    width: 90% !important;
+    width: 100%;
     height: 10vw;
-    float: left;
     font-size: 4vw;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
 }
 .mc_cart_addr > button {
-    width: 10%;
+    width: 100%;
     height: 10vw;
     padding: 1.8vw;
-    border: 1px solid #bbb;
+    border: none;
     font-size: 4vw;
-    float: left;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-left: none;
+    margin-top: 1vw;
 }
 
 #mc_cart_list {
@@ -155,24 +152,16 @@
     overflow: scroll;
 }
 
-.mc_cart_timing{
-    height: 18vw;
+.mc_cart_timing {
+    height: 34vw;
 }
 .mc_cart_timing > input, .mc_cart_timing > select {
     height: 10vw;
-    width: 50%;
+    width: 100%;
     float: left;
     box-sizing: border-box;
-    margin: 10px 0 0 0;
+    margin: 4px 0 0 0;
     font-size: 4vw;
     padding: 6px;
-}
-.mc_cart_timing > input {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-right: none;
-}
-.mc_cart_timing > select {
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    margin-bottom: 4vw;
 }

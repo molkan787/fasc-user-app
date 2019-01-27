@@ -20,6 +20,7 @@ function mc_order_update(param) {
 }
 
 function loadOrderActionCallback(action) {
+    log(action.data);
     if (action.status == 'OK') {
         mc_order.innerHTML = '';
         loadOrderData(action.data);
@@ -56,7 +57,8 @@ function loadOrderData(data) {
         var ltotal_f = fasc.formatPrice(ltotal, true);
         mc_cart_table_addrow(item.name, fasc.formatPrice(item.price, true), item.quantity, ltotal_f, false, ord_items);
     }
-    mc_cart_table_addrow(txt('total'), '', '', fasc.formatPrice(total, true), false, ord_items);
+    mc_cart_table_addrow(txt('del_fees'), '', '', fasc.formatPrice(parseFloat(data.total) - total, true), false, ord_items);
+    mc_cart_table_addrow(txt('total'), '', '', fasc.formatPrice(data.total, true), false, ord_items);
 
     mc_order.appendChild(ord_data_con);
 }

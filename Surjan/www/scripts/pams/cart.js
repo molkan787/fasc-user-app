@@ -52,13 +52,14 @@ function cart_place_order() {
         items[item] = cart_items[item].count;
     }
 
+    udp.fast_del = mc_cart_dhour.selectedIndex;
     udp.del_date = get("mc_cart_ddate").value;
-    udp.del_timing = val("mc_cart_dhour_fi");
+    udp.del_timing = val('mc_cart_dhour');
     udp.products = JSON.stringify({ items: items });
     udp.address_1 = addr.address_1;
     udp.address_2 = addr.address_2;
     udp.city = addr.city;
-    udp.pay_method = "cod";
+    udp.pay_method = val('mc_cart_paymethod');
 
     gl_show_wbp();
     orderAction.do(udp);
