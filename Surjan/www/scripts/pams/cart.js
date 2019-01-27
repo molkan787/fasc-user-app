@@ -18,12 +18,15 @@ function cart_set_count(pid, count) {
         cart_items[pid] = item;
         glui_update_cart_count(cart_items_count);
     }
+    cart_calc_total();
 }
 
 function cart_empty() {
     cart_items = {};
     cart_items_count = 0;
     glui_update_cart_count(0);
+    val('mc_cart_list', '');
+    cart_calc_total();
 }
 
 function cart_remove(pid) {
@@ -31,6 +34,11 @@ function cart_remove(pid) {
         delete cart_items[pid];
         cart_items_count--;
         glui_update_cart_count(cart_items_count);
+        var pan = get('ppan_' + pid);
+        if (pan) {
+            rm_elt(pan);
+        }
+        cart_calc_total();
     }
 }
 

@@ -25,6 +25,7 @@ function mc_cart_init() {
     get('mc_checkout_back').onclick = ui_goback;
     get('mc_checkout_checkout').onclick = mc_cart_checkout_click;
     mc_cart_dhour.onchange = del_timing_changed;
+    get('cart_hb_btn').onclick = cart_empty;
 
     registerPage('cart', get('mc_cart'), 'Cart', mc_cart_load);
     registerPage('checkout', mc_cart_recap, 'Checkout', mc_cart_load_recap);
@@ -67,7 +68,7 @@ function mc_cart_load() {
     mc_cart_list.innerHTML = "";
     var products = mc_cart_get_products();
     for (var i = 0; i < products.length; i++) {
-        var product_panel = mc_prt_ui_createProductPanel(products[i]);
+        var product_panel = mc_prt_ui_createProductPanel(products[i], true);
         mc_cart_list.appendChild(product_panel);
         product_panel.addEventListener("click", mc_prt_product_click);
     }
@@ -78,6 +79,17 @@ function mc_cart_load() {
     if (products.length == 0) {
         setPlaceHolderIcon('cart', txt('cart_is_empty'), mc_cart_list);
     }
+}
+
+function cart_calc_total() {
+    var total = 0;
+    for (var pid in cart_items) {
+        if (!cart_items.hasOwnProperty(pid)) continue;
+        var price = pm_get_final_prize(pid);
+        var ltotal = cart_items[pid].count * price;
+        total += ltotal;
+    }
+    val('cart_hb_total', txt('total') + ': ' + fasc.formatPrice(total));
 }
 
 function mc_cart_get_products() {
@@ -190,4 +202,9 @@ function del_timing_changed() {
         val(mc_ctrow_fees, '0.00');
         val(mc_ctrow_total, fasc.formatPrice(mc_total, true));
     }
+}
+
+function cart_rm_btn_click() {
+    var pid = attr(this, 'pid');
+    cart_remove(pid);
 }

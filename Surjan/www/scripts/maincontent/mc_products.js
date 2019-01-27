@@ -195,7 +195,7 @@ function mc_prt_load_products(cat, subcat, offset, count) {
     prtsLoadAction.do(params);
 }
 
-function mc_prt_ui_createProductPanel(product_data) {
+function mc_prt_ui_createProductPanel(product_data, isCart) {
     var _mcon = crt_elt("div");
     var _pimg = crt_elt("img", _mcon);
     var _title = crt_elt("h1", _mcon);
@@ -203,6 +203,7 @@ function mc_prt_ui_createProductPanel(product_data) {
     var _break = crt_elt("br", _mcon);
     var _prize = crt_elt("span", _mcon);
     var _spf_unit = crt_elt("span");
+    if(isCart) var _rm = crt_elt('button', _mcon);
     var _atc = crt_elt("div", _mcon);
     var _atc_btn = crt_elt("button");
     var _atc_btn_icon = crt_elt('img', _atc_btn);
@@ -212,6 +213,13 @@ function mc_prt_ui_createProductPanel(product_data) {
     var _atc_pc = crt_elt("span");
     var _atc_pm = crt_elt("button");
     var _atc_ofs = crt_elt("label");
+
+    if (isCart) {
+        _rm.className = 't_btn prt_item_rm_btn';
+        val(_rm, txt('remove'));
+        attr(_rm, 'pid', product_data.product_id);
+        _rm.onclick = cart_rm_btn_click;
+    }
 
     var _disc_buble = crt_elt("a");
     _disc_buble.className = "prt_panel_disc_b";

@@ -222,6 +222,10 @@ function crt_elt(tagname, parent, id) {
     return elt;
 }
 
+function rm_elt(elt) {
+    elt.parentNode.removeChild(elt);
+}
+
 function style(elt, styles) {
     for (var p in styles) {
         if (styles.hasOwnProperty(p)) {

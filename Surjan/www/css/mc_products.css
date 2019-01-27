@@ -466,3 +466,11 @@
     white-space: nowrap !important;
     line-height: 1.5 !important;
 }
+
+.prt_item_rm_btn {
+    float: right !important;
+    margin-top: -10vw !important;
+    padding: 1.5vw 5.5vw !important;
+    background-color: #ccc !important;
+    color: #555 !important;
+}
