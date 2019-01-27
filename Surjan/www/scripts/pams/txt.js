@@ -79,6 +79,7 @@
     empty_cart_msg: 'Nothing to show here,\n Start by adding some products.',
     confirm_app_exit: 'Do you want to exit the app?',
 
+    regular_del_phrase: 'Regular Delivery ({%1} – {%2})',
     fast_del_phrase: 'Fast Delivery ({%1} Minutes)',
     minutes: 'Minutes',
     free: 'Free',

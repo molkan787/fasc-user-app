@@ -102,7 +102,7 @@ var mc_ctrow_total;
 function mc_cart_load_recap() {
     mc_cart_cleanup();
 
-    var del_timing = dm.bsd.timing_from + ' to ' + dm.bsd.timing_to;
+    var del_timing = txt('regular_del_phrase', dm.bsd.timing_from, dm.bsd.timing_to);
     var fast_del = txt('fast_del_phrase', dm.bsd.timing_slot);
     var mc_cart_dhour_fi = get('mc_cart_dhour_fi');
     var mc_cart_dhour_si = get('mc_cart_dhour_si');
