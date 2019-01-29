@@ -23,7 +23,7 @@ function listOrdersActionCallback(action) {
         }
 
     } else {
-        setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
+        setNoNetPlaceHolder(mc_orders);
     }
 }
 

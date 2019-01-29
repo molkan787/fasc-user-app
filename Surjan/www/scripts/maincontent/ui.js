@@ -37,6 +37,9 @@ var pages = {};
 function ui_init() {
     fasc_init();
     mc_order_init();
+    mc_pages_init();
+    favorite_init();
+
     sb_higher2 = get('sb_higher2');
     order_chat = get("order_chat");
     order_phone = get("order_phone");
@@ -86,6 +89,7 @@ function ui_init() {
     window.onresize = updateUiSizes;
 
     var order_phone = window.localStorage.getItem('order_phone') || '';
+    log('TODO : Add fallback Order phone');
     attr('ls_fm_order_phone', 'href', 'tel:' + order_phone);
 
     ui_set_logo();
@@ -115,6 +119,7 @@ function push_history(pagename) {
 }
 
 function ui_navigate(pagename, param, isback) {
+    //log(pagename, param, isback);
     if (ui_animating_page) return;
 
     var _page = pages[pagename];
@@ -255,7 +260,7 @@ function ui_getElement(name) {
     } else if (name == "order_chat") {
         return order_chat;
     } else if (name == "order_phone") {
-        return order_phone;
+        return get('order_phone');
     } else if (name == "orders") {
         return mc_orders;
     }
@@ -285,7 +290,7 @@ function ui_update_pan_content(pagename, param) {
     } else if (pagename == "items_group"){
         mc_items_group_load(param);
     } else if (pagename == "order_chat") {
-        
+        attr('order_whatsapp', 'href', 'whatsapp://send?text=Hello WalkOnRetail!&amp;phone=+91' + gls.orderPhone);
     } else if (pagename == "search") {
         setTimeout(function () { mc_search_tb.focus(); }, 400);
     } else if (pagename == "orders") {

@@ -1,6 +1,8 @@
 ﻿var mc_order;
 var ord_data_con;
 var loadOrderAction;
+var cancelOrderAction;
+var currentOrder;
 function mc_order_init() {
     mc_order = get('mc_order');
     ord_data_con = get('ord_data_con');
@@ -10,17 +12,21 @@ function mc_order_init() {
     }, mc_order_update);
 
     loadOrderAction = fetchAction.create('orderadm/infoCS', loadOrderActionCallback);
+    cancelOrderAction = fetchAction.create('orderadm/cancel', cancelOrderActionCallback);
+
+    get('order_cancel_btn').onclick = cancelOrderBtn_click;
+    get('order_inv_btn').onclick = downloadInvoiceBtn_click;
 
 }
 
 function mc_order_update(param) {
+    currentOrder = param;
     get('elts_holder').appendChild(ord_data_con);
     setDimmer(mc_order, true);
     loadOrderAction.do({order_id: param});
 }
 
 function loadOrderActionCallback(action) {
-    log(action.data);
     if (action.status == 'OK') {
         mc_order.innerHTML = '';
         loadOrderData(action.data);
@@ -29,6 +35,29 @@ function loadOrderActionCallback(action) {
         setPlaceHolderIcon('box', txt('nothing_to_show'), mc_order);
         msg(txt('error_msg'), null, 1);
     }
+}
+
+function ord_cancel_order() {
+    setTimeout(function () {
+        gl_show_wbp();
+        cancelOrderAction.do({ order_id: currentOrder });
+    }, 300);
+}
+
+function cancelOrderActionCallback(action) {
+    gl_hide_wbp();
+    setTimeout(function () {
+        if (action.status == 'OK') {
+            msg(txt('cancel_order_success'), function () {
+                ui_goback(true);
+            }, 1);
+
+        } else if (action.error_code == 'too_late') {
+            msg(txt('cancel_order_too_late'), null, 1);
+        } else {
+            msg(txt('error_msg'), null, 1);
+        }
+    }, 400);
 }
 
 function loadOrderData(data) {
@@ -43,6 +72,8 @@ function loadOrderData(data) {
     val('ord_del_date', txt('delivery_date') + ': ' + data.del_date);
     val('ord_del_timing', txt('delivery_timing') + ': ' + data.del_timing);
     val('ord_del_addr', txt('delivery_address') + ':<br />- ' + addr);
+
+    get('order_cancel_btn').style.display = (data.can_cancel && data.order_status_id == 1) ? 'unset' : 'none';
 
     var ord_items = get('ord_items');
     ord_items.getElementsByTagName('tbody')[0].innerHTML = '';
@@ -61,4 +92,12 @@ function loadOrderData(data) {
     mc_cart_table_addrow(txt('total'), '', '', fasc.formatPrice(data.total, true), false, ord_items);
 
     mc_order.appendChild(ord_data_con);
+}
+
+function cancelOrderBtn_click() {
+    msg(txt('confirm_order_cancel'), ord_cancel_order);
+}
+
+function downloadInvoiceBtn_click() {
+
 }

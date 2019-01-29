@@ -93,6 +93,7 @@ function setAccountData(data, addresses) {
     }
     lm_setLogoutOption(client_logged);
     window.localStorage.setItem('account_data', JSON.stringify(data));
+    lm_update_account();
 }
 
 function addAddrActionCallback(action) {
@@ -167,7 +168,7 @@ function confirmLogout() {
 function account_logout() {
     setAccountData(null, null);
     dm.setSessionId('');
-    reAsd();
+    reAsd(true);
 }
 
 function account_load() {

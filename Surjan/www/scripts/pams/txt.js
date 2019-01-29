@@ -62,7 +62,10 @@
 
     nothing_found: 'Nothing found!',
     cart_is_empty: 'Your cart is empty!',
-
+    download_invoice: 'Download invoice',
+    cancel_order: 'Cancel order',
+    order_on_whatsapp_text: 'You can order on WhatsApp',
+    order_on_whatsapp: 'Order on WhatsApp',
     no_notification: 'There are no new notification',
     for_return_visit_store: 'For return, please visit our store',
     thanks_for_shopping: 'Thank you for shopping',
@@ -117,6 +120,8 @@
     register: 'Register',
     change_city: 'Change city',
     logout: 'Logout',
+    no_net_error: 'We could not connect to the internet',
+    my_favorite: 'My Favorite',
     confirm_addr_delete: 'Are you sure you want to delete this address "{%1}" ?',
     invalid_phone_number: 'Please enter valid phone number in this format: 7007007000',
     phone_already_registrated: 'This phone number is already registered, Please login instead.',
@@ -128,8 +133,10 @@
     login_success: 'You have been successfully logged in! The app will reload now.',
     load_addrs_fail: 'We could not load list of your addresses',
     order_success: 'Your order was successfully placed!',
-    confirm_logout: 'Are you sure you want to logout?'
-
+    confirm_logout: 'Are you sure you want to logout?',
+    confirm_order_cancel: 'Are you sure you want to cancel this order?',
+    cancel_order_too_late: 'Sorry but it is too late to cancel the order.',
+    cancel_order_success: 'Your Order was successfully canceled.'
 };
 
 function txt(textName) {

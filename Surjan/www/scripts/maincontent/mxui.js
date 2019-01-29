@@ -13,10 +13,9 @@ function reSelectCity() {
     dm_load(true);
 }
 
-function reAsd() {
-    //setTimeout(function () { ui_navigate('home'); }, 300);
+function reAsd(forceLogout) {
     show_loadScreen();
-    dm_load();
+    dm_load(false, forceLogout);
 }
 
 // Loading screen
@@ -65,6 +64,10 @@ function setDimmer(parent, clearContent, lp) {
     var img = crt_elt('img', parent);
     img.src = 'images/loading.gif';
     img.className = lp ? 't_dimmer_l' : 't_dimmer';
+}
+
+function setNoNetPlaceHolder(elt) {
+    setPlaceHolderIcon('no_net', txt('no_net_error'), elt, true);
 }
 
 function setPlaceHolderIcon(icon, text, parent, clearContent) {

@@ -40,6 +40,7 @@ function asdLoadActionCallback(action) {
     if (action.status == 'OK') {
         dm.bsd = action.data.bsd;
         dm.city_names = action.data.city_names;
+        lm_update_city();
         setAccountData(action.data.customer, action.data.addresses);
         dm.setStoreId(action.data.store_id);
         dm.setSessionId(action.data.session_id);
@@ -58,11 +59,14 @@ function asdLoadActionCallback(action) {
     }
 }
 
-function dm_load(forceCityReload) {
+function dm_load(forceCityReload, logout) {
     if (forceCityReload) forceCitySet = true;
     if (dm.getStoreId() && !forceCityReload) {
-        if (forceCitySet) asdLoadAction.do({ ls: fasc.lastUpdate, ssi: 'true' });
-        else asdLoadAction.do({ ls: fasc.lastUpdate });
+        var params = { ls: fasc.lastUpdate };
+        if (forceCitySet) params.ssi = 'true';
+        if (logout) params.logout = 'true';
+
+        asdLoadAction.do(params);
         forceCitySet = false;
     } else {
         citiesLoadAction.do();

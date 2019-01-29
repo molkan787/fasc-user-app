@@ -474,3 +474,39 @@
     background-color: #ccc !important;
     color: #555 !important;
 }
+
+.prt_fav_btn {
+    position: absolute !important;
+    top: 78vw !important;
+    left: 74vw !important;
+    width: 13vw !important;
+    padding: 2vw 2vw 1vw 3vw !important;
+    line-height: 1.5 !important;
+    color: #222 !important;
+    font-weight: bold !important;
+    background-color: #f9f9f9 !important;
+    border: 1px solid #444 !important;
+    font-size: 3.5vw !important;
+    box-shadow: 0 2px 5px #666;
+}
+.prt_fav_btn > img {
+    height: 6vw;
+    float: left;
+}
+
+.item_fav_btn {
+    height: 9vw;
+    width: 9vw;
+    float: right;
+    opacity: 1;
+    background-color: white;
+    padding: 1.7vw 1vw 1vw 0.9vw;
+    border-radius: 50%;
+    margin-top: -1.4vw;
+    margin-right: 1.4vw;
+    border: 1px solid #aaa;
+    background-color: #eee;
+}
+.item_fav_btn > img{
+    height: 100%;
+}

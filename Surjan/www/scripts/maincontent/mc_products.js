@@ -19,6 +19,7 @@ var mc_prodp_crt_ofs;
 
 var mc_prt_current_cat;
 var cprt_images;
+var prt_fav_btn;
 
 var prtsLoadAction;
 var prtLoadAction;
@@ -27,6 +28,8 @@ function mc_products_init() {
     mc_prt_hdr_scat = get("mc_prt_hdr_scat");
     mc_prt_hdr_sscat = get("mc_prt_hdr_sscat");
     mc_products_list = get("mc_products_list");
+
+    prt_fav_btn = get('prt_fav_btn');
     
     mc_product = get("prt_popup");
     mc_prodp_name = get("mc_prodp_name");
@@ -54,6 +57,8 @@ function mc_products_init() {
     get('prt_pp_btnr').onclick = prt_slide_image;
 
     get('mc_product_img').onload = revealMe;
+
+    prt_fav_btn.onclick = favBtnClick;
 
     registerPage('products', mc_products, function (param) {
         var pcat_tl = dm_cats[param].name.replace("\n", " ").replace('&amp;', '&');
@@ -179,7 +184,7 @@ function prtsLoadActionCallback(action) {
         }
         prt_gui_lc = mc_products_list.children[mc_products_list.children.length - 1];
     } else {
-
+        setNoNetPlaceHolder(mc_products_list);
     }
 }
 
@@ -205,6 +210,8 @@ function mc_prt_ui_createProductPanel(product_data, isCart) {
     var _spf_unit = crt_elt("span");
     if(isCart) var _rm = crt_elt('button', _mcon);
     var _atc = crt_elt("div", _mcon);
+    var fav_btn = crt_elt('button', _mcon);
+    var fav_img = crt_elt('img', fav_btn);
     var _atc_btn = crt_elt("button");
     var _atc_btn_icon = crt_elt('img', _atc_btn);
     var _atc_btn_span = crt_elt('span', _atc_btn);
@@ -220,6 +227,14 @@ function mc_prt_ui_createProductPanel(product_data, isCart) {
         attr(_rm, 'pid', product_data.product_id);
         _rm.onclick = cart_rm_btn_click;
     }
+
+    fav_btn.className = 'item_fav_btn';
+    fav_img.src = 'images/icons/heart_' + (product_data.in_wishlist ? 'filled' : 'outline') + '.png';
+    attr(fav_btn, 'state', product_data.in_wishlist ? 1 : 0);
+    attr(fav_btn, 'pid', product_data.product_id);
+    attr(fav_btn, 'cancelclick', '1');
+    attr(fav_img, 'cancelclick', '1');
+    fav_btn.onclick = favBtnClick;
 
     var _disc_buble = crt_elt("a");
     _disc_buble.className = "prt_panel_disc_b";
@@ -354,6 +369,11 @@ function mc_prt_update_prt_pan(item) {
 function mc_prt_load_product(pid) {
     var product = pm_get_product(pid);
     var count = cart_get_count(pid);
+
+    attr(prt_fav_btn, 'state', product.in_wishlist ? '1' : '0');
+    attr(prt_fav_btn, 'pid', product.product_id);
+    val('prt_fav_icon', 'images/icons/heart_' + (product.in_wishlist ? 'filled' : 'outline') + '.png');
+
     var mc_prodp_discount = get('mc_prodp_discount');
 
     mc_product_img.src = "images/loading.gif";

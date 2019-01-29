@@ -1,4 +1,8 @@
-﻿function mc_pages_set_content(p) {
+﻿function mc_pages_init() {
+
+}
+
+function mc_pages_set_content(p) {
     var content;
     mc_pages.style.textAlign = "left";
     if (p == "company_info") {

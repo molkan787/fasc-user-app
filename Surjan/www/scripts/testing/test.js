@@ -9,10 +9,10 @@
     //    }, 500);
     //}, 700);
 
-    ui_navigate("cart");
+    //ui_navigate("order", 57);
 
     //cart_set_count(25, 3);
-    //ui_navigate("checkout", "kirana_goods");
+    ui_navigate("favorite");
     //hide_loadScreen();
    
 }

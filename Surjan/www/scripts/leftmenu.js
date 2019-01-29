@@ -25,6 +25,27 @@ function lm_nav_item_click(event) {
     
 }
 
+function lm_update_city() {
+    val('lm_city_name', dm.city_names[lang]);
+}
+
+function lm_update_account() {
+    if (accountData) {
+        var client_name = accountData.firstname + ' ' + accountData.lastname;
+    }
+    val('lm_account_name', client_name || '');
+    if (!client_name) {
+        var al = crt_elt('a', get('lm_account_name'));
+        val(al, txt('login'));
+        attr(al, 'href', '#');
+        al.onclick = go_to_login;
+    }
+}
+
+function go_to_login() {
+    lm_hide();
+    ui_navigate('supin_in');
+}
 
 // UI
 var lm_animation;

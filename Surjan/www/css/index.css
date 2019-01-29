@@ -160,17 +160,37 @@ body {
     left: -70%;
     background-color: #f5f5f5;
     box-shadow: 0 0 2px #000;
+    padding-top: 32vw;
+    box-sizing: border-box;
 }
 
 .lm-topsec {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 20vw;
+    height: 32vw;
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
     overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 -5px 11px #666;
 }
-.lm-topsec > div{
+.lm-topsec > h4 {
+    margin: 1vw 0;
+    text-align: left;
+    color: #444;
+    font-size: 3.6vw;
+    padding-left: 1vw;
+}
+.lm-topsec > h4 > img {
+    height: 5vw;
+    float: left;
+    margin-right: 1vw;
+    opacity: 0.8;
+}
+.lm-topsec > div {
     width: 150%;
     height: 50px;
     margin-top: -70px;
@@ -192,6 +212,8 @@ body {
 #lm_subcon {
     opacity: 0;
     margin-left: -50px;
+    height: 100%;
+    overflow-y: scroll;
 }
 .lm_nav_item_active {
     border-color: #F36F24;
@@ -214,10 +236,12 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.lm_ver_txt{
+.lm_ver_txt {
     margin-left: 20px;
     font-size: 12px;
-    color: #aaa;
+    color: #333;
+    padding-top: 2vw;
+    padding-bottom: 5vw;
 }
 
 .maincontent {
@@ -349,12 +373,12 @@ body {
     color: #d77;
     margin-top: 60px;
 }
-.loading_screen > img{
-    margin: 120px 0 60px 0;
+.loading_screen > img {
+    margin: 80px 0 60px 0;
 }
 
 .ls_logo_img {
-    width: 100%;
+    height: 17.5vw;
 }
 .ls_loading_img{
     width: 16vw;
@@ -376,6 +400,10 @@ body {
     float: left;
     margin-left: -3vw;
     margin-right: 3vw;
+}
+#ls_fail_msg > a button > span {
+    font-weight: bold;
+    color: #333;
 }
 
 #mc_pages {
@@ -509,7 +537,17 @@ body {
 .t_input:focus {
     border-color: #F36F24;
 }
-
+.rfloat{
+    float: right;
+}
+.t_btn2 {
+    background-color: #ddd;
+    border: none;
+    border-radius: 100px;
+    padding: 4px 20px;
+    color: #555;
+    text-align: center;
+}
 .t_btn {
     background-color: #F36F24;
     border: none;
@@ -595,4 +633,20 @@ body {
     font-size: 5vw;
     padding: 10px 20px;
     width: 100%;
+}
+
+#ls_mid_sec{
+    margin: 0 !important;
+    width: 100%;
+    height: 32vw;
+}
+#ls_mid_sec > img{
+    width: 100%;
+    height: 100%;
+}
+#ls_mid_sec > h4 {
+    font-size: 6vw;
+    background: -webkit-linear-gradient(-70deg, #F36F24, #f35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
