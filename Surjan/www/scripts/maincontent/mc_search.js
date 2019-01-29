@@ -58,6 +58,8 @@ function searchActionCallback(action) {
         if (products.length == 0) {
             setPlaceHolderIcon('search', txt('nothing_found'), mc_search_list);
         }
+    } else {
+        setNoNetPlaceHolder(mc_search_list);
     }
 }
 var search_id_ptr = 1;

@@ -92,7 +92,7 @@ function ui_init() {
     log('TODO : Add fallback Order phone');
     attr('ls_fm_order_phone', 'href', 'tel:' + order_phone);
 
-    ui_set_logo();
+    ui_set_glis();
 }
 
 function hb_btn_cart_con_click() {
@@ -594,7 +594,12 @@ function show_loadScreen() {
 function hb_btn_search_click() {
     ui_navigate("search");
 
-    setTimeout(function () { mc_search_tb.focus(); Keyboard.show(); }, 300);
+    setTimeout(function () {
+        mc_search_tb.focus();
+        try {
+            Keyboard.show();
+        } catch (ex) {}
+    }, 300);
 }
 
 function hide_sb_higher2() {
@@ -609,11 +614,21 @@ function updateUiSizes() {
     get('prt_pp_desc').style.height = (window.innerHeight * 0.9 - window.innerWidth * 1.13) + 'px';
 }
 
-function ui_set_logo() {
+function ui_set_glis() {
+    var ls_logo = get('ls_logo');
     var logo_data = window.localStorage.getItem('logo_data');
-    if (logo_data && logo_data.length) {
-        val('ls_logo', logo_data);
+    if (logo_data && logo_data.length > 0) {
+        val(ls_logo, logo_data);
         val('lm_logo', logo_data);
     }
     get('ls_logo').style.opacity = 1;
+
+    var ls_ad_data = window.localStorage.getItem('ls_ad_data') || '';
+
+    if (ls_ad_data && ls_ad_data.length > 0) {
+        val('ls_ad_img', ls_ad_data);
+        get('ls_mid_sec').style.display = 'block';
+    } else {
+        ls_logo.style.margin = '150px 0 80px 0';
+    }
 }

@@ -136,7 +136,8 @@
     confirm_logout: 'Are you sure you want to logout?',
     confirm_order_cancel: 'Are you sure you want to cancel this order?',
     cancel_order_too_late: 'Sorry but it is too late to cancel the order.',
-    cancel_order_success: 'Your Order was successfully canceled.'
+    cancel_order_success: 'Your Order was successfully canceled.',
+    welcome_text: 'Welcome to WalkOnRetail online stores, Other text'
 };
 
 function txt(textName) {
@@ -166,4 +167,9 @@ function applyTextsToElements() {
             elt.placeholder = langEN[ptn];
         }
     }
+}
+
+function setLang(langId) {
+    lang = langId;
+    dm.lang = langId;
 }

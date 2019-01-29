@@ -21,16 +21,21 @@ function fasc_init() {
         },
 
         setLogo: function (data) {
+            if (data.length == 0) return;
             window.localStorage.setItem('logo_data', data);
+        },
+        setAd: function (data) {
+            if (data.length == 0) return;
+            window.localStorage.setItem('ls_ad_data', data);
         },
 
         update: function () {
             log('Fasc: Updating');
-            this.updateAction.do();
+            this.updateAction.do({ ls: fasc.lastUpdate});
         }
     };
 
-    fasc.updateAction = fetchAction.create('asd/getlogo', updateActionCallback);
+    fasc.updateAction = fetchAction.create('asd/getGLU', updateActionCallback);
 
     get('ls_cities').onchange = select_city_changed;
     get('ls_regions').onchange = select_region_changed;
@@ -40,12 +45,11 @@ function fasc_init() {
 function updateActionCallback(action) {
     if (action.status == 'OK') {
         fasc.setUpdateTime(action.data.time);
-        fasc.setLogo(action.data.base64);
+        fasc.setLogo(action.data.logo);
+        fasc.setAd(action.data.ls_ad);
         log('Fasc: updated');
     } else {
-        setTimeout(function () {
-            fasc.update();
-        }, 60000 * 5); // 5 Minutes
+        fascRetryUpdate();
     }
 }
 
@@ -103,5 +107,10 @@ function reset_city_select() {
 function fascUpdate() {
     setTimeout(function () {
         fasc.update();
-    }, 6000); // 5 Minutes
+    }, 6000);
+}
+function fascRetryUpdate() {
+    setTimeout(function () {
+        fasc.update();
+    }, 6000);
 }

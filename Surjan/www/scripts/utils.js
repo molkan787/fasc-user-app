@@ -390,8 +390,7 @@ var revealAnim = {
     easing: 'easeOutExpo'
 };
 function revealElt(elt) {
-    elt = get(elt);
-    revealAnim.targets = '#' + elt.id;
+    revealAnim.targets = '#' + (typeof elt == 'string') ? elt : elt.id;
     revealAnim.opacity = 1;
     anime(revealAnim);
 }

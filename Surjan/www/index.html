@@ -110,7 +110,7 @@
         <button id="gl_popup_yes" style="border: none" txt="ok"></button>
     </div>
 
-    <div id="leftmenu" class="leftmenu">
+    <div id="leftmenu" class="leftmenu" style="display: none;">
         <div class="lm-topsec">
             <img id="lm_logo" src="images/slogo.png" />
             <h4><img src="images/icons/location.png"/><span id="lm_city_name"></span></h4>
@@ -500,9 +500,9 @@
 
     <div id="loading_screen" class="loading_screen">
         <img id="ls_logo" class="ls_logo_img" src="images/slogo.png" style="opacity: 0"/>
-        <div id="ls_mid_sec">
-            <img style="display: none" src="scripts/testing/ban.jpg"/>
-            <h4>Welcome to WalkOnRetail online stores, Some other text</h4>
+        <div id="ls_mid_sec" style="display: none">
+            <img id="ls_ad_img" src="scripts/testing/ban.jpg"/>
+            <h4 id="ls_wel_txt" style="display: none"></h4>
         </div>
         <img id="ls_loading_img" class="ls_loading_img" src="images/loading.gif" />
         <div id="ls_select_city">
