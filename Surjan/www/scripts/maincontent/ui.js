@@ -35,6 +35,7 @@ var ANIM_HIDE_PREVIUS = 1002;
 var pages = {};
 
 function ui_init() {
+    ws_init();
     fasc_init();
     mc_order_init();
     mc_pages_init();

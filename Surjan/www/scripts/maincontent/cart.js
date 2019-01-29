@@ -115,7 +115,8 @@ function mc_cart_load_recap() {
     mc_cart_cleanup();
 
     var del_timing = txt('regular_del_phrase', dm.bsd.timing_from, dm.bsd.timing_to);
-    var fast_del = txt('fast_del_phrase', dm.bsd.timing_slot);
+    var timeTextSS = getTimeTextSS(dm.bsd.timing_slot);
+    var fast_del = txt('fast_del_phrase', timeTextSS);
     var mc_cart_dhour_fi = get('mc_cart_dhour_fi');
     var mc_cart_dhour_si = get('mc_cart_dhour_si');
     val(mc_cart_dhour_fi, del_timing + ' -- ' + txt('free'));

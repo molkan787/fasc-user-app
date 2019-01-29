@@ -1,4 +1,4 @@
-﻿var lang = 1;
+﻿var lang = parseInt(window.localStorage.getItem('lang') || '1');
 var gls = {
     storeName: 'WalkOnRetail',
     storeAddr: '',

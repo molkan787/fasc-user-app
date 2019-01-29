@@ -540,6 +540,14 @@ body {
 .rfloat{
     float: right;
 }
+.t_btn3 {
+    background-color: #ddd;
+    border: none;
+    border-radius: 100px;
+    padding: 10px 20px;
+    color: #444;
+    text-align: center;
+}
 .t_btn2 {
     background-color: #ddd;
     border: none;
@@ -635,18 +643,53 @@ body {
     width: 100%;
 }
 
-#ls_mid_sec{
+.ls_mid_sec{
     margin: 0 !important;
     width: 100%;
     height: 32vw;
 }
-#ls_mid_sec > img{
+.ls_mid_sec > img{
     width: 100%;
     height: 100%;
 }
-#ls_mid_sec > h4 {
+.ls_mid_sec > h4 {
     font-size: 6vw;
     background: -webkit-linear-gradient(-70deg, #F36F24, #f35);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+
+#welcome_screen{
+    z-index: 2100;
+
+}
+.ws_lang_con {
+    margin: 0 !important;
+}
+.ws_lang_con > h4 {
+    color: #666 !important;
+    margin: 0 0 10vw 0 !important;
+}
+.ws_lang_con > div{
+    display: inline-block;
+    width: 30vw;
+    height: 18.7vw;
+    padding: 4vw;
+    box-sizing: border-box;
+    border-radius: 100px;
+    background-color: #ddd;
+}
+.ws_lang_con > div.active {
+    background-color: #F36F24 !important;
+}
+.ws_lang_con > div > img {
+    height: 100%;
+}
+.ws_lang_con > div.active > img {
+    box-shadow: 1px 1px 4px #444;
+}
+#ws_lang_okbtn{
+    margin-top: 40px;
+    font-size: 5vw;
+    width: 80%;
 }

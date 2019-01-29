@@ -60,6 +60,10 @@ function asdLoadActionCallback(action) {
 }
 
 function dm_load(forceCityReload, logout) {
+    if (window.firstLaunch && !welcomeLoaded) {
+        wsLoadAction.do();
+        return;
+    }
     if (forceCityReload) forceCitySet = true;
     if (dm.getStoreId() && !forceCityReload) {
         var params = { ls: fasc.lastUpdate };

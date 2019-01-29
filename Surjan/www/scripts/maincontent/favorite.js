@@ -38,6 +38,8 @@ function loadfavoriteActionCallback(action) {
         if (!added) {
             setPlaceHolderIcon('box', txt('nothing_to_show'), favorite.list);
         }
+    } else if (action.error_code == 'NO_CUSTOEMR'){
+        setPlaceHolderIcon('box', txt('nothing_to_show'), favorite.list, true);
     } else {
         setNoNetPlaceHolder(favorite.list);
     }

@@ -390,7 +390,8 @@ var revealAnim = {
     easing: 'easeOutExpo'
 };
 function revealElt(elt) {
-    revealAnim.targets = '#' + (typeof elt == 'string') ? elt : elt.id;
+    elt = get(elt);
+    revealAnim.targets = '#' + elt.id;
     revealAnim.opacity = 1;
     anime(revealAnim);
 }
@@ -399,4 +400,17 @@ function hideElt(elt) {
     revealAnim.targets = '#' + elt.id;
     revealAnim.opacity = 0;
     anime(revealAnim);
+}
+
+function getTimeTextSS(i) {
+    var str = '';
+    var mi = i % 4;
+    var hours = (i - mi) / 4;
+    if (hours > 0) {
+        str = hours + ' Hour' + (hours > 1 ? 's ' : ' ');
+    }
+    if (mi > 0) {
+        str += (mi * 15) + ' Minutes';
+    }
+    return str;
 }

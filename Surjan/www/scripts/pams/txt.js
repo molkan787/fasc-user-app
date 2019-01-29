@@ -1,6 +1,5 @@
 ﻿var langEN = {
     app_name: 'WalkOnRetail',
-    company_ltd: 'A Devgaon Foods Pvt Ltd Division',
     invoice_upper: 'INVOICE',
     order_no: 'Order No',
     customer_name: 'Customer name',
@@ -85,7 +84,7 @@
     remove: 'Remove',
     clear_cart: 'Clear Cart',
     regular_del_phrase: 'Regular Delivery ({%1} – {%2})',
-    fast_del_phrase: 'Fast Delivery ({%1} Minutes)',
+    fast_del_phrase: 'Fast Delivery ({%1})',
     minutes: 'Minutes',
     free: 'Free',
     cost: 'Cost',
@@ -137,19 +136,16 @@
     confirm_order_cancel: 'Are you sure you want to cancel this order?',
     cancel_order_too_late: 'Sorry but it is too late to cancel the order.',
     cancel_order_success: 'Your Order was successfully canceled.',
-    welcome_text: 'Welcome to WalkOnRetail online stores, Other text'
+    choose_language: 'Choose your language'
 };
 
 function txt(textName) {
-    if (langEN[textName]) {
-        var text = langEN[textName];
-
+    var text = langEN[textName];
+    if (text) {
         for (var i = 1; i < arguments.length; i++) {
             text = text.replace('{%' + i + '}', arguments[i]);
         }
-
         return text;
-
     } else return '';
 }
 
@@ -169,7 +165,8 @@ function applyTextsToElements() {
     }
 }
 
-function setLang(langId) {
+function setLang(langId, doNotWrite) {
     lang = langId;
     dm.lang = langId;
+    window.localStorage.setItem('lang', langId);
 }

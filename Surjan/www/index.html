@@ -28,6 +28,7 @@
     <script type="text/javascript" src="scripts/utils.js"></script>
     <script type="text/javascript" src="scripts/maincontent/fasc.js"></script>
     <script type="text/javascript" src="scripts/leftmenu.js"></script>
+    <script type="text/javascript" src="scripts/welcome.js"></script>
     <script type="text/javascript" src="scripts/maincontent/maincontent.js"></script>
     <script type="text/javascript" src="scripts/maincontent/mc_home.js"></script>
     <script type="text/javascript" src="scripts/maincontent/mc_product_cart.js"></script>
@@ -500,9 +501,8 @@
 
     <div id="loading_screen" class="loading_screen">
         <img id="ls_logo" class="ls_logo_img" src="images/slogo.png" style="opacity: 0"/>
-        <div id="ls_mid_sec" style="display: none">
+        <div id="ls_mid_sec" class="ls_mid_sec" style="display: none">
             <img id="ls_ad_img" src="scripts/testing/ban.jpg"/>
-            <h4 id="ls_wel_txt" style="display: none"></h4>
         </div>
         <img id="ls_loading_img" class="ls_loading_img" src="images/loading.gif" />
         <div id="ls_select_city">
@@ -525,6 +525,25 @@
                     <span txt="order_on_phone" cancelclick="1"></span>
                 </button>
             </a>
+        </div>
+    </div>
+
+    <div id="welcome_screen" class="loading_screen" style="display: none;opacity: 0;top:-10vw">
+        <img class="ls_logo_img" src="images/slogo.png" />
+        <div class="ls_mid_sec">
+            <h4 id="ls_wel_txt">
+            </h4>
+        </div>
+        <div class="ws_lang_con">
+            <h4 txt="choose_language"></h4>
+            <div id="ws_lang_btn1" lid="1">
+                <img src="images/lang_en.png" />
+            </div>
+            <div id="ws_lang_btn2" lid="2">
+                <img src="images/lang_hi.png" />
+            </div>
+            <br />
+            <button id="ws_lang_okbtn" class="t_btn3" txt="ok" style="opacity: 0;display: none"></button>
         </div>
     </div>
 

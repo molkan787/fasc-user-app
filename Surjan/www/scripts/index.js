@@ -35,7 +35,10 @@
         leftmenu_init();
         ui_init();
         applyTextsToElements();
+
+        window.firstLaunch = (window.localStorage.getItem('launched') != 'true');
         dm_load();
+
         testing_do();
 
         document.addEventListener("backbutton", ui_device_backBtn_click, false);

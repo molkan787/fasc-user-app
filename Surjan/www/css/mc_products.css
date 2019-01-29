@@ -510,3 +510,7 @@
 .item_fav_btn > img{
     height: 100%;
 }
+#fav_list {
+    height: 100%;
+    overflow-y: scroll;
+}
