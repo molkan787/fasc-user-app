@@ -610,7 +610,7 @@ body {
     display: none;
 }
 #ls_select_city > h3 {
-    margin: 0 0 10px 0;
+    margin: 5px 0 10px 0;
     color: #444;
 }
 #ls_select_city > select{
@@ -643,10 +643,10 @@ body {
     width: 100%;
 }
 
-.ls_mid_sec{
+.ls_mid_sec {
     margin: 0 !important;
     width: 100%;
-    height: 32vw;
+    height: 27vw;
 }
 .ls_mid_sec > img{
     width: 100%;
@@ -670,23 +670,29 @@ body {
     color: #666 !important;
     margin: 0 0 10vw 0 !important;
 }
-.ws_lang_con > div{
+.ws_lang_con > div {
     display: inline-block;
     width: 30vw;
-    height: 18.7vw;
+    height: 25vw;
     padding: 4vw;
     box-sizing: border-box;
-    border-radius: 100px;
-    background-color: #ddd;
+    border-radius: 4px;
+    background-color: white;
+    float: left;
+    margin: 0 1vw;
+    box-shadow: 1px 1px 7px #ddd;
 }
 .ws_lang_con > div.active {
     background-color: #F36F24 !important;
 }
 .ws_lang_con > div > img {
-    height: 100%;
+    width: 70%;
 }
-.ws_lang_con > div.active > img {
-    box-shadow: 1px 1px 4px #444;
+.ws_lang_con > div > span {
+    color: #444;
+}
+.ws_lang_con > div.active > span {
+    color: white;
 }
 #ws_lang_okbtn{
     margin-top: 40px;

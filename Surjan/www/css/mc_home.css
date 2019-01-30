@@ -1,14 +1,15 @@
 ﻿#mc_home {
-    padding-top: 40vw;
+    padding-top: 51.5vw;
 }
 .mc_home_banners {
     position: absolute;
+    z-index: 10;
     top: 0;
     left: 0;
     width: 100%;
     height: 40vw;
     overflow: hidden;
-    box-shadow: 0 0 3px #333;
+    box-shadow: 0 0 1px #333;
 }
 #mc_home_banners_dots_con{
     top: 40vw;
@@ -61,14 +62,14 @@
     overflow-y: scroll;
     background-color: #f7f7f7;
 }
-.mc_home_categories > div {
+.mc_home_categories > div > div {
     overflow: hidden;
     display: inline-block;
-    width: 32%;
+    width: 32% !important;
     padding: 5%;
     padding-bottom: 10%;
     box-sizing: border-box !important;
-    margin: 2px;
+    margin: 2px 2px 0 2px;
     background-color: white;
     border-radius: 3px;
     font-size: 3vw;
@@ -76,11 +77,11 @@
     color: #222;
     box-shadow: 0px 1px 5px #aaa;
 }
-.mc_home_categories > div > img {
+.mc_home_categories > div > div > img {
     width: 15vw;
     height: 15vw;
 }
-.mc_home_categories > div > div{
+.mc_home_categories > div > div > div {
     height: 0;
     width: 136%;
     margin-left: -18%;
@@ -96,4 +97,32 @@
     text-align: center;
     font-size: 4vw;
     color: #555;
+}
+.gtype_con {
+    width: 100%;
+    height: 11.5vw;
+    box-shadow: 0 -2px 9px #666;
+    margin-bottom: 2px;
+    border-top: 1px solid #ccc;
+    position: absolute;
+    top: 40vw;
+    z-index: 5;
+}
+.gtype_con > div {
+    display: inline-block;
+    box-sizing: border-box;
+    height: 100%;
+    width: 50%;
+    float: left;
+    text-align: center;
+    padding: 3vw;
+    font-size: 4vw;
+    font-weight: bold;
+    color: #555;
+    border-bottom: 0.7vw solid white;
+    background-color: white;
+}
+.gtype_con > div.active {
+    border-color: #F36F24;
+    color: #222;
 }

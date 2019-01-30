@@ -6,12 +6,13 @@
 }
 .mc_products_header > div {
     position: absolute;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 40px;
-    background-color: #eee;
-    border-bottom: none;
-    box-shadow: 0 0 1px #000;
+    background-color: white;
+    border-bottom: 1px solid #999;
+    box-shadow: 0 -3px 10px #aaa;
     overflow-x: scroll;
 }
 .mc_prt_hdr_scassc {

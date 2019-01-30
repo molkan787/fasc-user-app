@@ -3,31 +3,36 @@ var mc_home_banners_con;
 var mc_home_categories;
 var mc_home;
 var mc_home_banners_dots_con;
+var home_categories;
+var home_brands;
 function mc_home_init() {
     mc_home = get("mc_home");
     mc_home_banners = get("mc_home_banners");
     mc_home_banners_con = get('mc_home_banners_con');
     mc_home_categories = get("mc_home_categories");
     mc_home_banners_dots_con = get("mc_home_banners_dots_con");
-    //mc_home_banners.addEventListener("touchstart", mc_home_banner_mousedown);
-    //mc_home_banners.addEventListener("touchend", mc_home_banner_mouseup);
-    //document.addEventListener('touchmove', doc_touchmove);
+
+    home_categories = get('home_categories');
+    home_brands = get('home_brands');
 
     $$("#mc_home_banners").swipeRight(mc_home_banner_swipeRight);
     $$("#mc_home_banners").swipeLeft(mc_home_banner_swipeLeft);
+
+    
+    get('gtype_btn1').onclick = gTypeBtn_Click;
+    get('gtype_btn2').onclick = gTypeBtn_Click;
 
     mc_home_startSlider();
 }
 
 function mc_home_ui_update() {
-    //var realwidth = mc_home_banners.offsetWidth;
-    //mc_home_banners.style.height = (realwidth * 0.4).toString() + "px";
 }
 function mc_home_prt_load_categories() {
-    var added = false;
-    mc_home_categories.innerHTML = '';
+    var cat_added = false;
+    var brand_added = false;
+    home_categories.innerHTML = '';
+    home_brands.innerHTML = '';
     for (var cat_id in dm_cats) {
-        added = true;
         if (!dm_cats.hasOwnProperty(cat_id)) continue;
         var prt_category = dm_cats[cat_id];
         var prt_cat_con = crt_elt("div");
@@ -41,11 +46,20 @@ function mc_home_prt_load_categories() {
 
         prt_cat_con.addEventListener("click", prt_cat_click);
 
-        mc_home_categories.appendChild(prt_cat_con);
+        if (prt_category.gtype == '1') {
+            brand_added = true,
+                home_brands.appendChild(prt_cat_con);
+        } else {
+            cat_added = true;
+            home_categories.appendChild(prt_cat_con);
+        }
 
     }
-    if (!added) {
-        setPlaceHolderIcon('box', txt('nothing_to_show'), mc_home_categories);
+    if (!cat_added) {
+        setPlaceHolderIcon('box', txt('nothing_to_show'), home_categories);
+    }
+    if (!brand_added) {
+        setPlaceHolderIcon('box', txt('nothing_to_show'), home_brands);
     }
 }
 
@@ -144,5 +158,20 @@ function dm_add_banners(banners) {
         banner.addEventListener("click", function () {
             ui_navigate("items_group", this.getAttribute("items"));
         });
+    }
+}
+
+function gTypeBtn_Click() {
+    var gtype = attr(this, 'gtype');
+    if (gtype == 'brands') {
+        get('gtype_btn1').className = '';
+        get('gtype_btn2').className = 'active';
+        home_categories.style.display = 'none';
+        home_brands.style.display = 'block';
+    } else {
+        get('gtype_btn1').className = 'active';
+        get('gtype_btn2').className = '';
+        home_categories.style.display = 'block';
+        home_brands.style.display = 'none';
     }
 }

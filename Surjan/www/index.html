@@ -152,9 +152,13 @@
             </div>
 
             <div class="mc_home_categories_con">
-
+                <div class="gtype_con">
+                    <div id="gtype_btn1" class="active" gtype="cats"><span txt="shop_by_categories"></span></div>
+                    <div id="gtype_btn2" gtype="brands"><span txt="shop_by_brands"></span></div>
+                </div>
                 <div id="mc_home_categories" class="mc_home_categories">
-
+                    <div id="home_categories"></div>
+                    <div id="home_brands" style="display: none"></div>
                 </div>
 
             </div>
@@ -165,8 +169,13 @@
 
             <div class="mc_products_header">
 
-                <div>
+                <div style="z-index: 10">
                     <div class="mc_prt_hdr_scassc" id="mc_prt_hdr_scat">
+
+                    </div>
+                </div>
+                <div id="subcat_childs_con" style="z-index: 5;top: 40px;display: none">
+                    <div class="mc_prt_hdr_scassc" id="mc_prt_hdr_child_scat">
 
                     </div>
                 </div>
@@ -536,11 +545,13 @@
         </div>
         <div class="ws_lang_con">
             <h4 txt="choose_language"></h4>
-            <div id="ws_lang_btn1" lid="1">
+            <div id="ws_lang_btn1" lid="1" style="margin-left: 9vw;">
                 <img src="images/lang_en.png" />
+                <span>English</span>
             </div>
             <div id="ws_lang_btn2" lid="2">
                 <img src="images/lang_hi.png" />
+                <span>हिंदी</span>
             </div>
             <br />
             <button id="ws_lang_okbtn" class="t_btn3" txt="ok" style="opacity: 0;display: none"></button>

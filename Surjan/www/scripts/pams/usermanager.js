@@ -3,7 +3,11 @@ function user_init() {
     user = {};
     var raw_addresses = storage.getItem("addresses");
     if (raw_addresses) {
-        account.addresses = JSON.parse(raw_addresses);
+        try {
+            account.addresses = JSON.parse(raw_addresses);
+        } catch (ex) {
+            account.addresses = [];
+        }
     } else {
         account.addresses = [];
     }
@@ -20,7 +24,7 @@ function user_get_addr(addr_id) {
 
 function user_del_addr(addr_id) {
     for (var i = 0; i < account.addresses.length; i++) {
-        if (account.addresses[i].id == addr_id) {
+        if (account.addresses[i].address_id == addr_id) {
             account.addresses.splice(i, 1);
             save_addresses();
         }
@@ -28,7 +32,7 @@ function user_del_addr(addr_id) {
 }
 
 function user_add_addr(addr) {
-    user.addresses.push(addr);
+    account.addresses.push(addr);
     save_addresses();
     return addr;
 }

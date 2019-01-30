@@ -12,7 +12,7 @@
     //ui_navigate("order", 57);
 
     //cart_set_count(25, 3);
-    ui_navigate("favorite");
+    //ui_navigate("favorite");
     //hide_loadScreen();
    
 }

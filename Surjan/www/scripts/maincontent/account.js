@@ -330,7 +330,7 @@ function account_createAddrPanel(addr) {
     addr_html = addr.address_1 + ', ' + addr.address_2 + '<br />';
     addr_html += addr.city;
     text.innerHTML = addr_html;
-    img.src = "images/gtk_close.png";
+    img.src = "images/icons/close.png";
     img.setAttribute("addr_id", addr.address_id);
     img.addEventListener("click", account_addrs_del_click);
 

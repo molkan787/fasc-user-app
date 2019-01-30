@@ -136,7 +136,9 @@
     confirm_order_cancel: 'Are you sure you want to cancel this order?',
     cancel_order_too_late: 'Sorry but it is too late to cancel the order.',
     cancel_order_success: 'Your Order was successfully canceled.',
-    choose_language: 'Choose your language'
+    choose_language: 'Choose your language',
+    shop_by_categories: 'Shop by Categories',
+    shop_by_brands: 'Shop by Brands'
 };
 
 function txt(textName) {

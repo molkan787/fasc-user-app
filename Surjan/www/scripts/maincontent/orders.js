@@ -22,6 +22,8 @@ function listOrdersActionCallback(action) {
             }
         }
 
+    } else if (action.error_code == 'NO_CUSTOMER'){
+        setPlaceHolderIcon('cart', txt('no_orders'), mc_orders);
     } else {
         setNoNetPlaceHolder(mc_orders);
     }
