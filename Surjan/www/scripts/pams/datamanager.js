@@ -51,6 +51,7 @@ function asdLoadActionCallback(action) {
         gls.setContactInfo(action.data.contact_info)
         mc_home_prt_load_categories();
         hide_loadScreen();
+        loadAds();
         if (action.data.new_update) {
             fascUpdate();
         }

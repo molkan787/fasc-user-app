@@ -126,3 +126,20 @@
     border-color: #F36F24;
     color: #222;
 }
+
+#home_ads {
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    border-top: 1px solid #aaa;
+}
+
+.promo_item {
+    border-radius: 4px;
+    height: 39vw;
+    box-shadow: 1px 2px 14px #ccc;
+    margin: 1vw 2vw;
+}
+.promo_item.promo_format1{
+    margin: 1vw 0 !important;
+}

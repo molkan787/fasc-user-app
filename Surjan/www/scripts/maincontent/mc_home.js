@@ -28,6 +28,7 @@ function mc_home_init() {
 function mc_home_ui_update() {
 }
 function mc_home_prt_load_categories() {
+    
     var cat_added = false;
     var brand_added = false;
     home_categories.innerHTML = '';

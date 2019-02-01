@@ -90,7 +90,11 @@ function mc_prt_hdr_scat_item_click() {
     var dl = attr(this, 'dl');
     if (dl == '2') mc_prt_hdr_child_scat.innerHTML = '';
 
-    scrollTo(mc_prt_hdr_scat.parentNode, this.offsetLeft - 60, 500);
+    if (dl == '2') {
+        scrollTo(mc_prt_hdr_scat.parentNode, this.offsetLeft - 60, 500);
+    } else {
+        scrollTo(mc_prt_hdr_child_scat.parentNode, this.offsetLeft - 60, 500);
+    }
 
     mc_prt_hdr_sCatLastItem[dl].className = "";
     mc_prt_hdr_sCatLastItem[dl] = this;
