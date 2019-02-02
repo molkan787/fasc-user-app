@@ -17,6 +17,8 @@ var forceCitySet = false;
 var asdLoadAction;
 var citiesLoadAction;
 
+var loadStartTime = 0
+
 function dm_init() {
     storage = window.localStorage;
     
@@ -70,7 +72,7 @@ function dm_load(forceCityReload, logout) {
         var params = { ls: fasc.lastUpdate };
         if (forceCitySet) params.ssi = 'true';
         if (logout) params.logout = 'true';
-
+        loadStartTime = getTime();
         asdLoadAction.do(params);
         forceCitySet = false;
     } else {

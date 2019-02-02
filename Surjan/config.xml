@@ -112,6 +112,7 @@
   <plugin name="cordova-plugin-speechrecognition" spec="~1.1.2" />
   <plugin name="nl.madebymark.share" spec="~0.1.1" src="https://github.com/markmarijnissen/cordova-plugin-share" />
   <preference name="android-targetSdkVersion" value="26" />
-  <preference name="android-minSdkVersion" value="18" />
+  <preference name="android-minSdkVersion" value="19" />
   <preference name="Orientation" value="portrait" />
+  <plugin name="com.razorpay.cordova" spec="~0.16.1" src="https://github.com/razorpay/razorpay-cordova.git" />
 </widget>

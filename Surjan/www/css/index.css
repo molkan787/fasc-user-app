@@ -699,3 +699,25 @@ body {
     font-size: 5vw;
     width: 80%;
 }
+
+#fab {
+    position: fixed;
+    z-index: 2000;
+    top: 100%;
+    left: 100%;
+    width: 4rem;
+    height: 4rem;
+    box-sizing: border-box;
+    padding: 0.8rem;
+    border-radius: 50%;
+    background-color: #F36F24;
+    margin-top: -5rem;
+    margin-left: -5rem;
+    font-size: 1.7rem;
+    color: white;
+    box-shadow: 1px 1px 10px #999;
+    /*display: none;*/
+}
+#fab > img{
+    height: 100%;
+}

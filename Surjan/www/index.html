@@ -17,7 +17,7 @@
     <title>WalkOnRetail</title>
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
-    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <!--<script type="text/javascript" src="scripts/platformOverrides.js"></script>-->
     <script type="text/javascript" src="anime.min.js"></script>
     <script type="text/javascript" src="quo.js"></script>
 
@@ -44,6 +44,7 @@
     <script type="text/javascript" src="scripts/maincontent/orders.js"></script>
     <script type="text/javascript" src="scripts/maincontent/order.js"></script>
     <script type="text/javascript" src="scripts/maincontent/favorite.js"></script>
+    <script type="text/javascript" src="scripts/maincontent/popup.js"></script>
     <script type="text/javascript" src="scripts/maincontent/mxui.js"></script>
 
     <script type="text/javascript" src="scripts/pams/txt.js"></script>
@@ -54,6 +55,7 @@
     <script type="text/javascript" src="scripts/pams/usermanager.js"></script>
     <script type="text/javascript" src="scripts/pams/account.js"></script>
     <script type="text/javascript" src="scripts/pams/gls.js"></script>
+    <script type="text/javascript" src="scripts/pams/payments.js"></script>
     <script type="text/javascript" src="scripts/storage.js"></script>
     <!--<script type="text/javascript" src="scripts/html2pdf.bundle.min.js"></script>-->
 
@@ -114,7 +116,7 @@
     <div id="leftmenu" class="leftmenu" style="display: none;">
         <div class="lm-topsec">
             <img id="lm_logo" src="images/slogo.png" />
-            <h4><img src="images/icons/location.png"/><span id="lm_city_name"></span></h4>
+            <h4><img src="images/icons/location.png" /><span id="lm_city_name"></span></h4>
             <h4>
                 <img src="images/icons/user.png" style="padding: 0.3vw;box-sizing: border-box;" />
                 <span id="lm_account_name"></span>
@@ -243,12 +245,12 @@
         <div id="mc_cart_recap" class="mc_cart_recap" style="display: none">
             <div class="content">
                 <span txt="del_addr"></span><br />
-                
+
                 <div class="mc_cart_addr">
                     <select class="t_input" id="mc_cart_daddr"></select>
                     <button class="t_input t_bg" id="mc_cart_add_addr" txt="add_new_address">+</button>
                 </div>
-                
+
                 <span txt="delivery_date"></span><br />
                 <div class="mc_cart_timing">
                     <input type="date" id="mc_cart_ddate" class="t_input" />
@@ -458,6 +460,21 @@
 
     </div>
 
+    <div id="fab" style="display: none">
+        <img src="images/icons/sort.png"/>
+    </div>
+
+    <div id="bbp_ll1" style="display: none; opacity: 0"> </div>
+
+    <div id="prt_filters_pp" style="display: none; opacity: 0">
+        <h4 txt="order_by_price"></h4>
+        <select class="t_input" id="prt_price_order">
+            <option value="low_to_high" txt="low_to_high"></option>
+            <option value="high_to_low" txt="high_to_low"></option>
+        </select>
+        <button class="t_btn" id="prt_filters_pp_btn">Ok</button>
+    </div>
+
     <!--Product Popup-->
     <div id="prt_popup" style="display: none">
         <div class="prt_pp_topside">
@@ -510,19 +527,17 @@
     </div>
 
     <div id="loading_screen" class="loading_screen">
-        <img id="ls_logo" class="ls_logo_img" src="images/slogo.png" style="opacity: 0"/>
+        <img id="ls_logo" class="ls_logo_img" src="images/slogo.png" style="opacity: 0" />
         <div id="ls_mid_sec" class="ls_mid_sec" style="display: none">
-            <img id="ls_ad_img" src="scripts/testing/ban.jpg"/>
+            <img id="ls_ad_img" src="scripts/testing/ban.jpg" />
         </div>
         <img id="ls_loading_img" class="ls_loading_img" src="images/loading.gif" />
         <div id="ls_select_city">
             <h3 txt="select_city"></h3>
-            <select class="t_input" id="ls_cities">
-            </select>
+            <select class="t_input" id="ls_cities"></select>
             <div id="ls_select_region">
                 <h4 txt="select_region"></h4>
-                <select class="t_input" id="ls_regions">
-                </select>
+                <select class="t_input" id="ls_regions"></select>
             </div>
             <button class="t_btn" id="ls_city_btn" txt="ok"></button>
         </div>
@@ -531,7 +546,7 @@
             <br>
             <a id="ls_fm_order_phone" href="" cancelclick="1">
                 <button cancelclick="1">
-                    <img src="images/icons/phone.png" cancelclick="1"/>
+                    <img src="images/icons/phone.png" cancelclick="1" />
                     <span txt="order_on_phone" cancelclick="1"></span>
                 </button>
             </a>
@@ -541,8 +556,7 @@
     <div id="welcome_screen" class="loading_screen" style="display: none;opacity: 0;top:-10vw">
         <img class="ls_logo_img" src="images/slogo.png" />
         <div class="ls_mid_sec">
-            <h4 id="ls_wel_txt">
-            </h4>
+            <h4 id="ls_wel_txt"></h4>
         </div>
         <div class="ws_lang_con">
             <h4 txt="choose_language"></h4>

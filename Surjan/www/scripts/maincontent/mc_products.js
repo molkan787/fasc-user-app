@@ -62,6 +62,12 @@ function mc_products_init() {
 
     get('mc_product_img').onload = revealMe;
 
+    get('fab').onclick = function () {
+        pp.show('prt_filters_pp');
+    };
+
+    get('prt_filters_pp_btn').onclick = prt_set_orders;
+
     prt_fav_btn.onclick = favBtnClick;
 
     registerPage('products', mc_products, function (param) {
@@ -115,6 +121,7 @@ function mc_prt_product_click(event) {
     ui_navigate("product", this.getAttribute("pid"));
 }
 
+var prt_corder = 'low_to_high';
 var prt_ccat;
 var prt_cscat;
 var prt_ccscat;
@@ -137,6 +144,12 @@ function mc_prts_scroll() {
         mc_prt_load_products(prt_ccat, prt_cscat, prt_cpam, 10);
         prt_cpam += 10;
     }
+}
+
+function reload_prts() {
+    prt_cpam = 10;
+    setDimmer(mc_products_list, true);
+    mc_prt_load_products(prt_ccat, prt_cscat, 0, 10);
 }
 
 // Mixed
@@ -235,7 +248,9 @@ function mc_prt_load_products(cat, subcat, offset, count) {
     var params = {
         cat: cat,
         start: offset,
-        limit: count
+        limit: count,
+        order_by: 'price',
+        order: prt_corder
     };
     if (subcat != 'all') params.subcat = subcat;
     if (prt_ccscat != 'all') params.child_subcat = prt_ccscat;
@@ -282,9 +297,9 @@ function mc_prt_ui_createProductPanel(product_data, isCart) {
     _disc_buble.className = "prt_panel_disc_b";
     _mcon.appendChild(_disc_buble);
 
-    var discount = product_data.discount_amt;
+    var discount = parseInt(product_data.discount_amt);
     if (discount > 0) {
-        var iscd = (product_data.discount_amt != 1);
+        var iscd = (product_data.discount_type != 1);
         _disc_buble.innerHTML = "-" + discount + (iscd ? "&#x20b9;" : "%");
     } else _disc_buble.style.display = "none";
 
@@ -520,4 +535,13 @@ function hide_SubCatChilds_con() {
 function reset_SubCatChilds_con() {
     get('subcat_childs_con').style.top = '0px';
     get('subcat_childs_con').style.display = 'none';
+}
+
+function prt_set_orders() {
+    var price_order = val('prt_price_order');
+    pp.hide();
+    if (price_order != prt_corder) {
+        prt_corder = price_order;
+        reload_prts();
+    }
 }

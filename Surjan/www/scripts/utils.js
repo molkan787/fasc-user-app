@@ -203,10 +203,10 @@ function checkIfFileExists(path, fileExists, fileDoesNotExist) {
 
 // ============================================
 
-//window.log = function (log_content) {
-//    console.log(log_content);
-//};
-window.log = console.log;
+window.log = function (log_content) {
+    console.log(log_content);
+};
+//window.log = console.log;
 function crt_elt(tagname, parent, id) {
     var elt = document.createElement(tagname);
     if (parent) {
@@ -413,4 +413,8 @@ function getTimeTextSS(i) {
         str += (mi * 15) + ' Minutes';
     }
     return str;
+}
+
+function getTime() {
+    return new Date().getTime();
 }

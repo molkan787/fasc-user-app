@@ -138,7 +138,10 @@
     cancel_order_success: 'Your Order was successfully canceled.',
     choose_language: 'Choose your language',
     shop_by_categories: 'Shop by Categories',
-    shop_by_brands: 'Shop by Brands'
+    shop_by_brands: 'Shop by Brands',
+    order_by_price: 'Order by Price',
+    high_to_low: 'High to Low',
+    low_to_high: 'Low to High'
 };
 
 function txt(textName) {

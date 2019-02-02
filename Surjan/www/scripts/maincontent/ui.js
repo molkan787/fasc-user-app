@@ -40,6 +40,7 @@ function ui_init() {
     mc_order_init();
     mc_pages_init();
     favorite_init();
+    pp_init();
 
     sb_higher2 = get('sb_higher2');
     order_chat = get("order_chat");
@@ -177,6 +178,10 @@ function ui_navigate(pagename, param, isback) {
 }
 
 function ui_goback(forceUpdate) {
+    if (pp.isOpen) {
+        pp.hide();
+        return;
+    }
     if (ui_animating_page) return;
     if (ui_currentPopup) {
         if (ui_currentPopup.hider) ui_currentPopup.hider();
@@ -202,6 +207,12 @@ function ui_goback(forceUpdate) {
 }
 
 function ui_update_headbar(pname, param) {
+
+    if (pname == 'products') {
+        get('fab').style.display = 'block';
+    } else {
+        get('fab').style.display = 'none';
+    }
 
     var _page = pages[pname];
     if (_page) {
@@ -566,6 +577,9 @@ function gl_popup_no_click() {
 
 
 function hide_loadScreen() {
+    var delay = 0;
+    var loadTime = getTime() - loadStartTime;
+    if (loadTime < 5000) delay = 5000 - loadTime;
     setTimeout(function () {
         anime({
             targets: "#loading_screen",
@@ -576,8 +590,7 @@ function hide_loadScreen() {
                 get("loading_screen").style.display = "none";
             }
         });
-    }, 0);
-    log('TODO: Delay loading screen hiding!');
+    }, delay);
 }
 
 function show_loadScreen() {
