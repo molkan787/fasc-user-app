@@ -85,6 +85,9 @@ function account_init() {
 
 function setAccountData(data, addresses) {
     account.addresses = addresses;
+    if (data && data.email.substr(0, 9) == 'customer_') {
+        data.email = '';
+    }
     accountData = data;
     if (accountData && accountData.id) {
         client_logged = true;
@@ -100,6 +103,8 @@ function addAddrActionCallback(action) {
     if (action.status == 'OK') {
         ui_goback();
         account_addNewAddr(action.data);
+        cart_load_addres();
+        cart_select_laster_addr();
     } else {
         msg(txt('error_msg'), null, 1);
     }

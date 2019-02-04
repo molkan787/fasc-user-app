@@ -80,6 +80,7 @@
     select_del_date_hour: 'Please select delivery date & time',
     empty_cart_msg: 'Nothing to show here,\n Start by adding some products.',
     confirm_app_exit: 'Do you want to exit the app?',
+    payment_canceled: 'You have canceled the payment!',
 
     remove: 'Remove',
     clear_cart: 'Clear Cart',
@@ -132,6 +133,8 @@
     login_success: 'You have been successfully logged in! The app will reload now.',
     load_addrs_fail: 'We could not load list of your addresses',
     order_success: 'Your order was successfully placed!',
+    payment_success: 'Your payment was successfully received!',
+    payment_redirection: 'Your order was successfully placed! You will be redirected now to payment page',
     confirm_logout: 'Are you sure you want to logout?',
     confirm_order_cancel: 'Are you sure you want to cancel this order?',
     cancel_order_too_late: 'Sorry but it is too late to cancel the order.',
@@ -141,7 +144,8 @@
     shop_by_brands: 'Shop by Brands',
     order_by_price: 'Order by Price',
     high_to_low: 'High to Low',
-    low_to_high: 'Low to High'
+    low_to_high: 'Low to High',
+    credit_card_net_banking: 'Credit Card/Net Banking'
 };
 
 function txt(textName) {

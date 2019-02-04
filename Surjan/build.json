@@ -1,11 +1,18 @@
 {
-     "android": {
-      "release": {
-        "keystore": "C:\\Users\\Dahmane\\Documents\\surjan.jks",
-        "storePassword": "reng46trhv456",
-        "alias": "key0",
-        "password": "4h684qdsfghere",
-        "keystoreType": ""
-      }
-     }
+  "android": {
+    "release": {
+      "keystore": "C:\\Users\\Dahmane\\Documents\\surjan.jks",
+      "storePassword": "reng46trhv456",
+      "alias": "key0",
+      "password": "4h684qdsfghere",
+      "keystoreType": ""
+    },
+    "debug": {
+      "keystore": "C:\\Users\\Dahmane\\Documents\\surjan.jks",
+      "storePassword": "reng46trhv456",
+      "alias": "key0",
+      "password": "4h684qdsfghere",
+      "keystoreType": ""
+    }
+  }
  }

@@ -52,6 +52,7 @@ function asdLoadActionCallback(action) {
         gls.setData(action.data.gls);
         gls.setContactInfo(action.data.contact_info)
         mc_home_prt_load_categories();
+        setAvPayments(action.data.razor_av);
         hide_loadScreen();
         loadAds();
         if (action.data.new_update) {

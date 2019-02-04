@@ -115,4 +115,10 @@
   <preference name="android-minSdkVersion" value="19" />
   <preference name="Orientation" value="portrait" />
   <plugin name="com.razorpay.cordova" spec="~0.16.1" src="https://github.com/razorpay/razorpay-cordova.git" />
+  <plugin name="cordova-plugin-facebook4" spec="~4.1.0" src="P:\CordovaPlugins\cordova-plugin-facebook4">
+    <variable name="APP_ID" value="369568960263522" />
+    <variable name="APP_NAME" value="WalkOnRetail" />
+    <variable name="FACEBOOK_HYBRID_APP_EVENTS" value="false" />
+    <variable name="FACEBOOK_ANDROID_SDK_VERSION" value="4.+" />
+  </plugin>
 </widget>

@@ -154,7 +154,11 @@ function mc_cart_load_recap() {
     mc_cart_table_addrow("", "", "", "", false);
     mc_ctrow_fees = mc_cart_table_addrow(txt('del_fees'), "", "", '0.00', false);
     mc_ctrow_total = mc_cart_table_addrow(txt('total'), "", "", total.toFixed(2), false);
+    cart_load_addres();
+}
 
+function cart_load_addres() {
+    mc_cart_daddr.innerHTML = '';
     for (var i = 0; i < account.addresses.length; i++) {
         var addr = account.addresses[i];
         if (addr.city != dm.city_names[1] && addr.city != dm.city_names[2]) continue;
@@ -163,7 +167,10 @@ function mc_cart_load_recap() {
         option.setAttribute("value", addr.address_id);
         mc_cart_daddr.appendChild(option);
     }
+}
 
+function cart_select_laster_addr() {
+    mc_cart_daddr.selectedIndex = mc_cart_daddr.children.length - 1;
 }
 
 function mc_cart_table_addrow(t1, t2, t3, t4, isfirst, parent) {
@@ -189,9 +196,6 @@ function mc_cart_cleanup() {
     while (mc_cart_invoice_table.rows.length) {
         mc_cart_invoice_table.deleteRow(0);
     }
-    while (mc_cart_daddr.children.length) {
-        mc_cart_daddr.removeChild(mc_cart_daddr.children[0]);
-    }
 }
 
 function del_timing_changed() {
@@ -208,4 +212,8 @@ function del_timing_changed() {
 function cart_rm_btn_click() {
     var pid = attr(this, 'pid');
     cart_remove(pid);
+}
+
+function setAvPayments(razor) {
+    get('mc_cart_paymethod_razor').style.display = razor ? 'unset' : 'none';
 }

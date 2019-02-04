@@ -80,5 +80,18 @@
         },
         "is_top_level": true,
         "variables": {}
+    },
+    "cordova-plugin-facebook4": {
+        "source": {
+            "type": "local",
+            "path": "P:\\CordovaPlugins\\cordova-plugin-facebook4"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "369568960263522",
+            "APP_NAME": "WalkOnRetail",
+            "FACEBOOK_HYBRID_APP_EVENTS": "false",
+            "FACEBOOK_ANDROID_SDK_VERSION": "4.+"
+        }
     }
 }

@@ -17,7 +17,7 @@
     <title>WalkOnRetail</title>
 
     <!--<script type="text/javascript" src="cordova.js"></script>-->
-    <!--<script type="text/javascript" src="scripts/platformOverrides.js"></script>-->
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script type="text/javascript" src="anime.min.js"></script>
     <script type="text/javascript" src="quo.js"></script>
 
@@ -56,6 +56,7 @@
     <script type="text/javascript" src="scripts/pams/account.js"></script>
     <script type="text/javascript" src="scripts/pams/gls.js"></script>
     <script type="text/javascript" src="scripts/pams/payments.js"></script>
+    <script type="text/javascript" src="scripts/pams/social_login.js"></script>
     <script type="text/javascript" src="scripts/storage.js"></script>
     <!--<script type="text/javascript" src="scripts/html2pdf.bundle.min.js"></script>-->
 
@@ -263,7 +264,8 @@
 
                 <span txt="pay_method"></span><br />
                 <select id="mc_cart_paymethod" class="t_input">
-                    <option name="cod" txt="cod"></option>
+                    <option value="cod" txt="cod"></option>
+                    <option id="mc_cart_paymethod_razor" value="razor" txt="credit_card_net_banking"></option>
                 </select>
                 <div class="mc_cart_invoice">
                     <table id="mc_cart_invoice_table" border=1 frame=void rules=rows>
@@ -330,7 +332,10 @@
                 <br /> <br />
                 <button id="mc_signup_btn" txt="register"></button>
                 <button id="mc_signup_ihac" txt="already_registered"></button>
+
+                <img class="fb_login" src="images/login_with_fb.png" />
             </div>
+
 
         </div>
 
@@ -342,6 +347,8 @@
                 <br />
                 <button id="mc_signin_btn" txt="login"></button>
                 <button id="mc_signup_iwtr" txt="want_to_register"></button>
+
+                <img class="fb_login" src="images/login_with_fb.png" />
             </div>
 
         </div>

@@ -161,3 +161,10 @@
     color: #555;
     font-size: 13px;
 }
+
+.fb_login {
+    display: block;
+    width: 80%;
+    margin: auto;
+    margin-top: 40px;
+}

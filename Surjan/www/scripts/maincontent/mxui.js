@@ -8,6 +8,7 @@ function mxui_init() {
 
 
 function reSelectCity() {
+    cart_empty();
     reset_city_select();
     show_loadScreen();
     dm_load(true);

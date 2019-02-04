@@ -76,11 +76,44 @@ function cart_place_order() {
 function orderActionCallback(action) {
     if (action.status == 'OK') {
         cart_empty();
-        msg(txt('order_success'), null, 1);
         not_push(txt('order') + '#' + action.data.order_id, txt('order_success'));
-        gl_hide_wbp();
+        handleOrderPlaced(action.data, action.params.pay_method);
+    } else {
+        msg(txt('error_msg'), null, 1);
+    }
+    gl_hide_wbp();
+}
+
+var recentOrderId;
+
+function handleOrderPlaced(data, pay_method) {
+    recentOrderId = data.order_id;
+    if (pay_method == 'cod') {
+        msg(txt('order_success'), null, 1);
+    } else if (pay_method == 'razor') {
+
+        var _data = {
+            key: data.api_key,
+            order_id: data.order_id,
+            total: data.total,
+            phone: accountData.phone,
+            email: accountData.email,
+            name: accountData.firstname + ' ' + accountData.lastname
+        };
+        msg(txt('payment_redirection'), function () {
+            open_pay(_data);
+        }, 1);
+
+    }
+    push_history('home');
+    ui_navigate("order", data.order_id);
+}
+
+function vpActionCallback(action) {
+    if (action.status == 'OK') {
+        msg(txt('payment_success'), null, 1);
         push_history('home');
-        ui_navigate("order", action.data.order_id);
+        ui_navigate("order", action.params.order_id);
     } else {
         msg(txt('error_msg'), null, 1);
     }

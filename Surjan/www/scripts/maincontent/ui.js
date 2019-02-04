@@ -41,6 +41,7 @@ function ui_init() {
     mc_pages_init();
     favorite_init();
     pp_init();
+    social_login_init();
 
     sb_higher2 = get('sb_higher2');
     order_chat = get("order_chat");
@@ -131,7 +132,7 @@ function ui_navigate(pagename, param, isback) {
         return;
     }
 
-    if (ui_previous_pns.length > 0 && ui_previous_pns[ui_previous_pns.length - 1].pname == pagename) return;
+    if (ui_previous_pns.length > 0 && ui_previous_pns[ui_previous_pns.length - 1].pname == pagename && pagename != 'order') return;
 
     if (pagename == "account") {
         var mc_red = mc_redtosuia();

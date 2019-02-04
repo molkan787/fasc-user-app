@@ -93,6 +93,7 @@ function _fetch_action_create(req, callback) {
 
         __cb: function (resp) {
             if (action_debug) log(resp);
+            if (action_debug) this.raw_response = resp;
             try {
                 resp = JSON.parse(resp);
             } catch (ex) {

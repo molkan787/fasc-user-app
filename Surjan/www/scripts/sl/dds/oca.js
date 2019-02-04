@@ -2,7 +2,8 @@
 function dm_oca_init() {
     dm = {
         // Properties
-        apiBaseURL: 'http://fasc.local/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
+        //apiBaseURL: 'http://fasc.local/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
+        apiBaseURL: 'http://192.168.0.95/fasc/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'http://www.walkonretail.com/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
 
         // Methods
@@ -26,30 +27,7 @@ function dm_oca_init() {
             }
 
             return url;
-        },
-        _callApi: function (url, action, dataProperty) {
-            httpGetAsync(url, function (resp) {
-                try {
-                    resp = JSON.parse(resp);
-                } catch (ex) {
-                    //log(resp);
-                    action.release('FAIL', 'invalid_json');
-                    return;
-                }
-                if (resp.status == 'OK') {
-                    if (typeof dataProperty != 'undefined') {
-                        action.data = resp.data[dataProperty];
-                    } else {
-                        action.data = resp.data;
-                    }
-                    action.release('OK');
-                } else {
-                    action.release('FAIL', resp.error_code);
-                }
-            }, function () {
-                action.release('FAIL', 'network_error');
-            });
-        },
+        }
 
     };
 }
