@@ -245,7 +245,7 @@ function ui_update_headbar(pname, param) {
     } else if (pname == "orders") {
         hb_text.innerText = txt('my_orders');
     } else {
-        hb_text.innerText = AppName;
+        hb_text.innerText = window.AppName;
     }
 }
 

@@ -1,8 +1,8 @@
 ﻿var razor_options;
 var vpAction;
 function payments_init() {
-    log('TODO: Enable payment initialization');
-    return;
+    //log('TODO: Enable payment initialization');
+    //return;
     razor_options = {
         description: 'WalkOnRetail Order #',
         image: 'https://i.imgur.com/3g7nmJC.png',

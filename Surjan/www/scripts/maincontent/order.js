@@ -99,5 +99,6 @@ function cancelOrderBtn_click() {
 }
 
 function downloadInvoiceBtn_click() {
-
+    var download_url = dm._getApiUrl('invoice', { order_id: currentOrder });
+    cordova.InAppBrowser.open(download_url, '_system', 'location=yes');
 }

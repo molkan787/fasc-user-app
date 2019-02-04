@@ -13,7 +13,7 @@
         //}
     };
 
-    window.AppName = "WalkOnRetail";
+    window.AppName = "WalkOn Retail";
 
 
     window.onload = function () {
@@ -25,7 +25,7 @@
         ui_init();
         applyTextsToElements();
 
-        window.firstLaunch = false;//(window.localStorage.getItem('launched') != 'true');
+        window.firstLaunch = (window.localStorage.getItem('launched') != 'true');
         dm_load();
 
         payments_init();

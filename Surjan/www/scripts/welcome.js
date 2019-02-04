@@ -24,8 +24,8 @@ function wsLoadActionCallback(action) {
 function ws_lang_btn_click() {
     var langId = parseInt(attr(this, 'lid'));
     if (!ws_lang) {
-        get('ws_lang_okbtn').style.display = 'unset';
-        revealElt('ws_lang_okbtn');
+        get('ws_lang_okbtn').style.display = 'inline-block';
+        get('ws_lang_okbtn').style.opacity = 1;
     }
     val('ls_wel_txt', wsTexts[langId]);
     ws_lang = langId;
