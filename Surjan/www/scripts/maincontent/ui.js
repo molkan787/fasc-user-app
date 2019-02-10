@@ -125,6 +125,11 @@ function ui_navigate(pagename, param, isback) {
     //log(pagename, param, isback);
     if (ui_animating_page) return;
 
+    if (pagename == 'add_addr' && !accountData) {
+        msg(txt('add_addr_msg'), null, 1);
+        return;
+    }
+
     var _page = pages[pagename];
     if (_page && _page.isPopup) {
         ui_currentPopup = _page;
@@ -209,11 +214,11 @@ function ui_goback(forceUpdate) {
 
 function ui_update_headbar(pname, param) {
 
-    if (pname == 'products') {
-        get('fab').style.display = 'block';
-    } else {
-        get('fab').style.display = 'none';
-    }
+    //if (pname == 'products') {
+    //    get('fab').style.display = 'block';
+    //} else {
+    //    get('fab').style.display = 'none';
+    //}
 
     var _page = pages[pname];
     if (_page) {
@@ -303,7 +308,7 @@ function ui_update_pan_content(pagename, param) {
     } else if (pagename == "items_group"){
         mc_items_group_load(param);
     } else if (pagename == "order_chat") {
-        attr('order_whatsapp', 'href', 'whatsapp://send?text=Hello WalkOnRetail!&amp;phone=+91' + gls.orderPhone);
+        attr('order_whatsapp', 'href', 'whatsapp://send?text=Hello WalkOnRetail!&phone=+91' + gls.orderPhone);
     } else if (pagename == "search") {
         setTimeout(function () { mc_search_tb.focus(); }, 400);
     } else if (pagename == "orders") {
@@ -580,7 +585,7 @@ function gl_popup_no_click() {
 function hide_loadScreen() {
     var delay = 0;
     var loadTime = getTime() - loadStartTime;
-    if (loadTime < 5000) delay = 5000 - loadTime;
+    if (loadTime < 3000) delay = 3000 - loadTime;
     setTimeout(function () {
         anime({
             targets: "#loading_screen",

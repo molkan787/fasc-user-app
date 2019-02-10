@@ -25,7 +25,7 @@ function cart_empty() {
     cart_items = {};
     cart_items_count = 0;
     glui_update_cart_count(0);
-    val('mc_cart_list', '');
+    setPlaceHolderIcon('cart', txt('cart_is_empty'), mc_cart_list, true);
     cart_calc_total();
 }
 
@@ -75,8 +75,6 @@ function cart_place_order() {
 
 function orderActionCallback(action) {
     if (action.status == 'OK') {
-        cart_empty();
-        not_push(txt('order') + '#' + action.data.order_id, txt('order_success'));
         handleOrderPlaced(action.data, action.params.pay_method);
     } else {
         msg(txt('error_msg'), null, 1);
@@ -89,6 +87,10 @@ var recentOrderId;
 function handleOrderPlaced(data, pay_method) {
     recentOrderId = data.order_id;
     if (pay_method == 'cod') {
+        cart_empty();
+        push_history('home');
+        ui_navigate("order", data.order_id);
+        not_push(txt('order') + '#' + data.order_id, txt('order_success'));
         msg(txt('order_success'), null, 1);
     } else if (pay_method == 'razor') {
 
@@ -100,18 +102,16 @@ function handleOrderPlaced(data, pay_method) {
             email: accountData.email,
             name: accountData.firstname + ' ' + accountData.lastname
         };
-        msg(txt('payment_redirection'), function () {
-            open_pay(_data);
-        }, 1);
+        open_pay(_data);
 
     }
-    push_history('home');
-    ui_navigate("order", data.order_id);
 }
 
 function vpActionCallback(action) {
     if (action.status == 'OK') {
-        msg(txt('payment_success'), null, 1);
+        cart_empty();
+        msg(txt('order_success'), null, 1);
+        not_push(txt('order') + '#' + action.params.order_id, txt('order_success'));
         push_history('home');
         ui_navigate("order", action.params.order_id);
     } else {

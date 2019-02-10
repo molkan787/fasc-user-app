@@ -93,5 +93,23 @@
             "FACEBOOK_HYBRID_APP_EVENTS": "false",
             "FACEBOOK_ANDROID_SDK_VERSION": "4.+"
         }
+    },
+    "cordova-plugin-android-permissions": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/NeoLSN/cordova-plugin-android-permissions.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
+    "com.borismus.webintent": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/cordova-misc/cordova-webintent.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

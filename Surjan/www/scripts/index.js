@@ -11,6 +11,14 @@
         //window.alert = function (txt) {
         //    navigator.notification.alert(txt, null, "WalkOnRetail", txt('close'));
         //}
+
+        window.plugins.webintent.getUri(function (url) {
+            console.log("INTENT URL: " + url);
+            //...
+        }); 
+        window.plugins.webintent.onNewIntent(function (url) {
+            console.log("INTENT onNewIntent: " + url);
+        });
     };
 
     window.AppName = "WalkOn Retail";

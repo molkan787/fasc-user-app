@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="css/account.css">
     <link rel="stylesheet" type="text/css" href="css/search.css">
     <link rel="stylesheet" type="text/css" href="css/orders.css">
-    <title>WalkOnRetail</title>
+    <title>WalkOn Retail</title>
 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
@@ -434,7 +434,7 @@
         <div id="order_chat" class="order_oways_page">
 
             <br><span txt="order_on_whatsapp_text"></span><br><br>
-            <a id="order_whatsapp" href="whatsapp://send?text=Hello WalkOnRetail!&amp;phone=+919097119797" style="font-weight: bold;font-size: 24px;width: 50%; background-color: #fff;">
+            <a id="order_whatsapp" href="whatsapp://send?text=Hello WalkOnRetail!&phone=+910000000000" style="font-weight: bold;font-size: 24px;width: 50%; background-color: #fff;">
                 <img src="images/whatsapp.png" style="width: 100%" />
             </a>
 
@@ -467,20 +467,20 @@
 
     </div>
 
-    <div id="fab" style="display: none">
+    <!--<div id="fab" style="display: none">
         <img src="images/icons/sort.png"/>
-    </div>
+    </div>-->
 
     <div id="bbp_ll1" style="display: none; opacity: 0"> </div>
 
-    <div id="prt_filters_pp" style="display: none; opacity: 0">
+    <!--<div id="prt_filters_pp" style="display: none; opacity: 0">
         <h4 txt="order_by_price"></h4>
         <select class="t_input" id="prt_price_order">
             <option value="low_to_high" txt="low_to_high"></option>
             <option value="high_to_low" txt="high_to_low"></option>
         </select>
         <button class="t_btn" id="prt_filters_pp_btn">Ok</button>
-    </div>
+    </div>-->
 
     <!--Product Popup-->
     <div id="prt_popup" style="display: none">
@@ -498,7 +498,9 @@
             </div>
             <button id="prt_fav_btn" class="prt_fav_btn t_btn">
                 <img id="prt_fav_icon" src="images/icons/heart_outline.png" />
-                <!--<span id="prt_fav_text">Add to favorite</span>-->
+            </button>
+            <button id="prt_share_btn" class="prt_fav_btn t_btn" style="left: 60vw !important;padding: 1.5vw 2vw 1.5vw 3vw !important">
+                <img src="images/icons/share_black.png" />
             </button>
             <div class="shdw"></div>
         </div>

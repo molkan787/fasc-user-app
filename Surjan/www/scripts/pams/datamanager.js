@@ -58,6 +58,9 @@ function asdLoadActionCallback(action) {
         if (action.data.new_update) {
             fascUpdate();
         }
+        if (action.data.s_msg) {
+            alert(action.data.s_msg);
+        }
     } else {
         ls_loading_failed();
     }

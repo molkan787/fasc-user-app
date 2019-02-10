@@ -8,6 +8,7 @@
     add: 'Add',
     back: 'Back',
     next: 'Next',
+    share_product: 'Share Product',
     checkout: 'Checkout',
     del_addr: 'Delivery address',
     del_time: 'Delivery time',
@@ -81,6 +82,8 @@
     empty_cart_msg: 'Nothing to show here,\n Start by adding some products.',
     confirm_app_exit: 'Do you want to exit the app?',
     payment_canceled: 'You have canceled the payment!',
+    no_permission_msg: 'We cannot provide Voice Search without this permission',
+    add_addr_msg: 'Please Register or Login before adding address',
 
     remove: 'Remove',
     clear_cart: 'Clear Cart',

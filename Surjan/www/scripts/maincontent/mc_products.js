@@ -34,6 +34,7 @@ function mc_products_init() {
     mc_products_list = get("mc_products_list");
 
     prt_fav_btn = get('prt_fav_btn');
+    prt_share_btn = get('prt_share_btn');
     
     mc_product = get("prt_popup");
     mc_prodp_name = get("mc_prodp_name");
@@ -62,13 +63,14 @@ function mc_products_init() {
 
     get('mc_product_img').onload = revealMe;
 
-    get('fab').onclick = function () {
-        pp.show('prt_filters_pp');
-    };
+    //get('fab').onclick = function () {
+    //    pp.show('prt_filters_pp');
+    //};
 
-    get('prt_filters_pp_btn').onclick = prt_set_orders;
+    //get('prt_filters_pp_btn').onclick = prt_set_orders;
 
     prt_fav_btn.onclick = favBtnClick;
+    prt_share_btn.onclick = shareBtnClick;
 
     registerPage('products', mc_products, function (param) {
         var pcat_tl = dm_cats[param].name.replace("\n", " ").replace('&amp;', '&');
@@ -121,7 +123,7 @@ function mc_prt_product_click(event) {
     ui_navigate("product", this.getAttribute("pid"));
 }
 
-var prt_corder = 'low_to_high';
+var prt_corder = '';//'low_to_high';
 var prt_ccat;
 var prt_cscat;
 var prt_ccscat;
@@ -249,7 +251,7 @@ function mc_prt_load_products(cat, subcat, offset, count) {
         cat: cat,
         start: offset,
         limit: count,
-        order_by: 'price',
+        order_by: '',
         order: prt_corder
     };
     if (subcat != 'all') params.subcat = subcat;
@@ -429,6 +431,7 @@ function mc_prt_load_product(pid) {
 
     attr(prt_fav_btn, 'state', product.in_wishlist ? '1' : '0');
     attr(prt_fav_btn, 'pid', product.product_id);
+    attr(prt_share_btn, 'pid', product.product_id);
     val('prt_fav_icon', 'images/icons/heart_' + (product.in_wishlist ? 'filled' : 'outline') + '.png');
 
     var mc_prodp_discount = get('mc_prodp_discount');
@@ -544,4 +547,11 @@ function prt_set_orders() {
         prt_corder = price_order;
         reload_prts();
     }
+}
+
+function shareBtnClick() {
+    var pid = attr(this, 'pid');
+    var product = pm_get_product(pid);
+    var text = product.title + ' - WalkOn Retail\nhttps://go.walkonretail/p/' + pid;
+    navigator.share(text, txt('share_product'), "text/plain");
 }

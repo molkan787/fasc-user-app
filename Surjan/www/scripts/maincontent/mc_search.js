@@ -82,6 +82,19 @@ function mc_search_tb_focusout() {
 var rec_pped = false;
 function mc_search_sb_click() {
     if (!gl_rec_ava || rec_pped) return;
+    var permissions = cordova.plugins.permissions;
+    permissions.hasPermission(permissions.RECORD_AUDIO, function (status) {
+        if (status.hasPermission) {
+            open_audio_rec();
+        } else {
+            permissions.requestPermission(permissions.RECORD_AUDIO, open_audio_rec, function () {
+                msg(txt('no_permission_msg'), null, 1);
+            });
+        }
+    });
+}
+
+function open_audio_rec() {
     rec_pped = true;
     mc_search_sb.src = "images/loading_rolling.gif";
     var options = {
@@ -104,6 +117,8 @@ function mc_search_sb_click() {
             rec_pped = false;
         }, options);
 }
+
+// ================================================
 
 var searchbar_anim = {
     targets: '#hb_search',

@@ -14,7 +14,7 @@ function lm_nav_item_click(event) {
     if (nav_name == "company_info") {
         ui_navigate("pages", "company_info");
     } else if (nav_name == "share") {
-        navigator.share(gls.share_app_text[lang], "Share Surjan Kirana", "text/plain")
+        navigator.share(gls.share_app_text[lang], "Share WalkOn Retail", "text/plain");
     } else if (nav_name == "change_city") {
         reSelectCity();
     } else if (nav_name == "logout") {
