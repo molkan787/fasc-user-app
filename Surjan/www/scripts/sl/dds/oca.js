@@ -2,9 +2,9 @@
 function dm_oca_init() {
     dm = {
         // Properties
-        //apiBaseURL: 'http://fasc.local/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
+        apiBaseURL: 'http://fasc.local/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
         //apiBaseURL: 'http://192.168.0.95/fasc/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
-        apiBaseURL: 'https://www.walkonretail.com/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
+        //apiBaseURL: 'https://www.walkonretail.com/index.php?session={%4}&lang={%3}&store_id={%1}&api_token={%2}&route=api/',
 
         // Methods
         _getApiUrl: function (req, params) {

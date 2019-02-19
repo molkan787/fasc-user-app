@@ -40,6 +40,7 @@ function ui_init() {
     mc_order_init();
     mc_pages_init();
     favorite_init();
+    customlist_init();
     pp_init();
     social_login_init();
 

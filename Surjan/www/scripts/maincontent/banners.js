@@ -20,6 +20,10 @@ function createAdPanel(data) {
     var img = crt_elt('img');
     img.className = 'promo_item promo_format' + data.format;
     val(img, data.image);
+
+    attr(img, 'data-items', data.link);
+    img.onclick = banner_click;
+
     home_ads.appendChild(img);
 }
 
@@ -38,4 +42,12 @@ function retryAdsLoading() {
     }, adsLoadRetryDelay);
 
     adsLoadRetryDelay *= 2;
+}
+
+
+function banner_click() {
+    var items = attr(this, 'data-items');
+    if (items && items.length > 0) {
+        ui_navigate('customlist', items);
+    }
 }

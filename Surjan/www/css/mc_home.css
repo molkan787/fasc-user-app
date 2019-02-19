@@ -1,5 +1,7 @@
 ﻿#mc_home {
     padding-top: 51.5vw;
+    overflow-y: scroll !important;
+    overflow-x: hidden;
 }
 .mc_home_banners {
     position: absolute;
@@ -59,7 +61,6 @@
     padding-top: 1%;
     text-align: center;
     height: 100%;
-    overflow-y: scroll;
     background-color: #f7f7f7;
 }
 .mc_home_categories > div > div {

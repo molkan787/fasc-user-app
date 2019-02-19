@@ -1,5 +1,6 @@
 ﻿var langEN = {
     app_name: 'WalkOnRetail',
+    promotion: 'Promotion',
     invoice_upper: 'INVOICE',
     order_no: 'Order No',
     customer_name: 'Customer name',

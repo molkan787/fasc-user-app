@@ -151,15 +151,13 @@ function dm_add_banners(banners) {
             banner.style.opacity = 1;
         }
         banner.src = banners[i].image;
-        banner.setAttribute("items", banners[i].link);
+        banner.setAttribute("data-items", banners[i].link);
         mc_home_banners_con.appendChild(banner);
         var ditspan = crt_elt("span");
         if (mc_home_banners_con.children.length == 1) ditspan.style.backgroundColor = "aliceblue";
         ditspan.style.marginRight = "2px";
         mc_home_banners_dots_con.appendChild(ditspan);
-        banner.addEventListener("click", function () {
-            ui_navigate("items_group", this.getAttribute("items"));
-        });
+        banner.onclick = banner_click;
     }
 }
 
